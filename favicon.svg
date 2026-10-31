@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect x="2" y="2" width="96" height="96" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="3" />
+  <g transform="translate(10, 10) scale(2)">
+    <!-- Sayap Daun Kiri (Simetris Sempurna) -->
+    <path d="M20 32 C19 22 9 18 8 8 C16 6 20 18 20 32 Z" fill="#00a884" />
+    <!-- Sayap Daun Kanan (Refleksi Cermin Sempurna) -->
+    <path d="M20 32 C21 22 31 18 32 8 C24 6 20 18 20 32 Z" fill="#0284c7" />
+    <!-- Titik Embun Pusat Sejajar -->
+    <circle cx="20" cy="8" r="2.8" fill="#00a884" />
+  </g>
+</svg>

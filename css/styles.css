@@ -1,0 +1,111 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+/* Clean Modern Medical/Institutional Palette (Inspired by RSK Dharmais / Health Gov Console) */
+:root {
+    --bg-base: #f4f7fb;
+    --bg-surface: #ffffff;
+    --primary-teal: #00a884;
+    --primary-teal-dark: #008f70;
+    --primary-teal-light: #e6f7f3;
+    --border-card: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-muted: #64748b;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-base);
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.font-mono-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Sidebar Clean White Style */
+.sidebar-clean {
+    background-color: #ffffff;
+    border-right: 1px solid #e2e8f0;
+}
+
+/* Card Styling - Clean Soft Elevation */
+.app-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 12px -2px rgba(15, 23, 42, 0.04);
+    transition: all 0.2s ease;
+}
+
+.app-card:hover {
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Print Rules - Format Laporan Resmi Standar ISAK 35 */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 10pt;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+
+    .app-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+
+    th, td {
+        border-bottom: 1px solid #cbd5e1 !important;
+        padding: 6px 8px !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+    }
+}

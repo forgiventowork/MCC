@@ -1,0 +1,21 @@
+{
+  "name": "olivafinance-mcc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistem Informasi Keuangan Berstandar ISAK 35 untuk Entitas Nirlaba Moluccas Coastal Care (MCC)",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve .",
+    "build": "node build.js"
+  },
+  "keywords": [
+    "isak35",
+    "accounting",
+    "moluccas-coastal-care",
+    "financial-reports",
+    "ngo-finance"
+  ],
+  "author": "Olivafinance for Moluccas Coastal Care",
+  "license": "MIT"
+}

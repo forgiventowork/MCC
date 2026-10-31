@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivafinance Premier — Moluccas Coastal Care (ISAK 35)</title>
+    
+    <!-- Meta Favicon / Web App -->
+    <meta name="description" content="Sistem Informasi Keuangan Eksekutif Standar ISAK 35 untuk Entitas Nirlaba Moluccas Coastal Care (MCC)">
+    <meta name="theme-color" content="#00a884">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='2' y='2' width='96' height='96' rx='24' fill='%23ffffff' stroke='%23e2e8f0' stroke-width='3'/%3E%3Cg transform='translate(10, 10) scale(2)'%3E%3Cpath d='M20 32 C19 22 9 18 8 8 C16 6 20 18 20 32 Z' fill='%2300a884'/%3E%3Cpath d='M20 32 C21 22 31 18 32 8 C24 6 20 18 20 32 Z' fill='%230284c7'/%3E%3Ccircle cx='20' cy='8' r='2.8' fill='%2300a884'/%3E%3C/g%3E%3C/svg%3E">
+
+    <!-- CSS External CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#070b13',
+                            navy: '#0b1322',
+                            slate: '#131e31',
+                            card: '#1a273e',
+                            emerald: '#10b981',
+                            teal: '#0d9488',
+                            cyan: '#06b6d4',
+                            gold: '#f59e0b',
+                        }
+                    },
+                    animation: {
+                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+                        'fade-in-up': 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-3px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(15px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom Application Styling & Print Rules -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Core Libraries (Production-ready CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-[#f4f7fb] text-slate-800 antialiased selection:bg-[#00a884] selection:text-white font-sans">
+    <!-- Root Container React -->
+    <div id="root">
+        <!-- Skeleton Loading Screen saat aplikasi pertama kali dimuat -->
+        <div class="h-screen w-screen flex flex-col items-center justify-center bg-[#f4f7fb] text-slate-800 space-y-4">
+            <div class="relative w-16 h-16 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-2xl bg-white p-2 shadow-lg shadow-teal-500/10 border border-slate-200/80 flex items-center justify-center animate-pulse">
+                    <svg viewBox="0 0 40 40" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 32 C19 22 9 18 8 8 C16 6 20 18 20 32 Z" fill="#00a884" />
+                        <path d="M20 32 C21 22 31 18 32 8 C24 6 20 18 20 32 Z" fill="#0284c7" />
+                        <circle cx="20" cy="8" r="2.8" fill="#00a884" />
+                    </svg>
+                </div>
+            </div>
+            <div class="text-center space-y-1">
+                <h1 class="text-xl font-extrabold tracking-wider text-slate-800">
+                    OLIVAFINANCE
+                </h1>
+                <p class="text-xs text-slate-500 font-semibold tracking-wider uppercase">Moluccas Coastal Care • ISAK 35</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Modules & Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
