@@ -332,10 +332,16 @@ const Dashboard = ({
     className: "space-y-4 pb-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2.5"
+  }, /*#__PURE__*/React.createElement("h1", {
     className: "text-2xl font-black text-slate-800 tracking-tight"
-  }, "Dashboard"), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-500 font-medium"
+  }, "Dashboard"), /*#__PURE__*/React.createElement("span", {
+    className: "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-[#00a884] border border-teal-200/80 shadow-xs"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-code mr-1 text-[9px]"
+  }), " Created by Forgivento")), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 font-medium mt-0.5"
   }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-wrap items-center gap-2.5"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2619,9 +2625,15 @@ const App = () => {
     className: "text-xs font-bold text-slate-800 truncate"
   }, "Bendahara MCC"), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-500 font-medium truncate"
-  }, "Standar ISAK 35"))), isSidebarOpen && /*#__PURE__*/React.createElement("p", {
-    className: "text-[9px] text-slate-400 mt-2 px-2 text-center"
-  }, "© 2026 Yayasan MCC • v1.0"))), /*#__PURE__*/React.createElement("main", {
+  }, "Standar ISAK 35"))), isSidebarOpen && /*#__PURE__*/React.createElement("div", {
+    className: "text-[10px] text-slate-400 mt-2 px-2 text-center leading-relaxed"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "font-semibold text-slate-600"
+  }, "Dashboard created by ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-[#00a884]"
+  }, "Forgivento")), /*#__PURE__*/React.createElement("p", {
+    className: "text-[9px] text-slate-400 mt-0.5"
+  }, "© ", new Date().getFullYear(), " Moluccas Coastal Care • ISAK 35")))), /*#__PURE__*/React.createElement("main", {
     className: "flex-1 flex flex-col min-w-0 overflow-hidden relative"
   }, /*#__PURE__*/React.createElement("header", {
     className: "bg-white border-b border-slate-200 px-3 sm:px-6 h-16 flex items-center justify-between z-20 flex-shrink-0 no-print"
@@ -2692,11 +2704,13 @@ const App = () => {
     requireAdmin: requireAdmin
   }), view === 'reports' && /*#__PURE__*/React.createElement(Reports, {
     transactions: state.present
-  })), view !== 'dashboard' && /*#__PURE__*/React.createElement("footer", {
-    className: "mt-8 py-4 border-t border-slate-200 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2"
-  }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " Yayasan Moluccas Coastal Care (MCC). Berstandar ISAK 35."), /*#__PURE__*/React.createElement("p", {
-    className: "font-semibold text-slate-500"
-  }, "Olivafinance — Moluccas Coastal Care"))), /*#__PURE__*/React.createElement("nav", {
+  })), /*#__PURE__*/React.createElement("footer", {
+    className: "mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2"
+  }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard"), /*#__PURE__*/React.createElement("p", {
+    className: "font-semibold text-slate-600"
+  }, "Dashboard created by ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-[#00a884]"
+  }, "Forgivento")))), /*#__PURE__*/React.createElement("nav", {
     className: "md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-30 px-2 py-1 flex items-center justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.05)] no-print"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => handleNavigate('dashboard'),

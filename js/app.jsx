@@ -289,8 +289,13 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
             {/* Top Command Header Bar */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print">
                 <div>
-                    <h1 className="text-2xl font-black text-slate-800 tracking-tight">Dashboard</h1>
-                    <p className="text-xs text-slate-500 font-medium">Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care</p>
+                    <div className="flex items-center space-x-2.5">
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Dashboard</h1>
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-[#00a884] border border-teal-200/80 shadow-xs">
+                            <i className="fas fa-code mr-1 text-[9px]"></i> Created by Forgivento
+                        </span>
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care</p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2.5">
@@ -2435,9 +2440,14 @@ const App = () => {
                         </div>
                     </div>
                     {isSidebarOpen && (
-                        <p className="text-[9px] text-slate-400 mt-2 px-2 text-center">
-                            &copy; 2026 Yayasan MCC • v1.0
-                        </p>
+                        <div className="text-[10px] text-slate-400 mt-2 px-2 text-center leading-relaxed">
+                            <p className="font-semibold text-slate-600">
+                                Dashboard created by <span className="font-bold text-[#00a884]">Forgivento</span>
+                            </p>
+                            <p className="text-[9px] text-slate-400 mt-0.5">
+                                &copy; {new Date().getFullYear()} Moluccas Coastal Care • ISAK 35
+                            </p>
+                        </div>
                     )}
                 </div>
             </aside>
@@ -2536,12 +2546,13 @@ const App = () => {
                         {view === 'reports' && <Reports transactions={state.present} />}
                     </div>
                     
-                    {view !== 'dashboard' && (
-                        <footer className="mt-8 py-4 border-t border-slate-200 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2">
-                            <p>&copy; {new Date().getFullYear()} Yayasan Moluccas Coastal Care (MCC). Berstandar ISAK 35.</p>
-                            <p className="font-semibold text-slate-500">Olivafinance — Moluccas Coastal Care</p>
-                        </footer>
-                    )}
+                    {/* Footer Identitas Pembuat */}
+                    <footer className="mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2">
+                        <p>&copy; {new Date().getFullYear()} Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard</p>
+                        <p className="font-semibold text-slate-600">
+                            Dashboard created by <span className="font-bold text-[#00a884]">Forgivento</span>
+                        </p>
+                    </footer>
                 </div>
 
                 {/* Mobile Bottom Navigation Bar (Desain Ringkas, Ramping & Proporsional) */}
