@@ -2638,7 +2638,7 @@ const App = () => {
     className: `transition-opacity duration-200 whitespace-nowrap ${!isSidebarOpen && 'md:opacity-0 md:hidden'}`
   }, /*#__PURE__*/React.createElement("h1", {
     className: "text-sm font-black tracking-wide text-slate-800 leading-tight"
-  }, "OLIVAFINANCE"), /*#__PURE__*/React.createElement("p", {
+  }, "OlivaFinance"), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-[#00a884] font-bold tracking-wider uppercase leading-none mt-0.5"
   }, "Moluccas Coastal Care"))), /*#__PURE__*/React.createElement("nav", {
     className: "flex-1 px-3 py-5 space-y-1.5 overflow-y-auto hide-scrollbar"
@@ -2700,7 +2700,7 @@ const App = () => {
     className: "w-8 h-8"
   }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     className: "text-xs font-black tracking-wide text-slate-800 leading-tight"
-  }, "OLIVAFINANCE"), /*#__PURE__*/React.createElement("p", {
+  }, "OlivaFinance"), /*#__PURE__*/React.createElement("p", {
     className: "text-[9px] text-[#00a884] font-bold tracking-wider uppercase leading-none"
   }, "Moluccas Coastal Care"))), /*#__PURE__*/React.createElement("div", {
     className: "hidden md:flex items-center space-x-3"

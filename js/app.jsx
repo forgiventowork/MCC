@@ -2438,7 +2438,7 @@ const App = () => {
                 <div className="px-4 flex items-center space-x-3 border-b border-slate-200 h-16 overflow-hidden">
                     <MCCLogo className="w-10 h-10" />
                     <div className={`transition-opacity duration-200 whitespace-nowrap ${!isSidebarOpen && 'md:opacity-0 md:hidden'}`}>
-                        <h1 className="text-sm font-black tracking-wide text-slate-800 leading-tight">OLIVAFINANCE</h1>
+                        <h1 className="text-sm font-black tracking-wide text-slate-800 leading-tight">OlivaFinance</h1>
                         <p className="text-[10px] text-[#00a884] font-bold tracking-wider uppercase leading-none mt-0.5">Moluccas Coastal Care</p>
                     </div>
                 </div>
@@ -2507,7 +2507,7 @@ const App = () => {
                         <div className="flex md:hidden items-center space-x-2.5">
                             <MCCLogo className="w-8 h-8" />
                             <div>
-                                <h1 className="text-xs font-black tracking-wide text-slate-800 leading-tight">OLIVAFINANCE</h1>
+                                <h1 className="text-xs font-black tracking-wide text-slate-800 leading-tight">OlivaFinance</h1>
                                 <p className="text-[9px] text-[#00a884] font-bold tracking-wider uppercase leading-none">Moluccas Coastal Care</p>
                             </div>
                         </div>
