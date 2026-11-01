@@ -333,15 +333,23 @@ const Dashboard = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-2.5"
+    className: "flex flex-wrap items-center gap-2.5"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "text-2xl font-black text-slate-800 tracking-tight"
-  }, "Dashboard"), /*#__PURE__*/React.createElement("span", {
-    className: "inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-[#00a884] border border-teal-200/80 shadow-xs"
+  }, "Dashboard"), /*#__PURE__*/React.createElement("div", {
+    className: "inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border border-teal-200/80 shadow-xs group hover:border-[#00a884]/40 transition-all"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "w-4 h-4 rounded-full bg-gradient-to-tr from-[#00a884] to-teal-400 text-white flex items-center justify-center text-[8px] font-black shadow-xs"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-code mr-1 text-[9px]"
-  }), " Created by Forgivento")), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-500 font-medium mt-0.5"
+    className: "fas fa-check text-[7px]"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] font-medium text-slate-600"
+  }, "Crafted by ", /*#__PURE__*/React.createElement("strong", {
+    className: "font-extrabold text-slate-800 tracking-tight group-hover:text-[#00a884] transition"
+  }, "Forgivento")), /*#__PURE__*/React.createElement("span", {
+    className: "w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
+  }))), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 font-medium mt-1"
   }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-wrap items-center gap-2.5"
   }, /*#__PURE__*/React.createElement("div", {
@@ -830,6 +838,7 @@ const Journal = ({
     setShowFormModal(false);
     setFormData(defaultForm);
   };
+  const [deleteTarget, setDeleteTarget] = React.useState(null);
   const handleEdit = tx => {
     setFormData({
       ...tx
@@ -838,20 +847,29 @@ const Journal = ({
     setShowFormModal(true);
   };
   const handleDelete = (id, voucherNo) => {
-    if (confirm(`Yakin ingin menghapus transaksi ${voucherNo || id}? Tindakan ini dapat dibatalkan melalui fitur Undo.`)) {
-      dispatch({
-        type: 'DELETE_TRANSACTION',
-        payload: id
-      });
-      showToast({
-        title: 'Transaksi Dihapus',
-        message: `Data telah dihapus dari jurnal umum.`,
-        type: 'warning'
-      });
-      StorageService.syncTransactionToSupabase({
-        id
-      }, 'delete');
-    }
+    setDeleteTarget({
+      id,
+      voucherNo
+    });
+  };
+  const confirmDelete = () => {
+    if (!deleteTarget) return;
+    const {
+      id
+    } = deleteTarget;
+    dispatch({
+      type: 'DELETE_TRANSACTION',
+      payload: id
+    });
+    showToast({
+      title: 'Transaksi Dihapus',
+      message: `Data telah dihapus dari jurnal umum.`,
+      type: 'warning'
+    });
+    StorageService.syncTransactionToSupabase({
+      id
+    }, 'delete');
+    setDeleteTarget(null);
   };
 
   // Filter transaksi
@@ -1221,7 +1239,17 @@ const Journal = ({
     className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold shadow-sm transition"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-check mr-1.5"
-  }), " Catat ke Jurnal"))))));
+  }), " Catat ke Jurnal"))))), /*#__PURE__*/React.createElement(ConfirmModal, {
+    isOpen: Boolean(deleteTarget),
+    onClose: () => setDeleteTarget(null),
+    onConfirm: confirmDelete,
+    title: "Hapus Transaksi?",
+    message: `Apakah Anda yakin ingin menghapus mutasi kas ${deleteTarget?.voucherNo || ''}? Data dapat dipulihkan melalui fitur Undo.`,
+    icon: "fa-trash-can",
+    iconColor: "rose",
+    confirmText: "Ya, Hapus",
+    confirmVariant: "danger"
+  }));
 };
 
 // ==========================================
@@ -2321,6 +2349,67 @@ const SettingsModal = ({
 };
 
 // ==========================================
+// 4b. MODAL KONFIRMASI MODERN (SESUAI DESAIN PIN MODAL)
+// ==========================================
+const ConfirmModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  icon = 'fa-arrow-right-from-bracket',
+  iconColor = 'amber',
+  confirmText = 'Ya, Lanjutkan',
+  confirmVariant = 'danger'
+}) => {
+  if (!isOpen) return null;
+  const colorMap = {
+    amber: 'bg-amber-50 text-amber-500 ring-8 ring-amber-50/50',
+    rose: 'bg-rose-50 text-rose-500 ring-8 ring-rose-50/50',
+    emerald: 'bg-emerald-50 text-emerald-600 ring-8 ring-emerald-50/50',
+    teal: 'bg-teal-50 text-[#00a884] ring-8 ring-teal-50/50'
+  };
+  const btnMap = {
+    danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20',
+    primary: 'bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/20',
+    emerald: 'bg-[#00a884] hover:bg-[#008f70] text-white shadow-md shadow-emerald-600/20'
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-[75] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in no-print"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white w-full max-w-sm rounded-[28px] p-6 sm:p-8 shadow-2xl border border-slate-100 relative transform transition-all animate-fade-in-up"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "absolute top-4 right-4 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 p-2 rounded-full transition"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-times text-xs"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col items-center text-center mt-1"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `w-14 h-14 rounded-full flex items-center justify-center mb-4 ${colorMap[iconColor] || colorMap.amber}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${icon} text-xl`
+  })), /*#__PURE__*/React.createElement("h3", {
+    className: "font-black text-lg sm:text-xl text-slate-900 mb-2"
+  }, title), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 mb-6 font-medium px-2 leading-relaxed"
+  }, message), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-2 gap-2.5 w-full"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: onClose,
+    className: "py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition text-xs active:scale-[0.98]"
+  }, "Batal"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => {
+      onConfirm();
+      onClose();
+    },
+    className: `py-3 font-bold rounded-2xl transition text-xs active:scale-[0.98] ${btnMap[confirmVariant] || btnMap.danger}`
+  }, confirmText)))));
+};
+
+// ==========================================
 // 5. MODAL OTORISASI LOGIN ADMIN (STANDAR BOETJE-ETTY)
 // ==========================================
 const LoginModal = ({
@@ -2477,10 +2566,10 @@ const LoginModal = ({
     onClick: () => verifyInput(pin),
     className: "w-full py-3.5 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold rounded-2xl transition text-xs shadow-md"
   }, "Verifikasi Akses"), /*#__PURE__*/React.createElement("p", {
-    className: "text-[11px] text-slate-400 mt-3"
-  }, "PIN Standar: ", /*#__PURE__*/React.createElement("span", {
-    className: "font-mono font-bold text-slate-600"
-  }, "123456")))));
+    className: "text-[10px] text-slate-400 mt-3 flex items-center justify-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-shield-alt text-slate-400 mr-1.5 text-[9px]"
+  }), " Sesi Otorisasi Terenkripsi"))));
 };
 
 // ==========================================
@@ -2519,16 +2608,18 @@ const App = () => {
       }, 100);
     }
   };
+  const [isLogoutModalOpen, setLogoutModalOpen] = React.useState(false);
   const handleLogoutAdmin = () => {
-    if (confirm("Apakah Anda yakin ingin keluar dari Mode Admin/Bendahara? Anda tidak akan bisa mengedit data lagi.")) {
-      StorageService.setAdminLoggedIn(false);
-      setIsAdmin(false);
-      showToast({
-        title: 'Logout Berhasil',
-        message: 'Anda telah keluar dari Mode Admin. Mode Hanya Lihat aktif.',
-        type: 'info'
-      });
-    }
+    setLogoutModalOpen(true);
+  };
+  const confirmLogout = () => {
+    StorageService.setAdminLoggedIn(false);
+    setIsAdmin(false);
+    showToast({
+      title: 'Logout Berhasil',
+      message: 'Anda telah keluar dari Mode Admin. Mode Hanya Lihat aktif.',
+      type: 'info'
+    });
   };
 
   // Otomatis buka sidebar jika di layar desktop (>= 768px)
@@ -2659,16 +2750,24 @@ const App = () => {
     className: "text-xs font-bold text-slate-700 uppercase tracking-wider"
   }, view === 'dashboard' ? 'Sistem Informasi Manajemen Keuangan' : view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "hidden lg:flex items-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-slate-50 to-teal-50/50 border border-slate-200/80 shadow-xs"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "hidden lg:inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-slate-100 text-slate-600"
+    className: "relative flex h-2 w-2 mr-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] font-bold text-slate-700 tracking-tight flex items-center"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-clock mr-1 text-slate-400"
+    className: "far fa-calendar-alt text-[#00a884] text-xs mr-1.5"
   }), new Date().toLocaleDateString('id-ID', {
     weekday: 'short',
     day: 'numeric',
     month: 'short',
     year: 'numeric'
-  })), isAdmin ? /*#__PURE__*/React.createElement("button", {
+  }))), isAdmin ? /*#__PURE__*/React.createElement("button", {
     onClick: handleLogoutAdmin,
     className: "px-2.5 sm:px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center shadow-xs active:scale-95",
     title: "Klik untuk Keluar dari Mode Admin"
@@ -2757,6 +2856,16 @@ const App = () => {
       payload: newData
     }),
     showToast: showToast
+  }), /*#__PURE__*/React.createElement(ConfirmModal, {
+    isOpen: isLogoutModalOpen,
+    onClose: () => setLogoutModalOpen(false),
+    onConfirm: confirmLogout,
+    title: "Keluar Mode Admin?",
+    message: "Apakah Anda yakin ingin keluar dari Mode Admin/Bendahara? Akses input dan edit data akan dikunci kembali.",
+    icon: "fa-arrow-right-from-bracket",
+    iconColor: "amber",
+    confirmText: "Ya, Keluar",
+    confirmVariant: "danger"
   }), /*#__PURE__*/React.createElement(Toast, {
     toast: toast,
     onClose: () => setToast(null)
