@@ -348,11 +348,7 @@ const Dashboard = ({
     onClick: onNavigateToJournal,
     readOnly: true,
     className: "w-48 sm:w-56 pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 placeholder:text-slate-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "hidden sm:flex items-center space-x-1.5 px-3 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200/60 rounded-full text-xs font-bold"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
-  }), /*#__PURE__*/React.createElement("span", null, "Tersinkron")), /*#__PURE__*/React.createElement("button", {
+  })), /*#__PURE__*/React.createElement("button", {
     onClick: () => requireAdmin ? requireAdmin(onOpenNewTx) : onOpenNewTx(),
     className: "px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm flex items-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1697,119 +1693,13 @@ const SettingsModal = ({
   showToast
 }) => {
   if (!isOpen) return null;
-  const supaInitial = StorageService.getSupabaseConfig();
-  const [supaUrl, setSupaUrl] = React.useState(supaInitial.url);
-  const [supaKey, setSupaKey] = React.useState(supaInitial.key);
-  const [isTestingSupa, setIsTestingSupa] = React.useState(false);
-  const [isSyncingSupa, setIsSyncingSupa] = React.useState(false);
-  const [gasUrl, setGasUrl] = React.useState(StorageService.getGasUrl());
   const [orgProfile, setOrgProfile] = React.useState(StorageService.getOrgProfile());
-  const [isSyncing, setIsSyncing] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState('supabase'); // 'supabase', 'cloud', 'profile', 'backup', 'security'
+  const [activeTab, setActiveTab] = React.useState('profile'); // 'profile', 'backup', 'security', 'about'
   const [pinForm, setPinForm] = React.useState({
     oldPin: '',
     newPin: '',
     confirmPin: ''
   });
-  const handleSaveSupabase = e => {
-    if (e) e.preventDefault();
-    StorageService.setSupabaseConfig(supaUrl, supaKey);
-    showToast({
-      title: 'Kredensial Disimpan',
-      message: 'Koneksi Supabase untuk MCC berhasil disimpan di memori.',
-      type: 'success'
-    });
-  };
-  const handleTestSupabase = async () => {
-    if (!supaUrl || !supaKey) {
-      showToast({
-        title: 'Data Belum Lengkap',
-        message: 'Masukkan Project URL dan Anon Key Supabase terlebih dahulu.',
-        type: 'error'
-      });
-      return;
-    }
-    setIsTestingSupa(true);
-    try {
-      const res = await StorageService.testSupabaseConnection(supaUrl, supaKey);
-      if (res.success) {
-        showToast({
-          title: 'Koneksi Sukses!',
-          message: 'Terhubung ke database Supabase MCC (tabel mcc_transactions aktif).',
-          type: 'success'
-        });
-      } else {
-        showToast({
-          title: 'Koneksi Gagal',
-          message: res.message,
-          type: 'error'
-        });
-      }
-    } finally {
-      setIsTestingSupa(false);
-    }
-  };
-  const handlePullFromSupabase = async () => {
-    if (!supaUrl || !supaKey) {
-      showToast({
-        title: 'Kredensial Belum Lengkap',
-        message: 'Masukkan URL dan Anon Key Supabase terlebih dahulu.',
-        type: 'error'
-      });
-      return;
-    }
-    StorageService.setSupabaseConfig(supaUrl, supaKey);
-    setIsSyncingSupa(true);
-    try {
-      const res = await StorageService.pullFromSupabase();
-      if (res.success && res.data) {
-        onDataReplaced(res.data);
-        showToast({
-          title: 'Tarik Data Berhasil',
-          message: `Berhasil mengunduh ${res.data.length} transaksi dari database Supabase.`,
-          type: 'success'
-        });
-      } else {
-        showToast({
-          title: 'Tarik Data Gagal',
-          message: res.error || 'Periksa izin RLS dan tabel Supabase.',
-          type: 'error'
-        });
-      }
-    } finally {
-      setIsSyncingSupa(false);
-    }
-  };
-  const handlePushToSupabase = async () => {
-    if (!supaUrl || !supaKey) {
-      showToast({
-        title: 'Kredensial Belum Lengkap',
-        message: 'Masukkan URL dan Anon Key Supabase terlebih dahulu.',
-        type: 'error'
-      });
-      return;
-    }
-    StorageService.setSupabaseConfig(supaUrl, supaKey);
-    setIsSyncingSupa(true);
-    try {
-      const res = await StorageService.pushToSupabase(transactions);
-      if (res.success) {
-        showToast({
-          title: 'Upload Berhasil',
-          message: `${res.count} mutasi kas MCC berhasil disimpan ke database Supabase.`,
-          type: 'success'
-        });
-      } else {
-        showToast({
-          title: 'Upload Gagal',
-          message: res.error || 'Periksa konfigurasi tabel mcc_transactions.',
-          type: 'error'
-        });
-      }
-    } finally {
-      setIsSyncingSupa(false);
-    }
-  };
   const handleChangePin = async e => {
     e.preventDefault();
     if (!pinForm.oldPin || pinForm.oldPin.length !== 6) {
@@ -1857,82 +1747,6 @@ const SettingsModal = ({
         message: 'PIN Admin 6 digit berhasil diperbarui.',
         type: 'success'
       });
-    }
-  };
-  const handleSaveGasUrl = e => {
-    e.preventDefault();
-    StorageService.setGasUrl(gasUrl);
-    showToast({
-      title: 'URL Tersimpan',
-      message: 'Endpoint Google Apps Script berhasil diperbarui.',
-      type: 'success'
-    });
-  };
-  const handlePushToCloud = async () => {
-    if (!gasUrl || gasUrl.includes("CONTOH_KODE_DEPLOYMENT")) {
-      showToast({
-        title: 'URL Belum Dikonfigurasi',
-        message: 'Masukkan URL Web App Apps Script terlebih dahulu.',
-        type: 'error'
-      });
-      return;
-    }
-    setIsSyncing(true);
-    try {
-      const res = await StorageService.pushToCloud(transactions, gasUrl);
-      if (res.success) {
-        showToast({
-          title: 'Sinkronisasi Berhasil',
-          message: `${transactions.length} mutasi kas telah diunggah ke Google Sheets.`,
-          type: 'success'
-        });
-      } else {
-        throw new Error(res.message);
-      }
-    } catch (err) {
-      showToast({
-        title: 'Sinkronisasi Gagal',
-        message: err.message || 'Periksa koneksi atau URL Apps Script.',
-        type: 'error'
-      });
-    } finally {
-      setIsSyncing(false);
-    }
-  };
-  const handlePullFromCloud = async () => {
-    if (!gasUrl || gasUrl.includes("CONTOH_KODE_DEPLOYMENT")) {
-      showToast({
-        title: 'URL Belum Dikonfigurasi',
-        message: 'Masukkan URL Web App Apps Script terlebih dahulu.',
-        type: 'error'
-      });
-      return;
-    }
-    setIsSyncing(true);
-    try {
-      const data = await StorageService.pullFromCloud(gasUrl);
-      if (Array.isArray(data) && data.length > 0) {
-        onDataReplaced(data);
-        showToast({
-          title: 'Data Diperbarui',
-          message: `Berhasil mengunduh ${data.length} transaksi dari Google Sheets.`,
-          type: 'success'
-        });
-      } else {
-        showToast({
-          title: 'Tidak Ada Data',
-          message: 'Tidak ditemukan transaksi di spreadsheet.',
-          type: 'info'
-        });
-      }
-    } catch (err) {
-      showToast({
-        title: 'Unduh Gagal',
-        message: err.message || 'Gagal terhubung ke Google Sheets.',
-        type: 'error'
-      });
-    } finally {
-      setIsSyncing(false);
     }
   };
   const handleSaveProfile = e => {
@@ -1996,7 +1810,7 @@ const SettingsModal = ({
     className: "text-sm font-black text-slate-800"
   }, "Pengaturan Sistem Keuangan"), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-slate-400"
-  }, "Integrasi Google Sheets Cloud, Profil Entitas, dan Database"))), /*#__PURE__*/React.createElement("button", {
+  }, "Profil Lembaga, Cadangan Database, dan Keamanan PIN"))), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -2004,16 +1818,6 @@ const SettingsModal = ({
   }))), /*#__PURE__*/React.createElement("div", {
     className: "flex space-x-2 sm:space-x-3 border-b border-slate-100 mt-4 text-xs font-bold overflow-x-auto whitespace-nowrap hide-scrollbar"
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => setActiveTab('supabase'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'supabase' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-bolt mr-1.5 text-amber-500"
-  }), " Supabase DB"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setActiveTab('cloud'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'cloud' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fab fa-google-drive mr-1.5"
-  }), " Google Sheets"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setActiveTab('profile'),
     className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'profile' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
   }, /*#__PURE__*/React.createElement("i", {
@@ -2035,107 +1839,7 @@ const SettingsModal = ({
     className: "fas fa-circle-info mr-1.5 text-teal-600"
   }), " Tentang Sistem")), /*#__PURE__*/React.createElement("div", {
     className: "pt-4"
-  }, activeTab === 'supabase' && /*#__PURE__*/React.createElement("div", {
-    className: "space-y-4"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "p-3 bg-teal-50/70 border border-teal-200/80 rounded-xl text-xs text-slate-700 flex items-start space-x-2.5"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-database text-[#00a884] text-base mt-0.5"
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-slate-800 block"
-  }, "Database Terpisah Khusus MCC (Tabel: mcc_transactions)"), /*#__PURE__*/React.createElement("p", {
-    className: "text-[11px] text-slate-600 mt-0.5"
-  }, "Proyek ini berdiri sendiri dan tidak terhubung ke proyek lain. Jalankan file ", /*#__PURE__*/React.createElement("code", {
-    className: "bg-white px-1.5 py-0.5 rounded text-teal-800 font-mono text-[10px] font-bold border border-teal-200"
-  }, "supabase_setup.sql"), " di Supabase SQL Editor Anda."))), /*#__PURE__*/React.createElement("div", {
-    className: "space-y-3"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-[11px] font-bold text-slate-600 mb-1"
-  }, "Supabase Project URL"), /*#__PURE__*/React.createElement("input", {
-    type: "url",
-    value: supaUrl,
-    onChange: e => setSupaUrl(e.target.value),
-    placeholder: "https://[project-ref].supabase.co",
-    className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-[11px] font-bold text-slate-600 mb-1"
-  }, "Supabase Anon Public Key (anon key)"), /*#__PURE__*/React.createElement("input", {
-    type: "password",
-    value: supaKey,
-    onChange: e => setSupaKey(e.target.value),
-    placeholder: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between items-center pt-1"
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: handleTestSupabase,
-    disabled: isTestingSupa,
-    className: "px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center disabled:opacity-50"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: `fas ${isTestingSupa ? 'fa-spinner fa-spin' : 'fa-plug'} mr-1.5 text-slate-500`
-  }), /*#__PURE__*/React.createElement("span", null, isTestingSupa ? 'Menguji...' : 'Uji Koneksi')), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: handleSaveSupabase,
-    className: "px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs transition flex items-center shadow-xs"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-save mr-1.5"
-  }), /*#__PURE__*/React.createElement("span", null, "Simpan Kredensial")))), /*#__PURE__*/React.createElement("div", {
-    className: "p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] font-bold text-slate-700 block"
-  }, "Sinkronisasi Database Cloud MCC"), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-2"
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: handlePullFromSupabase,
-    disabled: isSyncingSupa,
-    className: "py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-xs"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: `fas ${isSyncingSupa ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-down'} mr-1.5 text-teal-600`
-  }), /*#__PURE__*/React.createElement("span", null, "Tarik Data (Pull)")), /*#__PURE__*/React.createElement("button", {
-    onClick: handlePushToSupabase,
-    disabled: isSyncingSupa,
-    className: "py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-sm"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: `fas ${isSyncingSupa ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-up'} mr-1.5`
-  }), /*#__PURE__*/React.createElement("span", null, "Upload Lokal (Push)"))))), activeTab === 'cloud' && /*#__PURE__*/React.createElement("div", {
-    className: "space-y-4"
-  }, /*#__PURE__*/React.createElement("form", {
-    onSubmit: handleSaveGasUrl,
-    className: "space-y-3"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "block text-[11px] font-bold text-slate-600 mb-1"
-  }, "Web App URL (Google Apps Script)"), /*#__PURE__*/React.createElement("input", {
-    type: "url",
-    value: gasUrl,
-    onChange: e => setGasUrl(e.target.value),
-    placeholder: "https://script.google.com/macros/s/.../exec",
-    className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20",
-    required: true
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-end"
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "submit",
-    className: "px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition"
-  }, "Simpan URL Endpoint"))), /*#__PURE__*/React.createElement("div", {
-    className: "p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] font-bold text-slate-700 block"
-  }, "Aksi Sinkronisasi Dua Arah"), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-2"
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: handlePullFromCloud,
-    disabled: isSyncing,
-    className: "py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-cloud-arrow-down mr-1.5 text-teal-600"
-  }), /*#__PURE__*/React.createElement("span", null, "Ambil dari Cloud (Pull)")), /*#__PURE__*/React.createElement("button", {
-    onClick: handlePushToCloud,
-    disabled: isSyncing,
-    className: "py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-sm"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-cloud-arrow-up mr-1.5"
-  }), /*#__PURE__*/React.createElement("span", null, "Kirim ke Cloud (Push)"))))), activeTab === 'profile' && /*#__PURE__*/React.createElement("form", {
+  }, activeTab === 'profile' && /*#__PURE__*/React.createElement("form", {
     onSubmit: handleSaveProfile,
     className: "space-y-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -2747,26 +2451,9 @@ const App = () => {
     className: "fas fa-bars text-sm"
   })), /*#__PURE__*/React.createElement("h2", {
     className: "text-xs font-bold text-slate-700 uppercase tracking-wider"
-  }, view === 'dashboard' ? 'Sistem Informasi Manajemen Keuangan' : view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'))), /*#__PURE__*/React.createElement("div", {
+  }, view === 'dashboard' ? 'Yayasan Moluccas Coastal Care' : view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "hidden lg:flex items-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-slate-50 to-teal-50/50 border border-slate-200/80 shadow-xs"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "relative flex h-2 w-2 mr-2"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
-  }), /*#__PURE__*/React.createElement("span", {
-    className: "relative inline-flex rounded-full h-2 w-2 bg-emerald-500"
-  })), /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] font-bold text-slate-700 tracking-tight flex items-center"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "far fa-calendar-alt text-[#00a884] text-xs mr-1.5"
-  }), new Date().toLocaleDateString('id-ID', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric'
-  }))), isAdmin ? /*#__PURE__*/React.createElement("button", {
+  }, isAdmin ? /*#__PURE__*/React.createElement("button", {
     onClick: handleLogoutAdmin,
     className: "px-2.5 sm:px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center shadow-xs active:scale-95",
     title: "Klik untuk Keluar dari Mode Admin"

@@ -306,12 +306,6 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                         />
                     </div>
 
-                    {/* Sync Indicator */}
-                    <div className="hidden sm:flex items-center space-x-1.5 px-3 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200/60 rounded-full text-xs font-bold">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span>Tersinkron</span>
-                    </div>
-
                     {/* Action Button: Catat Transaksi Baru (Otorisasi Admin) */}
                     <button 
                         onClick={() => requireAdmin ? requireAdmin(onOpenNewTx) : onOpenNewTx()}
@@ -1561,80 +1555,9 @@ const Reports = ({ transactions }) => {
 const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToast }) => {
     if (!isOpen) return null;
 
-    const supaInitial = StorageService.getSupabaseConfig();
-    const [supaUrl, setSupaUrl] = React.useState(supaInitial.url);
-    const [supaKey, setSupaKey] = React.useState(supaInitial.key);
-    const [isTestingSupa, setIsTestingSupa] = React.useState(false);
-    const [isSyncingSupa, setIsSyncingSupa] = React.useState(false);
-
-    const [gasUrl, setGasUrl] = React.useState(StorageService.getGasUrl());
     const [orgProfile, setOrgProfile] = React.useState(StorageService.getOrgProfile());
-    const [isSyncing, setIsSyncing] = React.useState(false);
-    const [activeTab, setActiveTab] = React.useState('supabase'); // 'supabase', 'cloud', 'profile', 'backup', 'security'
+    const [activeTab, setActiveTab] = React.useState('profile'); // 'profile', 'backup', 'security', 'about'
     const [pinForm, setPinForm] = React.useState({ oldPin: '', newPin: '', confirmPin: '' });
-
-    const handleSaveSupabase = (e) => {
-        if (e) e.preventDefault();
-        StorageService.setSupabaseConfig(supaUrl, supaKey);
-        showToast({ title: 'Kredensial Disimpan', message: 'Koneksi Supabase untuk MCC berhasil disimpan di memori.', type: 'success' });
-    };
-
-    const handleTestSupabase = async () => {
-        if (!supaUrl || !supaKey) {
-            showToast({ title: 'Data Belum Lengkap', message: 'Masukkan Project URL dan Anon Key Supabase terlebih dahulu.', type: 'error' });
-            return;
-        }
-        setIsTestingSupa(true);
-        try {
-            const res = await StorageService.testSupabaseConnection(supaUrl, supaKey);
-            if (res.success) {
-                showToast({ title: 'Koneksi Sukses!', message: 'Terhubung ke database Supabase MCC (tabel mcc_transactions aktif).', type: 'success' });
-            } else {
-                showToast({ title: 'Koneksi Gagal', message: res.message, type: 'error' });
-            }
-        } finally {
-            setIsTestingSupa(false);
-        }
-    };
-
-    const handlePullFromSupabase = async () => {
-        if (!supaUrl || !supaKey) {
-            showToast({ title: 'Kredensial Belum Lengkap', message: 'Masukkan URL dan Anon Key Supabase terlebih dahulu.', type: 'error' });
-            return;
-        }
-        StorageService.setSupabaseConfig(supaUrl, supaKey);
-        setIsSyncingSupa(true);
-        try {
-            const res = await StorageService.pullFromSupabase();
-            if (res.success && res.data) {
-                onDataReplaced(res.data);
-                showToast({ title: 'Tarik Data Berhasil', message: `Berhasil mengunduh ${res.data.length} transaksi dari database Supabase.`, type: 'success' });
-            } else {
-                showToast({ title: 'Tarik Data Gagal', message: res.error || 'Periksa izin RLS dan tabel Supabase.', type: 'error' });
-            }
-        } finally {
-            setIsSyncingSupa(false);
-        }
-    };
-
-    const handlePushToSupabase = async () => {
-        if (!supaUrl || !supaKey) {
-            showToast({ title: 'Kredensial Belum Lengkap', message: 'Masukkan URL dan Anon Key Supabase terlebih dahulu.', type: 'error' });
-            return;
-        }
-        StorageService.setSupabaseConfig(supaUrl, supaKey);
-        setIsSyncingSupa(true);
-        try {
-            const res = await StorageService.pushToSupabase(transactions);
-            if (res.success) {
-                showToast({ title: 'Upload Berhasil', message: `${res.count} mutasi kas MCC berhasil disimpan ke database Supabase.`, type: 'success' });
-            } else {
-                showToast({ title: 'Upload Gagal', message: res.error || 'Periksa konfigurasi tabel mcc_transactions.', type: 'error' });
-            }
-        } finally {
-            setIsSyncingSupa(false);
-        }
-    };
 
     const handleChangePin = async (e) => {
         e.preventDefault();
@@ -1660,55 +1583,6 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
         if (saved) {
             setPinForm({ oldPin: '', newPin: '', confirmPin: '' });
             showToast({ title: 'PIN Berhasil Diubah', message: 'PIN Admin 6 digit berhasil diperbarui.', type: 'success' });
-        }
-    };
-
-    const handleSaveGasUrl = (e) => {
-        e.preventDefault();
-        StorageService.setGasUrl(gasUrl);
-        showToast({ title: 'URL Tersimpan', message: 'Endpoint Google Apps Script berhasil diperbarui.', type: 'success' });
-    };
-
-    const handlePushToCloud = async () => {
-        if (!gasUrl || gasUrl.includes("CONTOH_KODE_DEPLOYMENT")) {
-            showToast({ title: 'URL Belum Dikonfigurasi', message: 'Masukkan URL Web App Apps Script terlebih dahulu.', type: 'error' });
-            return;
-        }
-
-        setIsSyncing(true);
-        try {
-            const res = await StorageService.pushToCloud(transactions, gasUrl);
-            if (res.success) {
-                showToast({ title: 'Sinkronisasi Berhasil', message: `${transactions.length} mutasi kas telah diunggah ke Google Sheets.`, type: 'success' });
-            } else {
-                throw new Error(res.message);
-            }
-        } catch (err) {
-            showToast({ title: 'Sinkronisasi Gagal', message: err.message || 'Periksa koneksi atau URL Apps Script.', type: 'error' });
-        } finally {
-            setIsSyncing(false);
-        }
-    };
-
-    const handlePullFromCloud = async () => {
-        if (!gasUrl || gasUrl.includes("CONTOH_KODE_DEPLOYMENT")) {
-            showToast({ title: 'URL Belum Dikonfigurasi', message: 'Masukkan URL Web App Apps Script terlebih dahulu.', type: 'error' });
-            return;
-        }
-
-        setIsSyncing(true);
-        try {
-            const data = await StorageService.pullFromCloud(gasUrl);
-            if (Array.isArray(data) && data.length > 0) {
-                onDataReplaced(data);
-                showToast({ title: 'Data Diperbarui', message: `Berhasil mengunduh ${data.length} transaksi dari Google Sheets.`, type: 'success' });
-            } else {
-                showToast({ title: 'Tidak Ada Data', message: 'Tidak ditemukan transaksi di spreadsheet.', type: 'info' });
-            }
-        } catch (err) {
-            showToast({ title: 'Unduh Gagal', message: err.message || 'Gagal terhubung ke Google Sheets.', type: 'error' });
-        } finally {
-            setIsSyncing(false);
         }
     };
 
@@ -1755,7 +1629,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                         </div>
                         <div>
                             <h3 className="text-sm font-black text-slate-800">Pengaturan Sistem Keuangan</h3>
-                            <p className="text-[11px] text-slate-400">Integrasi Google Sheets Cloud, Profil Entitas, dan Database</p>
+                            <p className="text-[11px] text-slate-400">Profil Lembaga, Cadangan Database, dan Keamanan PIN</p>
                         </div>
                     </div>
                     <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition">
@@ -1765,18 +1639,6 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
 
                 {/* Tab Navigasi */}
                 <div className="flex space-x-2 sm:space-x-3 border-b border-slate-100 mt-4 text-xs font-bold overflow-x-auto whitespace-nowrap hide-scrollbar">
-                    <button
-                        onClick={() => setActiveTab('supabase')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'supabase' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
-                    >
-                        <i className="fas fa-bolt mr-1.5 text-amber-500"></i> Supabase DB
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('cloud')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'cloud' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
-                    >
-                        <i className="fab fa-google-drive mr-1.5"></i> Google Sheets
-                    </button>
                     <button
                         onClick={() => setActiveTab('profile')}
                         className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'profile' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
@@ -1804,132 +1666,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                 </div>
 
                 <div className="pt-4">
-                    {/* Tab 0: Supabase Database (Project Terpisah MCC) */}
-                    {activeTab === 'supabase' && (
-                        <div className="space-y-4">
-                            <div className="p-3 bg-teal-50/70 border border-teal-200/80 rounded-xl text-xs text-slate-700 flex items-start space-x-2.5">
-                                <i className="fas fa-database text-[#00a884] text-base mt-0.5"></i>
-                                <div>
-                                    <span className="font-bold text-slate-800 block">Database Terpisah Khusus MCC (Tabel: mcc_transactions)</span>
-                                    <p className="text-[11px] text-slate-600 mt-0.5">
-                                        Proyek ini berdiri sendiri dan tidak terhubung ke proyek lain. Jalankan file <code className="bg-white px-1.5 py-0.5 rounded text-teal-800 font-mono text-[10px] font-bold border border-teal-200">supabase_setup.sql</code> di Supabase SQL Editor Anda.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-3">
-                                <div>
-                                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Supabase Project URL</label>
-                                    <input 
-                                        type="url" 
-                                        value={supaUrl} 
-                                        onChange={e => setSupaUrl(e.target.value)} 
-                                        placeholder="https://[project-ref].supabase.co"
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Supabase Anon Public Key (anon key)</label>
-                                    <input 
-                                        type="password" 
-                                        value={supaKey} 
-                                        onChange={e => setSupaKey(e.target.value)} 
-                                        placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
-                                    />
-                                </div>
-                                <div className="flex justify-between items-center pt-1">
-                                    <button 
-                                        type="button" 
-                                        onClick={handleTestSupabase}
-                                        disabled={isTestingSupa}
-                                        className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center disabled:opacity-50"
-                                    >
-                                        <i className={`fas ${isTestingSupa ? 'fa-spinner fa-spin' : 'fa-plug'} mr-1.5 text-slate-500`}></i>
-                                        <span>{isTestingSupa ? 'Menguji...' : 'Uji Koneksi'}</span>
-                                    </button>
-                                    <button 
-                                        type="button" 
-                                        onClick={handleSaveSupabase}
-                                        className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-xs transition flex items-center shadow-xs"
-                                    >
-                                        <i className="fas fa-save mr-1.5"></i>
-                                        <span>Simpan Kredensial</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
-                                <span className="text-[11px] font-bold text-slate-700 block">Sinkronisasi Database Cloud MCC</span>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <button 
-                                        onClick={handlePullFromSupabase}
-                                        disabled={isSyncingSupa}
-                                        className="py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-xs"
-                                    >
-                                        <i className={`fas ${isSyncingSupa ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-down'} mr-1.5 text-teal-600`}></i>
-                                        <span>Tarik Data (Pull)</span>
-                                    </button>
-                                    <button 
-                                        onClick={handlePushToSupabase}
-                                        disabled={isSyncingSupa}
-                                        className="py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-sm"
-                                    >
-                                        <i className={`fas ${isSyncingSupa ? 'fa-spinner fa-spin' : 'fa-cloud-arrow-up'} mr-1.5`}></i>
-                                        <span>Upload Lokal (Push)</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Tab 1: Google Sheets */}
-                    {activeTab === 'cloud' && (
-                        <div className="space-y-4">
-                            <form onSubmit={handleSaveGasUrl} className="space-y-3">
-                                <div>
-                                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Web App URL (Google Apps Script)</label>
-                                    <input 
-                                        type="url" 
-                                        value={gasUrl} 
-                                        onChange={e => setGasUrl(e.target.value)} 
-                                        placeholder="https://script.google.com/macros/s/.../exec"
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
-                                        required
-                                    />
-                                </div>
-                                <div className="flex justify-end">
-                                    <button type="submit" className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
-                                        Simpan URL Endpoint
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
-                                <span className="text-[11px] font-bold text-slate-700 block">Aksi Sinkronisasi Dua Arah</span>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <button 
-                                        onClick={handlePullFromCloud}
-                                        disabled={isSyncing}
-                                        className="py-2.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50"
-                                    >
-                                        <i className="fas fa-cloud-arrow-down mr-1.5 text-teal-600"></i>
-                                        <span>Ambil dari Cloud (Pull)</span>
-                                    </button>
-                                    <button 
-                                        onClick={handlePushToCloud}
-                                        disabled={isSyncing}
-                                        className="py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold transition flex items-center justify-center disabled:opacity-50 shadow-sm"
-                                    >
-                                        <i className="fas fa-cloud-arrow-up mr-1.5"></i>
-                                        <span>Kirim ke Cloud (Push)</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Tab 2: Profil Organisasi */}
+                    {/* Tab 1: Profil Organisasi */}
                     {activeTab === 'profile' && (
                         <form onSubmit={handleSaveProfile} className="space-y-3">
                             <div>
@@ -2559,7 +2296,7 @@ const App = () => {
                                 <i className="fas fa-bars text-sm"></i>
                             </button>
                             <h2 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                {view === 'dashboard' ? 'Sistem Informasi Manajemen Keuangan' : 
+                                {view === 'dashboard' ? 'Yayasan Moluccas Coastal Care' : 
                                  view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'}
                             </h2>
                         </div>
@@ -2567,18 +2304,6 @@ const App = () => {
 
                     {/* Sisi Kanan: Status Admin & Pengaturan */}
                     <div className="flex items-center space-x-2">
-                        {/* Live Date Pill (Modern Glassmorphism) */}
-                        <div className="hidden lg:flex items-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-slate-50 to-teal-50/50 border border-slate-200/80 shadow-xs">
-                            <span className="relative flex h-2 w-2 mr-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                            </span>
-                            <span className="text-[11px] font-bold text-slate-700 tracking-tight flex items-center">
-                                <i className="far fa-calendar-alt text-[#00a884] text-xs mr-1.5"></i>
-                                {new Date().toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
-                            </span>
-                        </div>
-
                         {/* Tombol Login / Logout Admin (Standar Boetje-Etty) */}
                         {isAdmin ? (
                             <button 
