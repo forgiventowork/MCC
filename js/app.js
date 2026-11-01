@@ -1028,12 +1028,12 @@ const Journal = ({
     className: "py-3 px-4 text-right"
   }, "DEBIT (MASUK)"), /*#__PURE__*/React.createElement("th", {
     className: "py-3 px-4 text-right"
-  }, "KREDIT (KELUAR)"), /*#__PURE__*/React.createElement("th", {
+  }, "KREDIT (KELUAR)"), isAdmin && /*#__PURE__*/React.createElement("th", {
     className: "py-3 px-4 text-center no-print"
   }, "AKSI"))), /*#__PURE__*/React.createElement("tbody", {
     className: "divide-y divide-slate-100 text-xs"
   }, filteredTransactions.length === 0 ? /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-    colSpan: "7",
+    colSpan: isAdmin ? 7 : 6,
     className: "py-12 text-center text-slate-400"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-folder-open text-3xl mb-2 text-slate-300 block"
@@ -1070,20 +1070,20 @@ const Journal = ({
     className: "font-bold text-rose-600"
   }, formatRupiah(tx.amount)) : /*#__PURE__*/React.createElement("span", {
     className: "text-slate-400 font-bold"
-  }, "-")), /*#__PURE__*/React.createElement("td", {
+  }, "-")), isAdmin && /*#__PURE__*/React.createElement("td", {
     className: "py-3 px-4 text-center no-print"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center justify-center space-x-1.5"
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => requireAdmin ? requireAdmin(() => handleEdit(tx)) : handleEdit(tx),
+    onClick: () => handleEdit(tx),
     className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#00a884] hover:text-white text-slate-600 flex items-center justify-center transition",
-    title: isAdmin ? "Edit Transaksi" : "Login PIN Admin untuk Edit"
+    title: "Edit Transaksi"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-pencil text-[10px]"
   })), /*#__PURE__*/React.createElement("button", {
-    onClick: () => requireAdmin ? requireAdmin(() => handleDelete(tx.id, tx.voucherNo)) : handleDelete(tx.id, tx.voucherNo),
+    onClick: () => handleDelete(tx.id, tx.voucherNo),
     className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-600 flex items-center justify-center transition",
-    title: isAdmin ? "Hapus Transaksi" : "Login PIN Admin untuk Hapus"
+    title: "Hapus Transaksi"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-trash text-[10px]"
   }))))))))), /*#__PURE__*/React.createElement("div", {

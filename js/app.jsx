@@ -968,13 +968,13 @@ const Journal = ({ state, dispatch, onSyncRequest, showToast, isAdmin, requireAd
                                 <th className="py-3 px-4">PEMBATASAN</th>
                                 <th className="py-3 px-4 text-right">DEBIT (MASUK)</th>
                                 <th className="py-3 px-4 text-right">KREDIT (KELUAR)</th>
-                                <th className="py-3 px-4 text-center no-print">AKSI</th>
+                                {isAdmin && <th className="py-3 px-4 text-center no-print">AKSI</th>}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 text-xs">
                             {filteredTransactions.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="py-12 text-center text-slate-400">
+                                    <td colSpan={isAdmin ? 7 : 6} className="py-12 text-center text-slate-400">
                                         <i className="fas fa-folder-open text-3xl mb-2 text-slate-300 block"></i>
                                         Tidak ada transaksi kas yang sesuai dengan filter pencarian.
                                     </td>
@@ -1013,24 +1013,26 @@ const Journal = ({ state, dispatch, onSyncRequest, showToast, isAdmin, requireAd
                                                 <span className="text-slate-400 font-bold">-</span>
                                             )}
                                         </td>
-                                        <td className="py-3 px-4 text-center no-print">
-                                            <div className="flex items-center justify-center space-x-1.5">
-                                                <button 
-                                                    onClick={() => requireAdmin ? requireAdmin(() => handleEdit(tx)) : handleEdit(tx)} 
-                                                    className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#00a884] hover:text-white text-slate-600 flex items-center justify-center transition"
-                                                    title={isAdmin ? "Edit Transaksi" : "Login PIN Admin untuk Edit"}
-                                                >
-                                                    <i className="fas fa-pencil text-[10px]"></i>
-                                                </button>
-                                                <button 
-                                                    onClick={() => requireAdmin ? requireAdmin(() => handleDelete(tx.id, tx.voucherNo)) : handleDelete(tx.id, tx.voucherNo)} 
-                                                    className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-600 flex items-center justify-center transition"
-                                                    title={isAdmin ? "Hapus Transaksi" : "Login PIN Admin untuk Hapus"}
-                                                >
-                                                    <i className="fas fa-trash text-[10px]"></i>
-                                                </button>
-                                            </div>
-                                        </td>
+                                        {isAdmin && (
+                                            <td className="py-3 px-4 text-center no-print">
+                                                <div className="flex items-center justify-center space-x-1.5">
+                                                    <button 
+                                                        onClick={() => handleEdit(tx)} 
+                                                        className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#00a884] hover:text-white text-slate-600 flex items-center justify-center transition"
+                                                        title="Edit Transaksi"
+                                                    >
+                                                        <i className="fas fa-pencil text-[10px]"></i>
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => handleDelete(tx.id, tx.voucherNo)} 
+                                                        className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-600 flex items-center justify-center transition"
+                                                        title="Hapus Transaksi"
+                                                    >
+                                                        <i className="fas fa-trash text-[10px]"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        )}
                                     </tr>
                                 ))
                             )}
