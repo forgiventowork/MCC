@@ -332,24 +332,10 @@ const Dashboard = ({
     className: "space-y-4 pb-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-wrap items-center gap-2.5"
-  }, /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     className: "text-2xl font-black text-slate-800 tracking-tight"
-  }, "Dashboard"), /*#__PURE__*/React.createElement("div", {
-    className: "inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border border-teal-200/80 shadow-xs group hover:border-[#00a884]/40 transition-all"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "w-4 h-4 rounded-full bg-gradient-to-tr from-[#00a884] to-teal-400 text-white flex items-center justify-center text-[8px] font-black shadow-xs"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-check text-[7px]"
-  })), /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] font-medium text-slate-600"
-  }, "Crafted by ", /*#__PURE__*/React.createElement("strong", {
-    className: "font-extrabold text-slate-800 tracking-tight group-hover:text-[#00a884] transition"
-  }, "Forgivento")), /*#__PURE__*/React.createElement("span", {
-    className: "w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
-  }))), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-500 font-medium mt-1"
+  }, "Dashboard"), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-500 font-medium mt-0.5"
   }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-wrap items-center gap-2.5"
   }, /*#__PURE__*/React.createElement("div", {
