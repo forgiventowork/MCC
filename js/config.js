@@ -54,8 +54,8 @@ const DEFAULT_ORG_PROFILE = {
 const DEFAULT_GAS_URL = "https://script.google.com/a/macros/dharmais.co.id/s/AKfycbzZ94lD6DARDpBxv7G4-1O7Cu6U00r3QKO7EBRB27UR5WjtXArKJ39ixw7YmEkQYJ8/exec";
 
 // Kunci & Konfigurasi Supabase MCC (Proyek Terpisah)
-const DEFAULT_SUPABASE_URL = "";
-const DEFAULT_SUPABASE_ANON_KEY = "";
+const DEFAULT_SUPABASE_URL = "https://qjzywjowebjkkmirdzkw.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_kscuSlIO2zHkseDtucdvCA_yrponQk4";
 
 // Kunci Penyimpanan Local Storage (Spesifik MCC)
 const STORAGE_KEYS = {
