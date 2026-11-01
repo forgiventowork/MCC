@@ -2028,7 +2028,12 @@ const SettingsModal = ({
     className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'security' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-shield-halved mr-1.5"
-  }), " PIN Admin")), /*#__PURE__*/React.createElement("div", {
+  }), " PIN Admin"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setActiveTab('about'),
+    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'about' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-circle-info mr-1.5 text-teal-600"
+  }), " Tentang Sistem")), /*#__PURE__*/React.createElement("div", {
     className: "pt-4"
   }, activeTab === 'supabase' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
@@ -2331,7 +2336,57 @@ const SettingsModal = ({
   }, "Kembalikan ke Default (123456)"), /*#__PURE__*/React.createElement("button", {
     type: "submit",
     className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
-  }, "Simpan PIN Baru")))))));
+  }, "Simpan PIN Baru")))), activeTab === 'about' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "p-4 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl shadow-lg border border-slate-700/60 flex items-center space-x-3.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00a884] to-teal-400 flex items-center justify-center text-white text-lg font-black shadow-md flex-shrink-0"
+  }, "F"), /*#__PURE__*/React.createElement("div", {
+    className: "flex-1 min-w-0"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2"
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "text-base font-black text-white tracking-tight"
+  }, "Forgivento"), /*#__PURE__*/React.createElement("span", {
+    className: "px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-[#00a884]/20 text-emerald-400 border border-[#00a884]/30 uppercase tracking-wider"
+  }, "Creator")), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-300 font-medium mt-0.5"
+  }, "This dashboard and financial management system was designed and created by ", /*#__PURE__*/React.createElement("strong", {
+    className: "text-white"
+  }, "Forgivento"), "."))), /*#__PURE__*/React.createElement("div", {
+    className: "p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3 text-xs"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-2 border-b border-slate-200"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-600"
+  }, "Application Name"), /*#__PURE__*/React.createElement("span", {
+    className: "font-black text-slate-800"
+  }, "OlivaFinance")), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-2 border-b border-slate-200"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-600"
+  }, "Organization"), /*#__PURE__*/React.createElement("span", {
+    className: "font-medium text-slate-700"
+  }, "Yayasan Moluccas Coastal Care (MCC)")), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-2 border-b border-slate-200"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-600"
+  }, "Accounting Standard"), /*#__PURE__*/React.createElement("span", {
+    className: "font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200"
+  }, "ISAK 35 (Nonprofit Entities)")), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-2 border-b border-slate-200"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-600"
+  }, "Cloud Database"), /*#__PURE__*/React.createElement("span", {
+    className: "font-semibold text-teal-700"
+  }, "Supabase PostgreSQL (Realtime)")), /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-600"
+  }, "System Version"), /*#__PURE__*/React.createElement("span", {
+    className: "font-mono text-[11px] text-slate-500"
+  }, "v1.2.0 • 2026 Production")))))));
 };
 
 // ==========================================
@@ -2666,15 +2721,9 @@ const App = () => {
     className: "text-xs font-bold text-slate-800 truncate"
   }, "Bendahara MCC"), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-500 font-medium truncate"
-  }, "Standar ISAK 35"))), isSidebarOpen && /*#__PURE__*/React.createElement("div", {
-    className: "text-[10px] text-slate-400 mt-2 px-2 text-center leading-relaxed"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "font-semibold text-slate-600"
-  }, "Dashboard created by ", /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-[#00a884]"
-  }, "Forgivento")), /*#__PURE__*/React.createElement("p", {
-    className: "text-[9px] text-slate-400 mt-0.5"
-  }, "© ", new Date().getFullYear(), " Moluccas Coastal Care • ISAK 35")))), /*#__PURE__*/React.createElement("main", {
+  }, "Standar ISAK 35"))), isSidebarOpen && /*#__PURE__*/React.createElement("p", {
+    className: "text-[9px] text-slate-400 mt-2 px-2 text-center"
+  }, "© ", new Date().getFullYear(), " Moluccas Coastal Care • ISAK 35"))), /*#__PURE__*/React.createElement("main", {
     className: "flex-1 flex flex-col min-w-0 overflow-hidden relative"
   }, /*#__PURE__*/React.createElement("header", {
     className: "bg-white border-b border-slate-200 px-3 sm:px-6 h-16 flex items-center justify-between z-20 flex-shrink-0 no-print"
@@ -2756,10 +2805,8 @@ const App = () => {
   })), /*#__PURE__*/React.createElement("footer", {
     className: "mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2"
   }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard"), /*#__PURE__*/React.createElement("p", {
-    className: "font-semibold text-slate-600"
-  }, "Dashboard created by ", /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-[#00a884]"
-  }, "Forgivento")))), /*#__PURE__*/React.createElement("nav", {
+    className: "font-semibold text-slate-500"
+  }, "OlivaFinance System"))), /*#__PURE__*/React.createElement("nav", {
     className: "md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-30 px-2 py-1 flex items-center justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.05)] no-print"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => handleNavigate('dashboard'),

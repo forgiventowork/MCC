@@ -1795,6 +1795,12 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                     >
                         <i className="fas fa-shield-halved mr-1.5"></i> PIN Admin
                     </button>
+                    <button
+                        onClick={() => setActiveTab('about')}
+                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'about' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                    >
+                        <i className="fas fa-circle-info mr-1.5 text-teal-600"></i> Tentang Sistem
+                    </button>
                 </div>
 
                 <div className="pt-4">
@@ -2115,6 +2121,53 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    )}
+
+                    {/* Tab 5: Tentang Aplikasi / Creator Identity */}
+                    {activeTab === 'about' && (
+                        <div className="space-y-4">
+                            {/* Card Identitas Pembuat */}
+                            <div className="p-4 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl shadow-lg border border-slate-700/60 flex items-center space-x-3.5">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00a884] to-teal-400 flex items-center justify-center text-white text-lg font-black shadow-md flex-shrink-0">
+                                    F
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center space-x-2">
+                                        <h4 className="text-base font-black text-white tracking-tight">Forgivento</h4>
+                                        <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-[#00a884]/20 text-emerald-400 border border-[#00a884]/30 uppercase tracking-wider">
+                                            Creator
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-slate-300 font-medium mt-0.5">
+                                        This dashboard and financial management system was designed and created by <strong className="text-white">Forgivento</strong>.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Info Sistem & Spesifikasi */}
+                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3 text-xs">
+                                <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                                    <span className="font-bold text-slate-600">Application Name</span>
+                                    <span className="font-black text-slate-800">OlivaFinance</span>
+                                </div>
+                                <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                                    <span className="font-bold text-slate-600">Organization</span>
+                                    <span className="font-medium text-slate-700">Yayasan Moluccas Coastal Care (MCC)</span>
+                                </div>
+                                <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                                    <span className="font-bold text-slate-600">Accounting Standard</span>
+                                    <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">ISAK 35 (Nonprofit Entities)</span>
+                                </div>
+                                <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                                    <span className="font-bold text-slate-600">Cloud Database</span>
+                                    <span className="font-semibold text-teal-700">Supabase PostgreSQL (Realtime)</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="font-bold text-slate-600">System Version</span>
+                                    <span className="font-mono text-[11px] text-slate-500">v1.2.0 • 2026 Production</span>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -2474,14 +2527,9 @@ const App = () => {
                         </div>
                     </div>
                     {isSidebarOpen && (
-                        <div className="text-[10px] text-slate-400 mt-2 px-2 text-center leading-relaxed">
-                            <p className="font-semibold text-slate-600">
-                                Dashboard created by <span className="font-bold text-[#00a884]">Forgivento</span>
-                            </p>
-                            <p className="text-[9px] text-slate-400 mt-0.5">
-                                &copy; {new Date().getFullYear()} Moluccas Coastal Care • ISAK 35
-                            </p>
-                        </div>
+                        <p className="text-[9px] text-slate-400 mt-2 px-2 text-center">
+                            &copy; {new Date().getFullYear()} Moluccas Coastal Care • ISAK 35
+                        </p>
                     )}
                 </div>
             </aside>
@@ -2587,12 +2635,10 @@ const App = () => {
                         {view === 'reports' && <Reports transactions={state.present} />}
                     </div>
                     
-                    {/* Footer Identitas Pembuat */}
+                    {/* Footer Halaman */}
                     <footer className="mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2">
                         <p>&copy; {new Date().getFullYear()} Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard</p>
-                        <p className="font-semibold text-slate-600">
-                            Dashboard created by <span className="font-bold text-[#00a884]">Forgivento</span>
-                        </p>
+                        <p className="font-semibold text-slate-500">OlivaFinance System</p>
                     </footer>
                 </div>
 
