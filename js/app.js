@@ -1758,42 +1758,6 @@ const SettingsModal = ({
       type: 'success'
     });
   };
-  const handleBackupDownload = () => {
-    ExportService.exportBackupJson(transactions);
-    showToast({
-      title: 'Backup Siap',
-      message: 'File JSON database telah diunduh.',
-      type: 'success'
-    });
-  };
-  const handleRestoreUpload = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = event => {
-      try {
-        const parsed = JSON.parse(event.target.result);
-        if (Array.isArray(parsed)) {
-          onDataReplaced(parsed);
-          showToast({
-            title: 'Restore Berhasil',
-            message: `${parsed.length} transaksi dipulihkan dari cadangan.`,
-            type: 'success'
-          });
-          onClose();
-        } else {
-          throw new Error("Format cadangan tidak valid.");
-        }
-      } catch (err) {
-        showToast({
-          title: 'Restore Gagal',
-          message: err.message,
-          type: 'error'
-        });
-      }
-    };
-    reader.readAsText(file);
-  };
   return /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1810,7 +1774,7 @@ const SettingsModal = ({
     className: "text-sm font-black text-slate-800"
   }, "Pengaturan Sistem Keuangan"), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-slate-400"
-  }, "Profil Lembaga, Cadangan Database, dan Keamanan PIN"))), /*#__PURE__*/React.createElement("button", {
+  }, "Profil Lembaga, Keamanan PIN, dan Informasi Sistem"))), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1823,11 +1787,6 @@ const SettingsModal = ({
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-building mr-1.5"
   }), " Profil MCC"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setActiveTab('backup'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'backup' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-database mr-1.5"
-  }), " Backup & Reset"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setActiveTab('security'),
     className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'security' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
   }, /*#__PURE__*/React.createElement("i", {
@@ -1917,55 +1876,7 @@ const SettingsModal = ({
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
     className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
-  }, "Simpan Profil"))), activeTab === 'backup' && /*#__PURE__*/React.createElement("div", {
-    className: "space-y-3"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-xs text-slate-800 block"
-  }, "Unduh Cadangan Database"), /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] text-slate-400"
-  }, "Simpan seluruh riwayat kas dalam format file .JSON")), /*#__PURE__*/React.createElement("button", {
-    onClick: handleBackupDownload,
-    className: "px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold transition flex items-center"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-download mr-1"
-  }), " Unduh")), /*#__PURE__*/React.createElement("div", {
-    className: "p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-xs text-slate-800 block"
-  }, "Pulihkan dari File Cadangan"), /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] text-slate-400"
-  }, "Timpa data dengan file JSON cadangan sebelumnya")), /*#__PURE__*/React.createElement("label", {
-    className: "px-3 py-1.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-lg text-xs font-bold cursor-pointer transition flex items-center shadow-sm"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-upload mr-1"
-  }), " Upload", /*#__PURE__*/React.createElement("input", {
-    type: "file",
-    accept: ".json",
-    onChange: handleRestoreUpload,
-    className: "hidden"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "p-3 bg-rose-50 rounded-xl border border-rose-200 flex items-center justify-between mt-4"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-xs text-rose-800 block"
-  }, "Reset ke Data Awal Demo"), /*#__PURE__*/React.createElement("span", {
-    className: "text-[11px] text-rose-500"
-  }, "Kembalikan data ke transaksi seed bawaan MCC")), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      if (confirm("Reset seluruh data ke transaksi awal bawaan?")) {
-        const resetData = StorageService.resetToDemo();
-        onDataReplaced(resetData);
-        showToast({
-          title: 'Data Direset',
-          message: 'Database telah dikembalikan ke data awal.',
-          type: 'info'
-        });
-        onClose();
-      }
-    },
-    className: "px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold transition"
-  }, "Reset Demo"))), activeTab === 'security' && /*#__PURE__*/React.createElement("div", {
+  }, "Simpan Profil"))), activeTab === 'security' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "p-3.5 bg-teal-50/70 rounded-xl border border-teal-100 text-xs text-slate-700"

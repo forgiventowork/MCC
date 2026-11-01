@@ -1592,33 +1592,6 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
         showToast({ title: 'Profil Diperbarui', message: 'Data legalitas dan pejabat MCC telah disimpan.', type: 'success' });
     };
 
-    const handleBackupDownload = () => {
-        ExportService.exportBackupJson(transactions);
-        showToast({ title: 'Backup Siap', message: 'File JSON database telah diunduh.', type: 'success' });
-    };
-
-    const handleRestoreUpload = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const parsed = JSON.parse(event.target.result);
-                if (Array.isArray(parsed)) {
-                    onDataReplaced(parsed);
-                    showToast({ title: 'Restore Berhasil', message: `${parsed.length} transaksi dipulihkan dari cadangan.`, type: 'success' });
-                    onClose();
-                } else {
-                    throw new Error("Format cadangan tidak valid.");
-                }
-            } catch (err) {
-                showToast({ title: 'Restore Gagal', message: err.message, type: 'error' });
-            }
-        };
-        reader.readAsText(file);
-    };
-
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print">
             <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200">
@@ -1629,7 +1602,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                         </div>
                         <div>
                             <h3 className="text-sm font-black text-slate-800">Pengaturan Sistem Keuangan</h3>
-                            <p className="text-[11px] text-slate-400">Profil Lembaga, Cadangan Database, dan Keamanan PIN</p>
+                            <p className="text-[11px] text-slate-400">Profil Lembaga, Keamanan PIN, dan Informasi Sistem</p>
                         </div>
                     </div>
                     <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition">
@@ -1644,12 +1617,6 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                         className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'profile' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
                     >
                         <i className="fas fa-building mr-1.5"></i> Profil MCC
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('backup')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'backup' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
-                    >
-                        <i className="fas fa-database mr-1.5"></i> Backup & Reset
                     </button>
                     <button
                         onClick={() => setActiveTab('security')}
@@ -1741,56 +1708,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                         </form>
                     )}
 
-                    {/* Tab 3: Backup & Restore */}
-                    {activeTab === 'backup' && (
-                        <div className="space-y-3">
-                            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
-                                <div>
-                                    <span className="font-bold text-xs text-slate-800 block">Unduh Cadangan Database</span>
-                                    <span className="text-[11px] text-slate-400">Simpan seluruh riwayat kas dalam format file .JSON</span>
-                                </div>
-                                <button 
-                                    onClick={handleBackupDownload}
-                                    className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold transition flex items-center"
-                                >
-                                    <i className="fas fa-download mr-1"></i> Unduh
-                                </button>
-                            </div>
-
-                            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
-                                <div>
-                                    <span className="font-bold text-xs text-slate-800 block">Pulihkan dari File Cadangan</span>
-                                    <span className="text-[11px] text-slate-400">Timpa data dengan file JSON cadangan sebelumnya</span>
-                                </div>
-                                <label className="px-3 py-1.5 bg-[#00a884] hover:bg-[#008f70] text-white rounded-lg text-xs font-bold cursor-pointer transition flex items-center shadow-sm">
-                                    <i className="fas fa-upload mr-1"></i> Upload
-                                    <input type="file" accept=".json" onChange={handleRestoreUpload} className="hidden" />
-                                </label>
-                            </div>
-
-                            <div className="p-3 bg-rose-50 rounded-xl border border-rose-200 flex items-center justify-between mt-4">
-                                <div>
-                                    <span className="font-bold text-xs text-rose-800 block">Reset ke Data Awal Demo</span>
-                                    <span className="text-[11px] text-rose-500">Kembalikan data ke transaksi seed bawaan MCC</span>
-                                </div>
-                                <button 
-                                    onClick={() => {
-                                        if (confirm("Reset seluruh data ke transaksi awal bawaan?")) {
-                                            const resetData = StorageService.resetToDemo();
-                                            onDataReplaced(resetData);
-                                            showToast({ title: 'Data Direset', message: 'Database telah dikembalikan ke data awal.', type: 'info' });
-                                            onClose();
-                                        }
-                                    }}
-                                    className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold transition"
-                                >
-                                    Reset Demo
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Tab 4: Keamanan & PIN Admin */}
+                    {/* Tab 2: Keamanan & PIN Admin */}
                     {activeTab === 'security' && (
                         <div className="space-y-4">
                             <div className="p-3.5 bg-teal-50/70 rounded-xl border border-teal-100 text-xs text-slate-700">
