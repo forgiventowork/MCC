@@ -66,7 +66,9 @@ const STORAGE_KEYS = {
     LAST_SYNC: "mcc_last_sync_timestamp",
     ORGANIZATION: "mcc_org_profile",
     ADMIN_SESSION: "mcc_admin",
-    ADMIN_PIN_HASH: "mcc_admin_pin_hash"
+    ADMIN_PIN_HASH: "mcc_admin_pin_hash",
+    LOCKED_DATE: "mcc_locked_date",
+    AUDIT_LOGS: "mcc_audit_logs"
 };
 
 const DEFAULT_ADMIN_PIN = "123456";

@@ -103,7 +103,30 @@ VALUES
     ('7', 'MCC-BKK-202611-007', '2026-11-02', 'Pembelian Laptop Inventaris', 'Pengeluaran', 'Beban Pembelian Aset', 'Tanpa Pembatasan', 15000000)
 ON CONFLICT (id) DO NOTHING;
 
--- 7. Query verifikasi untuk memastikan setup sukses
+-- 7. Kolom Tambahan: Lampiran Bukti Transaksi (Kuitansi / Nota Digital)
+ALTER TABLE mcc_transactions ADD COLUMN IF NOT EXISTS receipt_url TEXT;
+
+-- 8. Tabel Riwayat Audit (Audit Trail Perubahan Transaksi)
+CREATE TABLE IF NOT EXISTS mcc_audit_logs (
+    id TEXT PRIMARY KEY,
+    timestamp TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+    action TEXT NOT NULL,
+    voucher_no TEXT,
+    description TEXT,
+    amount NUMERIC(15, 2) DEFAULT 0,
+    details TEXT,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE mcc_audit_logs ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Izinkan akses audit log untuk umum" ON mcc_audit_logs;
+CREATE POLICY "Izinkan akses audit log untuk umum"
+    ON mcc_audit_logs FOR ALL
+    USING (true)
+    WITH CHECK (true);
+
+-- 9. Query verifikasi untuk memastikan setup sukses
 SELECT count(*) AS total_transaksi, 
        sum(CASE WHEN type = 'Penerimaan' THEN amount ELSE -amount END) AS saldo_bersih 
 FROM mcc_transactions;

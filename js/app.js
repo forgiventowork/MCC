@@ -732,6 +732,134 @@ const Dashboard = ({
 };
 
 // ==========================================
+// 1.5. KOMPRESI FOTO & MODAL BUKTI TRANSAKSI (FITUR 1)
+// ==========================================
+const compressImage = (file, callback, onError) => {
+  if (!file) return;
+  if (file.type === 'application/pdf') {
+    if (file.size > 3 * 1024 * 1024) {
+      if (onError) onError("Ukuran file PDF maksimal 3MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => callback(e.target.result, file.name, 'pdf');
+    reader.readAsDataURL(file);
+    return;
+  }
+  if (!file.type.startsWith('image/')) {
+    if (onError) onError("Hanya mendukung file foto gambar (JPG, PNG) atau dokumen PDF.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = event => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+      const maxDim = 1200;
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = Math.round(height * maxDim / width);
+          width = maxDim;
+        } else {
+          width = Math.round(width * maxDim / height);
+          height = maxDim;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      callback(dataUrl, file.name, 'image');
+    };
+    img.onerror = () => {
+      if (onError) onError("Gagal memproses file gambar.");
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+const ReceiptModal = ({
+  isOpen,
+  onClose,
+  transaction
+}) => {
+  if (!isOpen || !transaction || !transaction.receiptUrl) return null;
+  const isPdf = transaction.receiptUrl.startsWith('data:application/pdf') || transaction.receiptName && transaction.receiptName.toLowerCase().endsWith('.pdf');
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in no-print"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-3 border-b border-slate-100"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-10 h-10 rounded-xl bg-teal-50 text-[#00a884] flex items-center justify-center flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-receipt text-base"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    className: "text-sm font-black text-slate-800"
+  }, "Lampiran Bukti Transaksi"), /*#__PURE__*/React.createElement("p", {
+    className: "text-[11px] text-slate-400 font-mono-num"
+  }, transaction.voucherNo || '-', " • ", formatDateId(transaction.date)))), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-times text-xs"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "py-2.5 px-3.5 my-3 text-xs bg-slate-50 rounded-xl border border-slate-200/80 flex justify-between items-center"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "truncate mr-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-800 block truncate"
+  }, transaction.desc), /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] text-slate-500"
+  }, transaction.category, " (", transaction.restriction, ")")), /*#__PURE__*/React.createElement("span", {
+    className: `text-sm font-black font-mono-num whitespace-nowrap ${transaction.type === 'Penerimaan' ? 'text-emerald-600' : 'text-rose-600'}`
+  }, formatRupiah(transaction.amount))), /*#__PURE__*/React.createElement("div", {
+    className: "flex-1 overflow-auto rounded-xl border border-slate-200 bg-slate-100/70 flex items-center justify-center p-2 min-h-[220px]"
+  }, isPdf ? /*#__PURE__*/React.createElement("div", {
+    className: "text-center p-6 space-y-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto text-2xl"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-file-pdf"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    className: "font-bold text-slate-800 text-sm"
+  }, "Dokumen Kuitansi / Bukti PDF"), /*#__PURE__*/React.createElement("p", {
+    className: "text-xs text-slate-400 mt-0.5"
+  }, transaction.receiptName || 'lampiran_kuitansi.pdf')), /*#__PURE__*/React.createElement("a", {
+    href: transaction.receiptUrl,
+    download: transaction.receiptName || `Bukti_${transaction.voucherNo || 'MCC'}.pdf`,
+    className: "inline-flex items-center px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow-sm transition"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-download mr-1.5"
+  }), " Unduh File PDF")) : /*#__PURE__*/React.createElement("img", {
+    src: transaction.receiptUrl,
+    alt: "Bukti Transaksi",
+    className: "max-h-[55vh] max-w-full object-contain rounded-lg shadow-sm"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "pt-3.5 flex justify-between items-center border-t border-slate-100 mt-3"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] text-slate-400"
+  }, "Verifikasi Dokumen Keuangan MCC"), /*#__PURE__*/React.createElement("div", {
+    className: "flex space-x-2"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: transaction.receiptUrl,
+    download: transaction.receiptName || `Bukti_${transaction.voucherNo || 'MCC'}.jpg`,
+    className: "px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-download mr-1.5 text-slate-500"
+  }), " Unduh"), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "px-4 py-1.5 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs transition"
+  }, "Tutup")))));
+};
+
+// ==========================================
 // 2. BUKU JURNAL UMUM (TRANSACTION LEDGER)
 // ==========================================
 const Journal = ({
@@ -755,7 +883,9 @@ const Journal = ({
     type: 'Penerimaan',
     category: IN_CATEGORIES[0],
     restriction: 'Tanpa Pembatasan',
-    amount: ''
+    amount: '',
+    receiptUrl: null,
+    receiptName: ''
   };
   const [formData, setFormData] = React.useState(defaultForm);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -763,7 +893,11 @@ const Journal = ({
   const [searchQuery, setSearchQuery] = React.useState('');
   const [filterType, setFilterType] = React.useState('ALL');
   const [filterRestriction, setFilterRestriction] = React.useState('ALL');
-  const [filterMonth, setFilterMonth] = React.useState('ALL');
+  const [filterPeriod, setFilterPeriod] = React.useState('ALL'); // 'ALL', 'THIS_MONTH', 'LAST_MONTH', 'THIS_YEAR', 'CUSTOM'
+  const [customStartDate, setCustomStartDate] = React.useState('');
+  const [customEndDate, setCustomEndDate] = React.useState('');
+  const [viewingReceipt, setViewingReceipt] = React.useState(null);
+  const lockedDate = StorageService.getLockedDate();
   const handleTypeChange = type => {
     setFormData(prev => ({
       ...prev,
@@ -788,6 +922,16 @@ const Journal = ({
   };
   const handleSubmit = e => {
     e.preventDefault();
+
+    // Validasi Tutup Buku (Fitur 2)
+    if (StorageService.isDateLocked(formData.date)) {
+      showToast({
+        title: 'Aksi Ditolak',
+        message: `Periode transaksi sampai tanggal ${formatDateId(StorageService.getLockedDate())} telah ditutup buku dan terkunci.`,
+        type: 'error'
+      });
+      return;
+    }
     const payload = {
       ...formData,
       id: isEditing ? formData.id : `tx-${Date.now()}`,
@@ -805,6 +949,14 @@ const Journal = ({
         type: 'success'
       });
       StorageService.syncTransactionToSupabase(payload, 'update');
+      // Catat Riwayat Audit (Fitur 3)
+      StorageService.addAuditLog({
+        action: 'UBAH',
+        voucherNo: payload.voucherNo,
+        desc: payload.desc,
+        amount: payload.amount,
+        details: `Mengubah transaksi ${payload.type} - ${payload.category} (${payload.restriction})`
+      });
     } else {
       dispatch({
         type: 'ADD_TRANSACTION',
@@ -816,28 +968,58 @@ const Journal = ({
         type: 'success'
       });
       StorageService.syncTransactionToSupabase(payload, 'insert');
+      // Catat Riwayat Audit (Fitur 3)
+      StorageService.addAuditLog({
+        action: 'TAMBAH',
+        voucherNo: payload.voucherNo,
+        desc: payload.desc,
+        amount: payload.amount,
+        details: `Pencatatan kas masuk/beban ${payload.type} - ${payload.category}`
+      });
     }
     setShowFormModal(false);
     setFormData(defaultForm);
   };
   const [deleteTarget, setDeleteTarget] = React.useState(null);
   const handleEdit = tx => {
+    if (StorageService.isDateLocked(tx.date)) {
+      showToast({
+        title: 'Aksi Ditolak',
+        message: `Transaksi ini berada di periode yang telah ditutup buku (${formatDateId(StorageService.getLockedDate())}).`,
+        type: 'warning'
+      });
+      return;
+    }
     setFormData({
       ...tx
     });
     setIsEditing(true);
     setShowFormModal(true);
   };
-  const handleDelete = (id, voucherNo) => {
+  const handleDelete = (id, voucherNo, date, desc, amount) => {
+    if (StorageService.isDateLocked(date)) {
+      showToast({
+        title: 'Aksi Ditolak',
+        message: `Transaksi ini berada di periode yang telah ditutup buku (${formatDateId(StorageService.getLockedDate())}).`,
+        type: 'warning'
+      });
+      return;
+    }
     setDeleteTarget({
       id,
-      voucherNo
+      voucherNo,
+      date,
+      desc,
+      amount
     });
   };
   const confirmDelete = () => {
     if (!deleteTarget) return;
     const {
-      id
+      id,
+      voucherNo,
+      desc,
+      amount
     } = deleteTarget;
     dispatch({
       type: 'DELETE_TRANSACTION',
@@ -851,24 +1033,65 @@ const Journal = ({
     StorageService.syncTransactionToSupabase({
       id
     }, 'delete');
+    // Catat Riwayat Audit (Fitur 3)
+    StorageService.addAuditLog({
+      action: 'HAPUS',
+      voucherNo: voucherNo || '-',
+      desc: desc || 'Hapus mutasi kas',
+      amount: amount || 0,
+      details: `Penghapusan mutasi kas dari Buku Jurnal Umum`
+    });
     setDeleteTarget(null);
   };
 
-  // Filter transaksi
+  // Filter transaksi termasuk Rentang Tanggal Fleksibel (Fitur 4)
   const filteredTransactions = present.filter(t => {
     const matchSearch = (t.desc || '').toLowerCase().includes(searchQuery.toLowerCase()) || (t.voucherNo || '').toLowerCase().includes(searchQuery.toLowerCase()) || (t.category || '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchType = filterType === 'ALL' || t.type === filterType;
     const matchRest = filterRestriction === 'ALL' || t.restriction === filterRestriction;
-    const matchMonth = filterMonth === 'ALL' || t.date && t.date.startsWith(filterMonth);
-    return matchSearch && matchType && matchRest && matchMonth;
+
+    // Filter Rentang Tanggal Fleksibel
+    let matchDate = true;
+    const now = new Date();
+    const curYear = now.getFullYear();
+    const curMonthStr = `${curYear}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const prevMonthStr = `${prevMonthDate.getFullYear()}-${String(prevMonthDate.getMonth() + 1).padStart(2, '0')}`;
+    if (filterPeriod === 'THIS_MONTH') {
+      matchDate = t.date && t.date.startsWith(curMonthStr);
+    } else if (filterPeriod === 'LAST_MONTH') {
+      matchDate = t.date && t.date.startsWith(prevMonthStr);
+    } else if (filterPeriod === 'THIS_YEAR') {
+      matchDate = t.date && t.date.startsWith(String(curYear));
+    } else if (filterPeriod === 'CUSTOM') {
+      if (customStartDate && t.date < customStartDate) matchDate = false;
+      if (customEndDate && t.date > customEndDate) matchDate = false;
+    }
+    return matchSearch && matchType && matchRest && matchDate;
   });
   const sumIn = filteredTransactions.filter(t => t.type === 'Penerimaan').reduce((acc, t) => acc + (parseFloat(t.amount) || 0), 0);
   const sumOut = filteredTransactions.filter(t => t.type === 'Pengeluaran').reduce((acc, t) => acc + (parseFloat(t.amount) || 0), 0);
   const netFiltered = sumIn - sumOut;
-  const availableMonths = Array.from(new Set(present.map(t => (t.date || '').substring(0, 7)).filter(Boolean))).sort().reverse();
   return /*#__PURE__*/React.createElement("div", {
     className: "space-y-4 pb-12"
+  }, lockedDate && /*#__PURE__*/React.createElement("div", {
+    className: "p-3.5 bg-amber-50/90 border border-amber-200/90 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-amber-900 no-print shadow-xs"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-lock"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold block"
+  }, "Periode Pembukuan Ditutup (Tutup Buku Aktif)"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] text-amber-700"
+  }, "Transaksi pada dan sebelum tanggal ", /*#__PURE__*/React.createElement("strong", null, formatDateId(lockedDate)), " terkunci untuk menjaga akuntabilitas audit."))), isAdmin && /*#__PURE__*/React.createElement("button", {
+    onClick: () => requireAdmin ? requireAdmin(() => onSyncRequest && onSyncRequest('lock')) : null,
+    className: "px-3 py-1.5 bg-white hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-bold border border-amber-200 transition shadow-xs flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-gear mr-1.5"
+  }), " Kelola Tutup Buku")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
@@ -973,7 +1196,7 @@ const Journal = ({
   })))), /*#__PURE__*/React.createElement("div", {
     className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-full md:w-80 relative"
+    className: "w-full md:w-72 relative"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"
   }), /*#__PURE__*/React.createElement("input", {
@@ -1005,15 +1228,45 @@ const Journal = ({
   }, "Tanpa Pembatasan"), /*#__PURE__*/React.createElement("option", {
     value: "Dengan Pembatasan"
   }, "Dengan Pembatasan")), /*#__PURE__*/React.createElement("select", {
-    value: filterMonth,
-    onChange: e => setFilterMonth(e.target.value),
+    value: filterPeriod,
+    onChange: e => setFilterPeriod(e.target.value),
     className: "px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20"
   }, /*#__PURE__*/React.createElement("option", {
     value: "ALL"
-  }, "Semua Periode Bulan"), availableMonths.map(m => /*#__PURE__*/React.createElement("option", {
-    key: m,
-    value: m
-  }, m))))), /*#__PURE__*/React.createElement("div", {
+  }, "Semua Periode"), /*#__PURE__*/React.createElement("option", {
+    value: "THIS_MONTH"
+  }, "Bulan Ini"), /*#__PURE__*/React.createElement("option", {
+    value: "LAST_MONTH"
+  }, "Bulan Lalu"), /*#__PURE__*/React.createElement("option", {
+    value: "THIS_YEAR"
+  }, "Tahun Ini"), /*#__PURE__*/React.createElement("option", {
+    value: "CUSTOM"
+  }, "Rentang Tanggal Kustom...")), filterPeriod === 'CUSTOM' && /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-1.5 bg-teal-50/60 p-1 rounded-xl border border-teal-200/80"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: customStartDate,
+    onChange: e => setCustomStartDate(e.target.value),
+    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none",
+    title: "Dari Tanggal"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs text-slate-400 font-bold"
+  }, "s/d"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: customEndDate,
+    onChange: e => setCustomEndDate(e.target.value),
+    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none",
+    title: "Sampai Tanggal"
+  }), (customStartDate || customEndDate) && /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setCustomStartDate('');
+      setCustomEndDate('');
+    },
+    className: "px-2 py-1 text-slate-400 hover:text-rose-600 text-xs font-bold",
+    title: "Reset Tanggal Kustom"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-times"
+  }))))), /*#__PURE__*/React.createElement("div", {
     id: "journalTableContainer",
     className: "bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1026,7 +1279,7 @@ const Journal = ({
     className: "py-3 px-4"
   }, "TANGGAL"), /*#__PURE__*/React.createElement("th", {
     className: "py-3 px-4"
-  }, "KETERANGAN"), /*#__PURE__*/React.createElement("th", {
+  }, "KETERANGAN & BUKTI"), /*#__PURE__*/React.createElement("th", {
     className: "py-3 px-4"
   }, "KATEGORI AKUN"), /*#__PURE__*/React.createElement("th", {
     className: "py-3 px-4"
@@ -1043,63 +1296,84 @@ const Journal = ({
     className: "py-12 text-center text-slate-400"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-folder-open text-3xl mb-2 text-slate-300 block"
-  }), "Tidak ada transaksi kas yang sesuai dengan filter pencarian.")) : filteredTransactions.map(tx => /*#__PURE__*/React.createElement("tr", {
-    key: tx.id,
-    className: "hover:bg-slate-50/60 transition"
-  }, /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4 whitespace-nowrap"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "font-mono-num font-bold text-slate-700 block text-xs"
-  }, formatDateId(tx.date)), tx.voucherNo && /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] text-slate-400 font-mono-num"
-  }, tx.voucherNo)), /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4"
-  }, /*#__PURE__*/React.createElement("p", {
-    className: "font-bold text-slate-900"
-  }, tx.desc)), /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-slate-600 text-xs font-medium"
-  }, tx.category)), /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4 whitespace-nowrap"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-slate-600 text-xs font-medium"
-  }, tx.restriction)), /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4 text-right font-mono-num whitespace-nowrap"
-  }, tx.type === 'Penerimaan' ? /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-emerald-600"
-  }, formatRupiah(tx.amount)) : /*#__PURE__*/React.createElement("span", {
-    className: "text-slate-400 font-bold"
-  }, "-")), /*#__PURE__*/React.createElement("td", {
-    className: "py-3.5 px-4 text-right font-mono-num whitespace-nowrap"
-  }, tx.type === 'Pengeluaran' ? /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-rose-600"
-  }, formatRupiah(tx.amount)) : /*#__PURE__*/React.createElement("span", {
-    className: "text-slate-400 font-bold"
-  }, "-")), isAdmin && /*#__PURE__*/React.createElement("td", {
-    className: "py-3 px-4 text-center no-print"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-center space-x-1.5"
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => handleEdit(tx),
-    className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#00a884] hover:text-white text-slate-600 flex items-center justify-center transition",
-    title: "Edit Transaksi"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-pencil text-[10px]"
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: () => handleDelete(tx.id, tx.voucherNo),
-    className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-600 flex items-center justify-center transition",
-    title: "Hapus Transaksi"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-trash text-[10px]"
-  }))))))))), /*#__PURE__*/React.createElement("div", {
+  }), "Tidak ada transaksi kas yang sesuai dengan filter pencarian.")) : filteredTransactions.map(tx => {
+    const isRowLocked = StorageService.isDateLocked(tx.date);
+    return /*#__PURE__*/React.createElement("tr", {
+      key: tx.id,
+      className: "hover:bg-slate-50/60 transition"
+    }, /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4 whitespace-nowrap"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center space-x-1.5"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "font-mono-num font-bold text-slate-700 block text-xs"
+    }, formatDateId(tx.date)), isRowLocked && /*#__PURE__*/React.createElement("span", {
+      className: "inline-flex items-center space-x-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800",
+      title: "Periode Terkunci (Tutup Buku)"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-lock text-[8px]"
+    }))), tx.voucherNo && /*#__PURE__*/React.createElement("span", {
+      className: "text-[10px] text-slate-400 font-mono-num"
+    }, tx.voucherNo)), /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4"
+    }, /*#__PURE__*/React.createElement("p", {
+      className: "font-bold text-slate-900"
+    }, tx.desc), tx.receiptUrl && /*#__PURE__*/React.createElement("button", {
+      type: "button",
+      onClick: () => setViewingReceipt(tx),
+      className: "inline-flex items-center space-x-1 px-2 py-0.5 mt-1 rounded-md bg-teal-50 text-[#00a884] border border-teal-200/80 text-[10px] font-bold hover:bg-teal-100 transition shadow-2xs"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-paperclip text-[9px]"
+    }), /*#__PURE__*/React.createElement("span", null, "Bukti Nota"))), /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "text-slate-600 text-xs font-medium"
+    }, tx.category)), /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4 whitespace-nowrap"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "text-slate-600 text-xs font-medium"
+    }, tx.restriction)), /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4 text-right font-mono-num whitespace-nowrap"
+    }, tx.type === 'Penerimaan' ? /*#__PURE__*/React.createElement("span", {
+      className: "font-bold text-emerald-600"
+    }, formatRupiah(tx.amount)) : /*#__PURE__*/React.createElement("span", {
+      className: "text-slate-400 font-bold"
+    }, "-")), /*#__PURE__*/React.createElement("td", {
+      className: "py-3.5 px-4 text-right font-mono-num whitespace-nowrap"
+    }, tx.type === 'Pengeluaran' ? /*#__PURE__*/React.createElement("span", {
+      className: "font-bold text-rose-600"
+    }, formatRupiah(tx.amount)) : /*#__PURE__*/React.createElement("span", {
+      className: "text-slate-400 font-bold"
+    }, "-")), isAdmin && /*#__PURE__*/React.createElement("td", {
+      className: "py-3 px-4 text-center no-print"
+    }, isRowLocked ? /*#__PURE__*/React.createElement("span", {
+      className: "inline-flex items-center px-2 py-1 bg-slate-100 text-slate-400 rounded-lg text-[10px] font-bold cursor-not-allowed",
+      title: "Transaksi ini berada dalam periode yang sudah ditutup buku"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-lock mr-1 text-[9px]"
+    }), " Terkunci") : /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center justify-center space-x-1.5"
+    }, /*#__PURE__*/React.createElement("button", {
+      onClick: () => handleEdit(tx),
+      className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-[#00a884] hover:text-white text-slate-600 flex items-center justify-center transition",
+      title: "Edit Transaksi"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-pencil text-[10px]"
+    })), /*#__PURE__*/React.createElement("button", {
+      onClick: () => handleDelete(tx.id, tx.voucherNo, tx.date, tx.desc, tx.amount),
+      className: "w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-600 hover:text-white text-slate-600 flex items-center justify-center transition",
+      title: "Hapus Transaksi"
+    }, /*#__PURE__*/React.createElement("i", {
+      className: "fas fa-trash text-[10px]"
+    })))));
+  })))), /*#__PURE__*/React.createElement("div", {
     className: "px-5 py-3 bg-slate-50 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500"
   }, /*#__PURE__*/React.createElement("span", null, "Menampilkan ", /*#__PURE__*/React.createElement("strong", null, filteredTransactions.length), " dari ", /*#__PURE__*/React.createElement("strong", null, present.length), " total mutasi kas"), /*#__PURE__*/React.createElement("span", {
     className: "font-mono-num text-[11px]"
   }, "Sistem Keuangan ISAK 35"))), showFormModal && /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200"
+    className: "bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between items-center pb-4 border-b border-slate-100"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1210,6 +1484,67 @@ const Journal = ({
     placeholder: "0",
     min: "1",
     required: true
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-[11px] font-bold text-slate-600 mb-1"
+  }, "Lampiran Bukti Transaksi (Kuitansi / Nota / Struk)"), formData.receiptUrl ? /*#__PURE__*/React.createElement("div", {
+    className: "p-3 bg-teal-50/70 border border-teal-200/80 rounded-xl flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2.5 overflow-hidden"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-9 h-9 rounded-lg bg-teal-100 text-[#00a884] flex items-center justify-center flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas ${formData.receiptUrl.startsWith('data:application/pdf') ? 'fa-file-pdf text-rose-500' : 'fa-image text-[#00a884]'}`
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "truncate"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-slate-800 block truncate"
+  }, formData.receiptName || 'Bukti Transaksi Terlampir'), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] text-teal-700 font-semibold"
+  }, "Siap Disimpan"))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-1.5 flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setViewingReceipt(formData),
+    className: "px-2.5 py-1 bg-white hover:bg-slate-100 text-slate-700 rounded-lg text-[11px] font-bold border border-slate-200 transition"
+  }, "Lihat"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setFormData({
+      ...formData,
+      receiptUrl: null,
+      receiptName: ''
+    }),
+    className: "px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-[11px] font-bold transition",
+    title: "Hapus Lampiran"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-trash"
+  })))) : /*#__PURE__*/React.createElement("label", {
+    className: "border-2 border-dashed border-slate-200 hover:border-[#00a884] rounded-xl p-3 flex items-center justify-center space-x-2 cursor-pointer bg-slate-50 hover:bg-teal-50/30 transition group"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-paperclip text-slate-400 group-hover:text-[#00a884] transition text-sm"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-semibold text-slate-600 group-hover:text-[#00a884] transition"
+  }, "Pilih Foto Nota / Kuitansi (JPG, PNG) atau Dokumen PDF"), /*#__PURE__*/React.createElement("input", {
+    type: "file",
+    accept: "image/*,.pdf",
+    className: "hidden",
+    onChange: e => {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        compressImage(file, (dataUrl, fileName) => {
+          setFormData(prev => ({
+            ...prev,
+            receiptUrl: dataUrl,
+            receiptName: fileName
+          }));
+        }, errMsg => {
+          showToast({
+            title: 'Gagal Membaca File',
+            message: errMsg,
+            type: 'error'
+          });
+        });
+      }
+    }
   }))), /*#__PURE__*/React.createElement("div", {
     className: "pt-3 flex justify-end space-x-2 border-t border-slate-100"
   }, /*#__PURE__*/React.createElement("button", {
@@ -1221,7 +1556,11 @@ const Journal = ({
     className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white rounded-xl text-xs font-bold shadow-sm transition"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-check mr-1.5"
-  }), " Catat ke Jurnal"))))), /*#__PURE__*/React.createElement(ConfirmModal, {
+  }), " Catat ke Jurnal"))))), /*#__PURE__*/React.createElement(ReceiptModal, {
+    isOpen: Boolean(viewingReceipt),
+    onClose: () => setViewingReceipt(null),
+    transaction: viewingReceipt
+  }), /*#__PURE__*/React.createElement(ConfirmModal, {
     isOpen: Boolean(deleteTarget),
     onClose: () => setDeleteTarget(null),
     onConfirm: confirmDelete,
@@ -1683,23 +2022,110 @@ const Reports = ({
 };
 
 // ==========================================
-// 4. MODAL PENGATURAN & SINKRONISASI CLOUD
+// 4. MODAL PENGATURAN & TATA KELOLA KEUANGAN
 // ==========================================
 const SettingsModal = ({
   isOpen,
   onClose,
   transactions,
   onDataReplaced,
-  showToast
+  showToast,
+  initialTab = 'profile'
 }) => {
   if (!isOpen) return null;
   const [orgProfile, setOrgProfile] = React.useState(StorageService.getOrgProfile());
-  const [activeTab, setActiveTab] = React.useState('profile'); // 'profile', 'backup', 'security', 'about'
+  const [activeTab, setActiveTab] = React.useState(initialTab);
   const [pinForm, setPinForm] = React.useState({
     oldPin: '',
     newPin: '',
     confirmPin: ''
   });
+  const [lockedDateInput, setLockedDateInput] = React.useState(StorageService.getLockedDate());
+  const [auditLogs, setAuditLogs] = React.useState(StorageService.getAuditLogs());
+  React.useEffect(() => {
+    if (isOpen) {
+      setLockedDateInput(StorageService.getLockedDate());
+      setAuditLogs(StorageService.getAuditLogs());
+      if (initialTab) setActiveTab(initialTab);
+    }
+  }, [isOpen, initialTab]);
+  const handleSaveLock = e => {
+    e.preventDefault();
+    if (!lockedDateInput) {
+      showToast({
+        title: 'Gagal',
+        message: 'Tentukan tanggal tutup buku.',
+        type: 'error'
+      });
+      return;
+    }
+    StorageService.setLockedDate(lockedDateInput);
+    StorageService.addAuditLog({
+      action: 'TUTUP BUKU',
+      voucherNo: '-',
+      desc: `Pembukuan dikunci sampai ${formatDateId(lockedDateInput)}`,
+      amount: 0,
+      details: `Transaksi pada dan sebelum tanggal ${lockedDateInput} tidak dapat diubah/dihapus.`
+    });
+    setAuditLogs(StorageService.getAuditLogs());
+    showToast({
+      title: 'Tutup Buku Berhasil',
+      message: `Seluruh transaksi sampai tanggal ${formatDateId(lockedDateInput)} berhasil dikunci.`,
+      type: 'success'
+    });
+  };
+  const handleUnlock = () => {
+    StorageService.setLockedDate('');
+    setLockedDateInput('');
+    StorageService.addAuditLog({
+      action: 'BUKA KUNCI',
+      voucherNo: '-',
+      desc: `Kunci periode pembukuan dibuka`,
+      amount: 0,
+      details: `Semua transaksi kembali dapat diedit oleh Admin.`
+    });
+    setAuditLogs(StorageService.getAuditLogs());
+    showToast({
+      title: 'Kunci Dibuka',
+      message: 'Pembatasan tutup buku telah dinonaktifkan.',
+      type: 'info'
+    });
+  };
+  const handleClearAuditLogs = () => {
+    if (confirm("Bersihkan seluruh riwayat log audit perubahan?")) {
+      StorageService.clearAuditLogs();
+      setAuditLogs([]);
+      showToast({
+        title: 'Log Dibersihkan',
+        message: 'Riwayat audit telah dikosongkan.',
+        type: 'info'
+      });
+    }
+  };
+  const handleExportAuditLogs = () => {
+    const logs = StorageService.getAuditLogs();
+    if (logs.length === 0) {
+      showToast({
+        title: 'Log Kosong',
+        message: 'Belum ada catatan aktivitas untuk diekspor.',
+        type: 'info'
+      });
+      return;
+    }
+    let csv = "ID,Waktu,Aksi,No Voucher,Keterangan,Nominal,Detail,Pengguna\n";
+    logs.forEach(l => {
+      csv += `"${l.id}","${l.timestamp}","${l.action}","${l.voucherNo}","${(l.desc || '').replace(/"/g, '""')}","${l.amount}","${(l.details || '').replace(/"/g, '""')}","${l.user}"\n`;
+    });
+    const blob = new Blob([csv], {
+      type: 'text/csv;charset=utf-8;'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Audit_Log_MCC_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
   const handleChangePin = async e => {
     e.preventDefault();
     if (!pinForm.oldPin || pinForm.oldPin.length !== 6) {
@@ -1747,6 +2173,14 @@ const SettingsModal = ({
         message: 'PIN Admin 6 digit berhasil diperbarui.',
         type: 'success'
       });
+      StorageService.addAuditLog({
+        action: 'GANTI PIN',
+        voucherNo: '-',
+        desc: 'PIN Admin Keamanan Diperbarui',
+        amount: 0,
+        details: 'PIN otorisasi bendahara telah diubah oleh Admin.'
+      });
+      setAuditLogs(StorageService.getAuditLogs());
     }
   };
   const handleSaveProfile = e => {
@@ -1772,9 +2206,9 @@ const SettingsModal = ({
     className: "fas fa-sliders text-base"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     className: "text-sm font-black text-slate-800"
-  }, "Pengaturan Sistem Keuangan"), /*#__PURE__*/React.createElement("p", {
+  }, "Tata Kelola & Pengaturan"), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-slate-400"
-  }, "Profil Lembaga, Keamanan PIN, dan Informasi Sistem"))), /*#__PURE__*/React.createElement("button", {
+  }, "Profil Yayasan, Tutup Buku, Audit Log & Keamanan PIN"))), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1787,6 +2221,16 @@ const SettingsModal = ({
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-building mr-1.5"
   }), " Profil MCC"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setActiveTab('lock'),
+    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'lock' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-lock mr-1.5 text-amber-500"
+  }), " Tutup Buku"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setActiveTab('audit'),
+    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'audit' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-clock-rotate-left mr-1.5 text-blue-500"
+  }), " Riwayat Audit"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setActiveTab('security'),
     className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'security' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
   }, /*#__PURE__*/React.createElement("i", {
@@ -1876,7 +2320,107 @@ const SettingsModal = ({
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
     className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
-  }, "Simpan Profil"))), activeTab === 'security' && /*#__PURE__*/React.createElement("div", {
+  }, "Simpan Profil"))), activeTab === 'lock' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "p-3.5 bg-amber-50/80 rounded-xl border border-amber-200/90 text-xs text-amber-900 flex items-start space-x-2.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-lock text-amber-600 text-base mt-0.5"
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "font-bold block"
+  }, "Integritas Laporan & Kunci Periode (Tutup Buku)"), /*#__PURE__*/React.createElement("p", {
+    className: "text-[11px] text-amber-700 mt-0.5 leading-relaxed"
+  }, "Setelah laporan keuangan disahkan atau diaudit, Anda dapat mengunci periode transaksi. Transaksi pada atau sebelum tanggal penguncian tidak akan bisa diubah atau dihapus oleh siapapun."))), /*#__PURE__*/React.createElement("form", {
+    onSubmit: handleSaveLock,
+    className: "space-y-3"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-[11px] font-bold text-slate-600 mb-1"
+  }, "Kunci Seluruh Transaksi Hingga Tanggal:"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: lockedDateInput,
+    onChange: e => setLockedDateInput(e.target.value),
+    className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20",
+    required: true
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[11px] text-slate-500 block"
+  }, "Status Penguncian Saat Ini:"), /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-slate-800"
+  }, StorageService.getLockedDate() ? /*#__PURE__*/React.createElement("span", {
+    className: "text-amber-700 flex items-center mt-0.5"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-lock mr-1.5"
+  }), " Terkunci s/d ", formatDateId(StorageService.getLockedDate())) : /*#__PURE__*/React.createElement("span", {
+    className: "text-slate-400 mt-0.5 block"
+  }, "Tidak ada periode yang dikunci (Bebas Diedit)"))), StorageService.getLockedDate() && /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: handleUnlock,
+    className: "px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-bold transition flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-lock-open mr-1"
+  }), " Buka Kunci")), /*#__PURE__*/React.createElement("div", {
+    className: "pt-2 flex justify-end"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "submit",
+    className: "px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-check mr-1.5"
+  }), " Simpan Tutup Buku")))), activeTab === 'audit' && /*#__PURE__*/React.createElement("div", {
+    className: "space-y-3"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex justify-between items-center pb-2 border-b border-slate-100"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-slate-800 block"
+  }, "Log Audit Aktivitas Keuangan"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] text-slate-400"
+  }, "Mencatat mutasi, pengubahan, dan penghapusan data")), /*#__PURE__*/React.createElement("div", {
+    className: "flex space-x-1.5"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: handleExportAuditLogs,
+    className: "px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-bold transition flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-download mr-1 text-slate-500"
+  }), " Ekspor CSV"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: handleClearAuditLogs,
+    className: "px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-[11px] font-bold transition",
+    title: "Kosongkan Riwayat Log"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-trash"
+  })))), /*#__PURE__*/React.createElement("div", {
+    className: "max-h-64 overflow-y-auto space-y-2 pr-1"
+  }, auditLogs.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    className: "py-8 text-center text-slate-400 text-xs"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-clock-rotate-left text-2xl mb-1 text-slate-300 block"
+  }), "Belum ada riwayat perubahan yang tercatat.") : auditLogs.map(log => {
+    const badgeClass = log.action === 'TAMBAH' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : log.action === 'UBAH' ? 'bg-blue-50 text-blue-700 border-blue-200' : log.action === 'HAPUS' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-amber-50 text-amber-800 border-amber-200';
+    return /*#__PURE__*/React.createElement("div", {
+      key: log.id,
+      className: "p-2.5 bg-slate-50/80 rounded-xl border border-slate-200/80 text-xs"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center justify-between mb-1"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex items-center space-x-2"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: `px-2 py-0.5 rounded text-[9px] font-black border uppercase tracking-wider ${badgeClass}`
+    }, log.action), /*#__PURE__*/React.createElement("span", {
+      className: "font-mono-num font-bold text-slate-700 text-[11px]"
+    }, log.voucherNo !== '-' ? log.voucherNo : log.desc)), /*#__PURE__*/React.createElement("span", {
+      className: "text-[10px] text-slate-400 font-mono-num"
+    }, new Date(log.timestamp).toLocaleString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    }))), /*#__PURE__*/React.createElement("p", {
+      className: "text-[11px] text-slate-600"
+    }, log.details || log.desc), log.amount > 0 && /*#__PURE__*/React.createElement("span", {
+      className: "font-mono-num font-bold text-slate-800 text-[11px] block mt-1"
+    }, "Nominal: ", formatRupiah(log.amount)));
+  }))), activeTab === 'security' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "p-3.5 bg-teal-50/70 rounded-xl border border-teal-100 text-xs text-slate-700"
@@ -2204,6 +2748,7 @@ const App = () => {
   const [view, setView] = React.useState('dashboard'); // 'dashboard', 'journal', 'reports'
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [isSettingsOpen, setSettingsOpen] = React.useState(false);
+  const [settingsInitialTab, setSettingsInitialTab] = React.useState('profile');
   const [toast, setToast] = React.useState(null);
 
   // Mode Autentikasi Admin (Standar Boetje-Etty)
@@ -2394,7 +2939,10 @@ const App = () => {
   }), view === 'journal' && /*#__PURE__*/React.createElement(Journal, {
     state: state,
     dispatch: dispatch,
-    onSyncRequest: () => requireAdmin(() => setSettingsOpen(true)),
+    onSyncRequest: tab => requireAdmin(() => {
+      setSettingsInitialTab(tab || 'profile');
+      setSettingsOpen(true);
+    }),
     showToast: showToast,
     isAdmin: isAdmin,
     requireAdmin: requireAdmin
@@ -2450,7 +2998,8 @@ const App = () => {
       type: 'SET_INITIAL',
       payload: newData
     }),
-    showToast: showToast
+    showToast: showToast,
+    initialTab: settingsInitialTab
   }), /*#__PURE__*/React.createElement(ConfirmModal, {
     isOpen: isLogoutModalOpen,
     onClose: () => setLogoutModalOpen(false),

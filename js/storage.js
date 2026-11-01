@@ -211,7 +211,8 @@ const StorageService = {
                 type: item.type || "Penerimaan",
                 category: item.category || IN_CATEGORIES[0],
                 restriction: item.restriction || RESTRICTION_TYPES[0],
-                amount: parseFloat(item.amount || 0)
+                amount: parseFloat(item.amount || 0),
+                receiptUrl: item.receipt_url || item.receiptUrl || null
             }));
 
             StorageService.saveTransactions(sanitized);
@@ -229,21 +230,34 @@ const StorageService = {
             return { success: false, error: "Koneksi Supabase belum dikonfigurasi." };
         }
         try {
-            const rows = transactions.map(t => ({
-                id: String(t.id),
-                voucher_no: t.voucherNo || null,
-                date: t.date,
-                description: t.desc,
-                type: t.type,
-                category: t.category,
-                restriction: t.restriction,
-                amount: parseFloat(t.amount || 0),
-                updated_at: new Date().toISOString()
-            }));
+            const rows = transactions.map(t => {
+                const r = {
+                    id: String(t.id),
+                    voucher_no: t.voucherNo || null,
+                    date: t.date,
+                    description: t.desc,
+                    type: t.type,
+                    category: t.category,
+                    restriction: t.restriction,
+                    amount: parseFloat(t.amount || 0),
+                    updated_at: new Date().toISOString()
+                };
+                if (t.receiptUrl) r.receipt_url = t.receiptUrl;
+                return r;
+            });
 
-            const { error } = await client
+            let { error } = await client
                 .from('mcc_transactions')
                 .upsert(rows, { onConflict: 'id' });
+
+            if (error && error.message && error.message.includes('receipt_url')) {
+                // Retry tanpa kolom receipt_url jika Supabase belum di-alter
+                const cleanedRows = rows.map(({ receipt_url, ...rest }) => rest);
+                const retry = await client
+                    .from('mcc_transactions')
+                    .upsert(cleanedRows, { onConflict: 'id' });
+                error = retry.error;
+            }
 
             if (error) throw error;
             StorageService.setLastSync();
@@ -277,9 +291,21 @@ const StorageService = {
                     amount: parseFloat(transaction.amount || 0),
                     updated_at: new Date().toISOString()
                 };
-                const { error } = await client
+                if (transaction.receiptUrl) {
+                    row.receipt_url = transaction.receiptUrl;
+                }
+
+                let { error } = await client
                     .from('mcc_transactions')
                     .upsert(row, { onConflict: 'id' });
+
+                if (error && error.message && error.message.includes('receipt_url')) {
+                    delete row.receipt_url;
+                    const retry = await client
+                        .from('mcc_transactions')
+                        .upsert(row, { onConflict: 'id' });
+                    error = retry.error;
+                }
                 if (error) throw error;
             }
             return { success: true };
@@ -384,6 +410,102 @@ const StorageService = {
             return true;
         } catch (e) {
             console.error("Gagal menyimpan profil organisasi:", e);
+            return false;
+        }
+    },
+
+    // =========================================================================
+    // FITUR 2: TUTUP BUKU & PENGUNCIAN PERIODE (PERIOD LOCKING)
+    // =========================================================================
+    getLockedDate: () => {
+        try {
+            return localStorage.getItem(STORAGE_KEYS.LOCKED_DATE) || "";
+        } catch (e) {
+            return "";
+        }
+    },
+
+    setLockedDate: (dateStr) => {
+        try {
+            if (dateStr && String(dateStr).trim()) {
+                localStorage.setItem(STORAGE_KEYS.LOCKED_DATE, String(dateStr).trim());
+            } else {
+                localStorage.removeItem(STORAGE_KEYS.LOCKED_DATE);
+            }
+            return true;
+        } catch (e) {
+            console.error("Gagal menyimpan tanggal tutup buku:", e);
+            return false;
+        }
+    },
+
+    isDateLocked: (dateStr) => {
+        if (!dateStr) return false;
+        const lockedDate = StorageService.getLockedDate();
+        if (!lockedDate) return false;
+        return dateStr <= lockedDate;
+    },
+
+    // =========================================================================
+    // FITUR 3: RIWAYAT PERUBAHAN & AUDIT TRAIL
+    // =========================================================================
+    getAuditLogs: () => {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEYS.AUDIT_LOGS);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) return parsed;
+            }
+        } catch (e) {
+            console.error("Gagal membaca audit log:", e);
+        }
+        return [];
+    },
+
+    addAuditLog: (entry) => {
+        try {
+            const logs = StorageService.getAuditLogs();
+            const newLog = {
+                id: `log-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+                timestamp: new Date().toISOString(),
+                action: entry.action || 'MUTASI',
+                voucherNo: entry.voucherNo || '-',
+                desc: entry.desc || '',
+                amount: parseFloat(entry.amount || 0),
+                details: entry.details || '',
+                user: 'Bendahara (Admin)'
+            };
+            const updated = [newLog, ...logs].slice(0, 150);
+            localStorage.setItem(STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(updated));
+
+            // Sync ke Supabase mcc_audit_logs jika tabel tersedia
+            const client = StorageService.getSupabaseClient();
+            if (client) {
+                client.from('mcc_audit_logs').insert([{
+                    id: newLog.id,
+                    timestamp: newLog.timestamp,
+                    action: newLog.action,
+                    voucher_no: newLog.voucherNo,
+                    description: newLog.desc,
+                    amount: newLog.amount,
+                    details: newLog.details
+                }]).then(({ error }) => {
+                    // Silently ignore if table not created yet
+                }).catch(() => {});
+            }
+
+            return newLog;
+        } catch (e) {
+            console.error("Gagal menambah audit log:", e);
+            return null;
+        }
+    },
+
+    clearAuditLogs: () => {
+        try {
+            localStorage.removeItem(STORAGE_KEYS.AUDIT_LOGS);
+            return true;
+        } catch (e) {
             return false;
         }
     }
