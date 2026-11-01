@@ -1069,6 +1069,11 @@ const Journal = ({
     }
     return matchSearch && matchType && matchRest && matchDate;
   });
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window._currentJournalTransactions = filteredTransactions;
+    }
+  }, [filteredTransactions]);
   const sumIn = filteredTransactions.filter(t => t.type === 'Penerimaan').reduce((acc, t) => acc + (parseFloat(t.amount) || 0), 0);
   const sumOut = filteredTransactions.filter(t => t.type === 'Pengeluaran').reduce((acc, t) => acc + (parseFloat(t.amount) || 0), 0);
   const netFiltered = sumIn - sumOut;
@@ -1104,13 +1109,67 @@ const Journal = ({
   }, "Pencatatan mutasi kas harian dengan klasifikasi akun standar ISAK 35")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-wrap items-center gap-2"
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => window.print(),
-    className: "px-3 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100 transition flex items-center"
+    onClick: () => {
+      let periodLabel = 'Semua Periode Transaksi';
+      if (filterPeriod === 'THIS_MONTH') {
+        periodLabel = `Bulan ${new Date().toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        })}`;
+      } else if (filterPeriod === 'LAST_MONTH') {
+        const prev = new Date();
+        prev.setMonth(prev.getMonth() - 1);
+        periodLabel = `Bulan ${prev.toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        })}`;
+      } else if (filterPeriod === 'THIS_YEAR') {
+        periodLabel = `Tahun ${new Date().getFullYear()}`;
+      } else if (filterPeriod === 'CUSTOM') {
+        const start = customStartDate ? formatDateId(customStartDate) : 'Awal';
+        const end = customEndDate ? formatDateId(customEndDate) : 'Sekarang';
+        periodLabel = `${start} s.d. ${end}`;
+      }
+      ExportService.printJournal(filteredTransactions, {
+        filename: 'Buku_Jurnal_MCC',
+        periodText: `Periode: ${periodLabel}`,
+        org: StorageService.getOrgProfile()
+      });
+    },
+    className: "px-3 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100 transition flex items-center shadow-xs",
+    title: "Cetak Buku Jurnal Format Eksekutif (A4 Landscape Tanpa Terpotong)"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-print mr-1.5 text-slate-500"
   }), " Print"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => ExportService.toPDF('journalTableContainer', 'Buku_Jurnal_MCC'),
-    className: "px-3 py-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-100 transition flex items-center"
+    onClick: () => {
+      let periodLabel = 'Semua Periode Transaksi';
+      if (filterPeriod === 'THIS_MONTH') {
+        periodLabel = `Bulan ${new Date().toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        })}`;
+      } else if (filterPeriod === 'LAST_MONTH') {
+        const prev = new Date();
+        prev.setMonth(prev.getMonth() - 1);
+        periodLabel = `Bulan ${prev.toLocaleDateString('id-ID', {
+          month: 'long',
+          year: 'numeric'
+        })}`;
+      } else if (filterPeriod === 'THIS_YEAR') {
+        periodLabel = `Tahun ${new Date().getFullYear()}`;
+      } else if (filterPeriod === 'CUSTOM') {
+        const start = customStartDate ? formatDateId(customStartDate) : 'Awal';
+        const end = customEndDate ? formatDateId(customEndDate) : 'Sekarang';
+        periodLabel = `${start} s.d. ${end}`;
+      }
+      ExportService.exportJournalPDF(filteredTransactions, {
+        filename: 'Buku_Jurnal_MCC',
+        periodText: `Periode: ${periodLabel}`,
+        org: StorageService.getOrgProfile()
+      });
+    },
+    className: "px-3 py-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-100 transition flex items-center shadow-xs",
+    title: "Unduh Buku Jurnal Format PDF Eksekutif (Presentasi & Audit)"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-file-pdf mr-1.5 text-rose-600"
   }), " PDF"), /*#__PURE__*/React.createElement("button", {

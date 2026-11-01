@@ -74,10 +74,19 @@ body {
 
 /* Print Rules - Format Laporan Resmi Standar ISAK 35 */
 @media print {
+    @page {
+        size: A4 landscape;
+        margin: 8mm 10mm;
+    }
+
     body {
         background: #ffffff !important;
-        color: #000000 !important;
-        font-size: 10pt;
+        color: #0f172a !important;
+        font-size: 8.5pt !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
     .no-print {
@@ -88,24 +97,37 @@ body {
         display: block !important;
     }
 
-    .app-card {
+    main, .app-card, #root, #journalTableContainer {
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
     }
 
-    table {
+    #journalTableContainer .overflow-x-auto {
+        overflow: visible !important;
+    }
+
+    #journalTableContainer table {
         width: 100% !important;
+        table-layout: fixed !important;
         border-collapse: collapse !important;
     }
 
+    /* Proporsi kolom presisi 100% agar tidak ada yang terpotong ke tepi kanan */
+    #journalTableContainer th:nth-child(1), #journalTableContainer td:nth-child(1) { width: 14% !important; }
+    #journalTableContainer th:nth-child(2), #journalTableContainer td:nth-child(2) { width: 32% !important; }
+    #journalTableContainer th:nth-child(3), #journalTableContainer td:nth-child(3) { width: 18% !important; }
+    #journalTableContainer th:nth-child(4), #journalTableContainer td:nth-child(4) { width: 14% !important; }
+    #journalTableContainer th:nth-child(5), #journalTableContainer td:nth-child(5) { width: 11% !important; text-align: right !important; }
+    #journalTableContainer th:nth-child(6), #journalTableContainer td:nth-child(6) { width: 11% !important; text-align: right !important; }
+
     th, td {
         border-bottom: 1px solid #cbd5e1 !important;
-        padding: 6px 8px !important;
-    }
-
-    @page {
-        size: A4 portrait;
-        margin: 1.5cm;
+        padding: 5px 6px !important;
+        word-break: break-word !important;
     }
 }
