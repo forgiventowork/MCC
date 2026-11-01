@@ -2471,24 +2471,6 @@ const LoginModal = ({
       }, 750);
     }
   };
-  const handleKeypad = char => {
-    if (char === 'clear') {
-      setPin('');
-      setIsError(false);
-    } else if (char === 'back') {
-      setPin(prev => prev.slice(0, -1));
-      setIsError(false);
-    } else {
-      if (pin.length < 6) {
-        const nextVal = pin + char;
-        setPin(nextVal);
-        setIsError(false);
-        if (nextVal.length === 6) {
-          setTimeout(() => verifyInput(nextVal), 100);
-        }
-      }
-    }
-  };
   return /*#__PURE__*/React.createElement("div", {
     className: "fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2509,26 +2491,29 @@ const LoginModal = ({
   }, "Otorisasi Bendahara"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500 mb-6 font-medium px-2 leading-relaxed"
   }, "Silakan masukkan 6 digit PIN keamanan untuk memverifikasi identitas Anda dan mengakses kelola kas."), /*#__PURE__*/React.createElement("div", {
-    className: `w-full relative mb-5 flex justify-center gap-1.5 sm:gap-2.5 ${isError ? 'animate-shake' : ''}`
+    onClick: () => inputRef.current && inputRef.current.focus(),
+    className: `w-full relative mb-6 flex justify-center gap-2 sm:gap-2.5 cursor-pointer ${isError ? 'animate-shake' : ''}`
   }, [0, 1, 2, 3, 4, 5].map(idx => {
     const isFilled = idx < pin.length;
     const isCurrent = idx === pin.length && isFocused;
-    let boxStyle = "w-10 h-12 sm:w-12 sm:h-14 rounded-xl border-2 flex items-center justify-center transition-all ";
+    let boxStyle = "w-11 h-14 sm:w-12 sm:h-16 rounded-2xl border-2 flex items-center justify-center transition-all ";
     if (isError) {
-      boxStyle += "border-rose-400 bg-rose-50";
+      boxStyle += "border-rose-400 bg-rose-50/70 shadow-xs";
     } else if (isFilled) {
-      boxStyle += "border-[#00a884] bg-white shadow-xs transform scale-[1.04]";
+      boxStyle += "border-[#00a884] bg-white shadow-sm transform scale-[1.03]";
     } else if (isCurrent) {
-      boxStyle += "border-teal-300 bg-white shadow-xs";
+      boxStyle += "border-[#00a884] bg-white ring-4 ring-[#00a884]/15 shadow-sm";
     } else {
-      boxStyle += "border-slate-200 bg-slate-50/60";
+      boxStyle += "border-slate-200 bg-slate-50/70";
     }
     return /*#__PURE__*/React.createElement("div", {
       key: idx,
       className: boxStyle
-    }, isFilled && /*#__PURE__*/React.createElement("div", {
-      className: `w-3 h-3 rounded-full shadow-xs ${isError ? 'bg-rose-500' : 'bg-slate-800'}`
-    }));
+    }, isFilled ? /*#__PURE__*/React.createElement("div", {
+      className: `w-3.5 h-3.5 rounded-full shadow-xs transition-transform transform scale-100 ${isError ? 'bg-rose-500' : 'bg-slate-800'}`
+    }) : isCurrent ? /*#__PURE__*/React.createElement("div", {
+      className: "w-0.5 h-5 bg-[#00a884] animate-pulse rounded-full"
+    }) : null);
   }), /*#__PURE__*/React.createElement("input", {
     ref: inputRef,
     type: "tel",
@@ -2540,28 +2525,7 @@ const LoginModal = ({
     onFocus: () => setIsFocused(true),
     onBlur: () => setIsFocused(false),
     className: "absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-3 gap-2 w-full mb-4"
-  }, [1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => /*#__PURE__*/React.createElement("button", {
-    key: num,
-    type: "button",
-    onClick: () => handleKeypad(String(num)),
-    className: "h-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center border border-slate-100 active:scale-95"
-  }, num)), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => handleKeypad('clear'),
-    className: "h-10 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 font-bold text-xs transition flex items-center justify-center border border-slate-100"
-  }, "C"), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => handleKeypad('0'),
-    className: "h-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center border border-slate-100 active:scale-95"
-  }, "0"), /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    onClick: () => handleKeypad('back'),
-    className: "h-10 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition flex items-center justify-center border border-slate-100"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-delete-left text-sm"
-  }))), /*#__PURE__*/React.createElement("button", {
+  })), /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: () => verifyInput(pin),
     className: "w-full py-3.5 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold rounded-2xl transition text-xs shadow-md"

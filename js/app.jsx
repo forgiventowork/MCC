@@ -2254,25 +2254,6 @@ const LoginModal = ({ isOpen, onClose, onSuccess, showToast }) => {
         }
     };
 
-    const handleKeypad = (char) => {
-        if (char === 'clear') {
-            setPin('');
-            setIsError(false);
-        } else if (char === 'back') {
-            setPin(prev => prev.slice(0, -1));
-            setIsError(false);
-        } else {
-            if (pin.length < 6) {
-                const nextVal = pin + char;
-                setPin(nextVal);
-                setIsError(false);
-                if (nextVal.length === 6) {
-                    setTimeout(() => verifyInput(nextVal), 100);
-                }
-            }
-        }
-    };
-
     return (
         <div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in no-print">
             <div className="bg-white w-full max-w-sm rounded-[28px] p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
@@ -2299,28 +2280,33 @@ const LoginModal = ({ isOpen, onClose, onSuccess, showToast }) => {
                         Silakan masukkan 6 digit PIN keamanan untuk memverifikasi identitas Anda dan mengakses kelola kas.
                     </p>
 
-                    {/* 6 PIN Display Boxes (Standar Boetje-Etty) */}
-                    <div className={`w-full relative mb-5 flex justify-center gap-1.5 sm:gap-2.5 ${isError ? 'animate-shake' : ''}`}>
+                    {/* 6 PIN Display Boxes */}
+                    <div 
+                        onClick={() => inputRef.current && inputRef.current.focus()}
+                        className={`w-full relative mb-6 flex justify-center gap-2 sm:gap-2.5 cursor-pointer ${isError ? 'animate-shake' : ''}`}
+                    >
                         {[0, 1, 2, 3, 4, 5].map((idx) => {
                             const isFilled = idx < pin.length;
                             const isCurrent = idx === pin.length && isFocused;
 
-                            let boxStyle = "w-10 h-12 sm:w-12 sm:h-14 rounded-xl border-2 flex items-center justify-center transition-all ";
+                            let boxStyle = "w-11 h-14 sm:w-12 sm:h-16 rounded-2xl border-2 flex items-center justify-center transition-all ";
                             if (isError) {
-                                boxStyle += "border-rose-400 bg-rose-50";
+                                boxStyle += "border-rose-400 bg-rose-50/70 shadow-xs";
                             } else if (isFilled) {
-                                boxStyle += "border-[#00a884] bg-white shadow-xs transform scale-[1.04]";
+                                boxStyle += "border-[#00a884] bg-white shadow-sm transform scale-[1.03]";
                             } else if (isCurrent) {
-                                boxStyle += "border-teal-300 bg-white shadow-xs";
+                                boxStyle += "border-[#00a884] bg-white ring-4 ring-[#00a884]/15 shadow-sm";
                             } else {
-                                boxStyle += "border-slate-200 bg-slate-50/60";
+                                boxStyle += "border-slate-200 bg-slate-50/70";
                             }
 
                             return (
                                 <div key={idx} className={boxStyle}>
-                                    {isFilled && (
-                                        <div className={`w-3 h-3 rounded-full shadow-xs ${isError ? 'bg-rose-500' : 'bg-slate-800'}`}></div>
-                                    )}
+                                    {isFilled ? (
+                                        <div className={`w-3.5 h-3.5 rounded-full shadow-xs transition-transform transform scale-100 ${isError ? 'bg-rose-500' : 'bg-slate-800'}`}></div>
+                                    ) : isCurrent ? (
+                                        <div className="w-0.5 h-5 bg-[#00a884] animate-pulse rounded-full"></div>
+                                    ) : null}
                                 </div>
                             );
                         })}
@@ -2338,41 +2324,6 @@ const LoginModal = ({ isOpen, onClose, onSuccess, showToast }) => {
                             onBlur={() => setIsFocused(false)}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                         />
-                    </div>
-
-                    {/* Touch Numeric Keypad untuk Kenyamanan Smartphone */}
-                    <div className="grid grid-cols-3 gap-2 w-full mb-4">
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                            <button
-                                key={num}
-                                type="button"
-                                onClick={() => handleKeypad(String(num))}
-                                className="h-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center border border-slate-100 active:scale-95"
-                            >
-                                {num}
-                            </button>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => handleKeypad('clear')}
-                            className="h-10 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 font-bold text-xs transition flex items-center justify-center border border-slate-100"
-                        >
-                            C
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => handleKeypad('0')}
-                            className="h-10 rounded-xl bg-slate-50 hover:bg-slate-100 active:bg-slate-200 text-slate-800 font-bold text-base transition flex items-center justify-center border border-slate-100 active:scale-95"
-                        >
-                            0
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => handleKeypad('back')}
-                            className="h-10 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-500 transition flex items-center justify-center border border-slate-100"
-                        >
-                            <i className="fas fa-delete-left text-sm"></i>
-                        </button>
                     </div>
 
                     <button
