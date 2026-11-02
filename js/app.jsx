@@ -293,115 +293,158 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                     <p className="text-xs text-slate-500 font-medium mt-0.5">Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care</p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2.5">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
                     {/* Search Bar Input */}
-                    <div className="relative">
+                    <div className="relative w-full sm:w-56">
                         <i className="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         <input 
                             type="text" 
                             placeholder="Cari transaksi..."
                             onClick={onNavigateToJournal}
                             readOnly
-                            className="w-48 sm:w-56 pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 placeholder:text-slate-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
+                            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 placeholder:text-slate-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
                         />
                     </div>
 
                     {/* Action Button: Catat Transaksi Baru (Otorisasi Admin) */}
                     <button 
                         onClick={() => requireAdmin ? requireAdmin(onOpenNewTx) : onOpenNewTx()}
-                        className="px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm flex items-center transition"
+                        className="w-full sm:w-auto px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm flex items-center justify-center transition"
                     >
                         <i className="fas fa-plus mr-1.5 text-xs"></i> Catat Transaksi
                     </button>
                 </div>
             </div>
 
-            {/* Top 5 KPI Metric Cards (Sesuai Referensi Gambar) */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {/* Top 5 KPI Metric Cards (Sempurna & Utuh di Mode Smartphone) */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
                 {/* KPI 1: KAS & BANK */}
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-11 h-11 rounded-2xl bg-[#00a884] flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i className="fas fa-building-columns text-base"></i>
+                <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#00a884] flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                                <i className="fas fa-building-columns text-sm sm:text-base"></i>
+                            </div>
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                Aktif
+                            </span>
                         </div>
-                        <div className="overflow-hidden">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate">KAS & BANK LIKUID</span>
-                            <span className="text-xs font-black text-slate-800 font-mono-num truncate block">{formatRupiah(totalCash)}</span>
+                        <div>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                                KAS & BANK LIKUID
+                            </span>
+                            <span className="text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-slate-800 font-mono-num block mt-1 whitespace-nowrap">
+                                {formatRupiah(totalCash)}
+                            </span>
                         </div>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
                         <span>Saldo Operasional</span>
-                        <span className="text-emerald-600 font-bold">Aktif</span>
+                        <span className="text-emerald-600 font-bold">Likuid</span>
                     </div>
                 </div>
 
                 {/* KPI 2: PENERIMAAN HIBAH */}
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-11 h-11 rounded-2xl bg-[#0d9488] flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i className="fas fa-hand-holding-dollar text-base"></i>
+                <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#0d9488] flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                                <i className="fas fa-hand-holding-dollar text-sm sm:text-base"></i>
+                            </div>
+                            <span className="text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
+                                {transactions.filter(t => t.type === 'Penerimaan').length} Tx
+                            </span>
                         </div>
-                        <div className="overflow-hidden">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate">TOTAL PENERIMAAN</span>
-                            <span className="text-xs font-black text-emerald-600 font-mono-num truncate block">+{formatRupiah(totalIncome)}</span>
+                        <div>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                                TOTAL PENERIMAAN
+                            </span>
+                            <span className="text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-emerald-600 font-mono-num block mt-1 whitespace-nowrap">
+                                +{formatRupiah(totalIncome)}
+                            </span>
                         </div>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
                         <span>Hibah & Donasi</span>
-                        <span className="font-bold text-slate-700">{transactions.filter(t => t.type === 'Penerimaan').length} Tx</span>
+                        <span className="font-bold text-slate-700">Masuk</span>
                     </div>
                 </div>
 
                 {/* KPI 3: BEBAN TERBAYAR */}
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-11 h-11 rounded-2xl bg-[#f59e0b] flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i className="fas fa-receipt text-base"></i>
+                <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#f59e0b] flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                                <i className="fas fa-receipt text-sm sm:text-base"></i>
+                            </div>
+                            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                                {transactions.filter(t => t.type === 'Pengeluaran').length} Tx
+                            </span>
                         </div>
-                        <div className="overflow-hidden">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate">BEBAN PROGRAM & OPS</span>
-                            <span className="text-xs font-black text-rose-600 font-mono-num truncate block">-{formatRupiah(totalExpense)}</span>
+                        <div>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                                BEBAN PROGRAM & OPS
+                            </span>
+                            <span className="text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-rose-600 font-mono-num block mt-1 whitespace-nowrap">
+                                -{formatRupiah(totalExpense)}
+                            </span>
                         </div>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
                         <span>Realisasi Dana</span>
-                        <span className="font-bold text-slate-700">{transactions.filter(t => t.type === 'Pengeluaran').length} Tx</span>
+                        <span className="font-bold text-rose-600">Terpakai</span>
                     </div>
                 </div>
 
                 {/* KPI 4: SURPLUS (DEFISIT) */}
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-11 h-11 rounded-2xl bg-[#10b981] flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i className="fas fa-arrow-trend-up text-base"></i>
+                <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#10b981] flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                                <i className="fas fa-arrow-trend-up text-sm sm:text-base"></i>
+                            </div>
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                ISAK 35
+                            </span>
                         </div>
-                        <div className="overflow-hidden">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate">SURPLUS BERJALAN</span>
-                            <span className={`text-xs font-black font-mono-num truncate block ${surplusDeficit >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                        <div>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                                SURPLUS BERJALAN
+                            </span>
+                            <span className={`text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black font-mono-num block mt-1 whitespace-nowrap ${surplusDeficit >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                                 {surplusDeficit >= 0 ? '+' : ''}{formatRupiah(surplusDeficit)}
                             </span>
                         </div>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
                         <span>Kenaikan Aset Neto</span>
-                        <span className="font-bold text-emerald-600">ISAK 35</span>
+                        <span className="font-bold text-emerald-600">Surplus</span>
                     </div>
                 </div>
 
                 {/* KPI 5: KETAHANAN KAS */}
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition col-span-2 md:col-span-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="w-11 h-11 rounded-2xl bg-[#0284c7] flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i className="fas fa-paper-plane text-base"></i>
+                <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition col-span-2 md:col-span-1">
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#0284c7] flex items-center justify-center text-white shadow-xs flex-shrink-0">
+                                <i className="fas fa-paper-plane text-sm sm:text-base"></i>
+                            </div>
+                            <span className="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">
+                                Efisiensi {programEfficiencyRatio}%
+                            </span>
                         </div>
-                        <div className="overflow-hidden">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate">KETAHANAN KAS</span>
-                            <span className="text-xs font-black text-slate-800 font-mono-num truncate block">{runwayMonths} Bulan</span>
+                        <div>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight">
+                                KETAHANAN KAS
+                            </span>
+                            <span className="text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-slate-800 font-mono-num block mt-1 whitespace-nowrap">
+                                {runwayMonths} Bulan
+                            </span>
                         </div>
                     </div>
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                        <span>Efisiensi Program</span>
-                        <span className="font-bold text-teal-600 font-mono-num">{programEfficiencyRatio}%</span>
+                    <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
+                        <span>Rasio Operasional</span>
+                        <span className="font-bold text-teal-600 font-mono-num">Aman</span>
                     </div>
                 </div>
             </div>
@@ -1744,7 +1787,7 @@ const Reports = ({ transactions }) => {
             </div>
 
             {/* Kertas Lembar Laporan Keuangan (Printable A4 Sheet) */}
-            <div id={activeReport} className="bg-white p-8 sm:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto print:p-0 print:border-none print:shadow-none">
+            <div id={activeReport} className="bg-white p-4 sm:p-8 md:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto overflow-x-auto print:p-0 print:border-none print:shadow-none">
                 {/* Kop Surat Entitas Nirlaba Resmi */}
                 <div className="text-center pb-6 border-b-2 border-slate-800 mb-6">
                     <h2 className="text-xl font-black uppercase tracking-wider text-slate-900">{org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}</h2>

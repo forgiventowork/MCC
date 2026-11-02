@@ -337,9 +337,9 @@ const Dashboard = ({
   }, "Dashboard"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500 font-medium mt-0.5"
   }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-wrap items-center gap-2.5"
+    className: "flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "relative"
+    className: "relative w-full sm:w-56"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"
   }), /*#__PURE__*/React.createElement("input", {
@@ -347,105 +347,105 @@ const Dashboard = ({
     placeholder: "Cari transaksi...",
     onClick: onNavigateToJournal,
     readOnly: true,
-    className: "w-48 sm:w-56 pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-700 placeholder:text-slate-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
+    className: "w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 placeholder:text-slate-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
   })), /*#__PURE__*/React.createElement("button", {
     onClick: () => requireAdmin ? requireAdmin(onOpenNewTx) : onOpenNewTx(),
-    className: "px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm flex items-center transition"
+    className: "w-full sm:w-auto px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-plus mr-1.5 text-xs"
   }), " Catat Transaksi"))), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
+    className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-3 mb-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-11 h-11 rounded-2xl bg-[#00a884] flex items-center justify-center text-white shadow-sm flex-shrink-0"
+    className: "w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#00a884] flex items-center justify-center text-white shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-building-columns text-base"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate"
+    className: "fas fa-building-columns text-sm sm:text-base"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200"
+  }, "Aktif")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight"
   }, "KAS & BANK LIKUID"), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-black text-slate-800 font-mono-num truncate block"
+    className: "text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-slate-800 font-mono-num block mt-1 whitespace-nowrap"
   }, formatRupiah(totalCash)))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"
+    className: "pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500"
   }, /*#__PURE__*/React.createElement("span", null, "Saldo Operasional"), /*#__PURE__*/React.createElement("span", {
     className: "text-emerald-600 font-bold"
-  }, "Aktif"))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, "Likuid"))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-3 mb-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-11 h-11 rounded-2xl bg-[#0d9488] flex items-center justify-center text-white shadow-sm flex-shrink-0"
+    className: "w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#0d9488] flex items-center justify-center text-white shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-hand-holding-dollar text-base"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate"
+    className: "fas fa-hand-holding-dollar text-sm sm:text-base"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200"
+  }, transactions.filter(t => t.type === 'Penerimaan').length, " Tx")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight"
   }, "TOTAL PENERIMAAN"), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-black text-emerald-600 font-mono-num truncate block"
+    className: "text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-emerald-600 font-mono-num block mt-1 whitespace-nowrap"
   }, "+", formatRupiah(totalIncome)))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"
+    className: "pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500"
   }, /*#__PURE__*/React.createElement("span", null, "Hibah & Donasi"), /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-slate-700"
-  }, transactions.filter(t => t.type === 'Penerimaan').length, " Tx"))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, "Masuk"))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-3 mb-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-11 h-11 rounded-2xl bg-[#f59e0b] flex items-center justify-center text-white shadow-sm flex-shrink-0"
+    className: "w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#f59e0b] flex items-center justify-center text-white shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-receipt text-base"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate"
+    className: "fas fa-receipt text-sm sm:text-base"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200"
+  }, transactions.filter(t => t.type === 'Pengeluaran').length, " Tx")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight"
   }, "BEBAN PROGRAM & OPS"), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-black text-rose-600 font-mono-num truncate block"
+    className: "text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-rose-600 font-mono-num block mt-1 whitespace-nowrap"
   }, "-", formatRupiah(totalExpense)))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"
+    className: "pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500"
   }, /*#__PURE__*/React.createElement("span", null, "Realisasi Dana"), /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-slate-700"
-  }, transactions.filter(t => t.type === 'Pengeluaran').length, " Tx"))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+    className: "font-bold text-rose-600"
+  }, "Terpakai"))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-3 mb-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-11 h-11 rounded-2xl bg-[#10b981] flex items-center justify-center text-white shadow-sm flex-shrink-0"
+    className: "w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#10b981] flex items-center justify-center text-white shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-arrow-trend-up text-base"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate"
+    className: "fas fa-arrow-trend-up text-sm sm:text-base"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200"
+  }, "ISAK 35")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight"
   }, "SURPLUS BERJALAN"), /*#__PURE__*/React.createElement("span", {
-    className: `text-xs font-black font-mono-num truncate block ${surplusDeficit >= 0 ? 'text-emerald-600' : 'text-rose-600'}`
+    className: `text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black font-mono-num block mt-1 whitespace-nowrap ${surplusDeficit >= 0 ? 'text-emerald-600' : 'text-rose-600'}`
   }, surplusDeficit >= 0 ? '+' : '', formatRupiah(surplusDeficit)))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"
+    className: "pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500"
   }, /*#__PURE__*/React.createElement("span", null, "Kenaikan Aset Neto"), /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-emerald-600"
-  }, "ISAK 35"))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition col-span-2 md:col-span-1"
+  }, "Surplus"))), /*#__PURE__*/React.createElement("div", {
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition col-span-2 md:col-span-1"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center justify-between mb-2"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-3 mb-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-11 h-11 rounded-2xl bg-[#0284c7] flex items-center justify-center text-white shadow-sm flex-shrink-0"
+    className: "w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#0284c7] flex items-center justify-center text-white shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-paper-plane text-base"
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-slate-400 uppercase tracking-wider block truncate"
+    className: "fas fa-paper-plane text-sm sm:text-base"
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200"
+  }, "Efisiensi ", programEfficiencyRatio, "%")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block leading-tight"
   }, "KETAHANAN KAS"), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-black text-slate-800 font-mono-num truncate block"
+    className: "text-[13px] sm:text-sm lg:text-xs xl:text-sm font-black text-slate-800 font-mono-num block mt-1 whitespace-nowrap"
   }, runwayMonths, " Bulan"))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500"
-  }, /*#__PURE__*/React.createElement("span", null, "Efisiensi Program"), /*#__PURE__*/React.createElement("span", {
+    className: "pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500"
+  }, /*#__PURE__*/React.createElement("span", null, "Rasio Operasional"), /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-teal-600 font-mono-num"
-  }, programEfficiencyRatio, "%")))), /*#__PURE__*/React.createElement("div", {
+  }, "Aman")))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-1 lg:grid-cols-12 gap-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-5 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between"
@@ -1785,7 +1785,7 @@ const Reports = ({
     className: "fas fa-file-excel mr-1.5"
   }), " Excel"))), /*#__PURE__*/React.createElement("div", {
     id: activeReport,
-    className: "bg-white p-8 sm:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto print:p-0 print:border-none print:shadow-none"
+    className: "bg-white p-4 sm:p-8 md:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto overflow-x-auto print:p-0 print:border-none print:shadow-none"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-center pb-6 border-b-2 border-slate-800 mb-6"
   }, /*#__PURE__*/React.createElement("h2", {
