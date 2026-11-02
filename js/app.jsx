@@ -2973,7 +2973,9 @@ const App = () => {
                     {/* Footer Halaman */}
                     <footer className="mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2">
                         <p>&copy; {new Date().getFullYear()} Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard</p>
-                        <p className="font-semibold text-slate-500">OlivaFinance System</p>
+                        <p className="font-semibold text-slate-500">
+                            OlivaFinance System • Created by <span className="font-bold text-[#00a884]">Forgivento</span>
+                        </p>
                     </footer>
                 </div>
 

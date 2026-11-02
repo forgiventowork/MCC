@@ -3021,7 +3021,9 @@ const App = () => {
     className: "mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2"
   }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard"), /*#__PURE__*/React.createElement("p", {
     className: "font-semibold text-slate-500"
-  }, "OlivaFinance System"))), /*#__PURE__*/React.createElement("nav", {
+  }, "OlivaFinance System • Created by ", /*#__PURE__*/React.createElement("span", {
+    className: "font-bold text-[#00a884]"
+  }, "Forgivento")))), /*#__PURE__*/React.createElement("nav", {
     className: "md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-30 px-2 py-1 flex items-center justify-around shadow-[0_-2px_10px_rgba(0,0,0,0.05)] no-print"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => handleNavigate('dashboard'),
