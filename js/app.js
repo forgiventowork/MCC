@@ -1648,9 +1648,9 @@ const Journal = ({
 const OfficialSignatures = () => {
   const org = StorageService.getOrgProfile();
   return /*#__PURE__*/React.createElement("div", {
-    className: "mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center text-xs text-slate-800 px-2 sm:px-8 print:flex-row print:justify-between print:px-8"
+    className: "mt-14 pt-8 border-t border-slate-200 flex justify-between items-start text-center text-xs text-slate-800 px-8"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-full sm:w-56 print:w-56"
+    className: "w-56"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 mb-1"
   }, "Mengetahui,"), /*#__PURE__*/React.createElement("p", {
@@ -1661,10 +1661,10 @@ const OfficialSignatures = () => {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan & Cap]")), /*#__PURE__*/React.createElement("p", {
     className: "font-bold underline text-slate-800"
-  }, org.leaderName || 'M. Azis Pattimura, M.Si'), /*#__PURE__*/React.createElement("p", {
+  }, org.leaderName || 'Teria Salhuteru, S.Si.'), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
   }, "Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
-    className: "w-full sm:w-56 print:w-56"
+    className: "w-56"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 mb-1"
   }, "Ambon, ", new Date().toLocaleDateString('id-ID', {
@@ -1673,13 +1673,13 @@ const OfficialSignatures = () => {
     year: 'numeric'
   })), /*#__PURE__*/React.createElement("p", {
     className: "font-bold text-slate-800"
-  }, org.financeTitle || 'Bendahara / Manajer Keuangan'), /*#__PURE__*/React.createElement("div", {
+  }, org.financeTitle || 'Manajer Keuangan & Akuntansi'), /*#__PURE__*/React.createElement("div", {
     className: "h-16 flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan]")), /*#__PURE__*/React.createElement("p", {
     className: "font-bold underline text-slate-800"
-  }, org.financeName || 'Sarah Latuconsina, S.E.'), /*#__PURE__*/React.createElement("p", {
+  }, org.financeName || 'Grace Manuputty, S.E.'), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
   }, "Departemen Finansial & Akuntansi")));
 };
@@ -1764,57 +1764,85 @@ const Reports = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 hide-scrollbar"
+    className: "flex items-center gap-1.5 overflow-x-auto w-full pb-1 md:pb-0 hide-scrollbar"
   }, reportTabs.map(tab => /*#__PURE__*/React.createElement("button", {
     key: tab.id,
     onClick: () => setActiveReport(tab.id),
     className: `px-3 py-2 rounded-xl text-xs font-bold transition flex items-center whitespace-nowrap flex-shrink-0 ${activeReport === tab.id ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${tab.icon} mr-1.5`
-  }), " ", tab.title))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0"
+  }), " ", tab.title)))), /*#__PURE__*/React.createElement("div", {
+    className: "rounded-2xl border border-slate-300/80 shadow-xl overflow-hidden bg-slate-900"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bg-slate-800 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/80 no-print"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2.5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "w-7 h-7 rounded-lg bg-rose-600 flex items-center justify-center text-white text-xs font-bold shadow-xs"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-file-pdf"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-2"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-xs font-bold text-white tracking-wide"
+  }, `Laporan_${activeReport.toUpperCase()}_MCC.pdf`), /*#__PURE__*/React.createElement("span", {
+    className: "px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+  }, "ISAK 35 Baku")), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] text-slate-400"
+  }, "Lembar Kerja Resmi Standar A4 • Yayasan Moluccas Coastal Care"))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-1.5"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.printReport(activeReport),
-    className: "px-2.5 sm:px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition flex items-center justify-center shadow-sm flex-1 sm:flex-initial"
+    className: "px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow-xs",
+    title: "Cetak Laporan Format Baku"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-print mr-1 sm:mr-1.5"
+    className: "fas fa-print mr-1.5 text-slate-300"
   }), " Print"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-2.5 sm:px-3 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
+    className: "px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
+    title: "Unduh Format Dokumen PDF"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-pdf mr-1 sm:mr-1.5"
-  }), " PDF"), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-download mr-1.5"
+  }), " Unduh PDF"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToWord(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-2.5 sm:px-3 py-1.5 bg-sky-600 text-white hover:bg-sky-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
+    className: "px-2.5 py-1.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
+    title: "Ekspor Word (DOCX)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-word mr-1 sm:mr-1.5"
+    className: "fas fa-file-word mr-1.5 text-sky-300"
   }), " Word"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-2.5 sm:px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
+    className: "px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
+    title: "Ekspor Excel (XLSX)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-excel mr-1 sm:mr-1.5"
+    className: "fas fa-file-excel mr-1.5 text-emerald-300"
   }), " Excel"))), /*#__PURE__*/React.createElement("div", {
-    id: activeReport,
-    className: "bg-white p-4 sm:p-8 md:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto overflow-x-auto print:p-0 print:border-none print:shadow-none"
+    className: "bg-slate-200/90 p-3 sm:p-8 md:p-10 overflow-x-auto flex justify-center shadow-inner"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "text-center pb-6 border-b-2 border-slate-800 mb-6"
+    id: activeReport,
+    className: "bg-white p-8 sm:p-12 md:p-14 shadow-2xl border border-slate-300/80 text-slate-900 w-full max-w-[820px] min-w-[700px] mx-auto print:p-0 print:border-none print:shadow-none print:min-w-0 print:max-w-none"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "text-center pb-2 mb-4"
   }, /*#__PURE__*/React.createElement("h2", {
-    className: "text-xl font-black uppercase tracking-wider text-slate-900"
+    className: "text-lg sm:text-xl font-black uppercase tracking-wider text-slate-900"
   }, org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-600 mt-0.5"
-  }, org.legal || 'SK Kemenkumham RI: AHU-0014298.AH.01.04.Tahun 2020 • NPWP: 94.882.112.4-941.000'), /*#__PURE__*/React.createElement("p", {
+  }, org.legal || 'SK Kemenkumham RI No. AHU-0018921.AH.01.04.Tahun 2020'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500"
-  }, org.address || 'Kawasan Konservasi Teluk Ambon, Maluku, Indonesia'), /*#__PURE__*/React.createElement("div", {
-    className: "mt-4 pt-3 border-t border-slate-200"
+  }, org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku – Indonesia'), /*#__PURE__*/React.createElement("div", {
+    className: "border-b border-slate-200 mt-4"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "mt-4"
   }, /*#__PURE__*/React.createElement("h3", {
-    className: "text-sm font-black uppercase tracking-wide text-slate-800"
+    className: "text-sm font-black uppercase tracking-wide text-slate-900"
   }, reportTabs.find(t => t.id === activeReport)?.title.toUpperCase()), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs text-slate-500 font-medium"
+    className: "text-xs text-slate-500 font-medium mt-0.5"
   }, "Periode s.d. ", new Date().toLocaleDateString('id-ID', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
-  }), " (Dalam Rupiah)"))), activeReport === 'posisi_keuangan' && /*#__PURE__*/React.createElement("div", {
+  }), " (Dalam Rupiah)")), /*#__PURE__*/React.createElement("div", {
+    className: "border-b-2 border-slate-900 mt-4"
+  })), activeReport === 'posisi_keuangan' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-6 text-xs"
   }, /*#__PURE__*/React.createElement("table", {
     className: "w-full"
@@ -2087,7 +2115,7 @@ const Reports = ({
     className: "list-disc pl-5 space-y-1"
   }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Dasar Pengukuran:"), " Laporan keuangan disusun dengan konsep nilai historis (*historical cost*)."), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Klasifikasi Sumber Daya:"), " Dana diklasifikasikan menjadi ", /*#__PURE__*/React.createElement("em", null, "Aset Neto Tanpa Pembatasan"), " (dana bebas operasional) dan ", /*#__PURE__*/React.createElement("em", null, "Aset Neto Dengan Pembatasan"), " (dana terikat donor untuk program konservasi terumbu karang/mangrove)."), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "Pengakuan Pendapatan:"), " Hibah donor diakui saat diterima atau timbulnya hak penerimaan yang dapat diukur secara andal.")), /*#__PURE__*/React.createElement("h4", {
     className: "font-black text-sm text-slate-900 border-b border-slate-200 pb-1 mt-4"
-  }, "3. KAS DAN SETARA KAS"), /*#__PURE__*/React.createElement("p", null, "Posisi kas likuid per akhir periode adalah sebesar ", /*#__PURE__*/React.createElement("strong", null, formatRupiah(assets.cash)), ". Seluruh aset neto terikat dialokasikan sepenuhnya untuk pelaksanaan program konservasi pesisir sesuai dengan perjanjian donor.")), /*#__PURE__*/React.createElement(OfficialSignatures, null)));
+  }, "3. KAS DAN SETARA KAS"), /*#__PURE__*/React.createElement("p", null, "Posisi kas likuid per akhir periode adalah sebesar ", /*#__PURE__*/React.createElement("strong", null, formatRupiah(assets.cash)), ". Seluruh aset neto terikat dialokasikan sepenuhnya untuk pelaksanaan program konservasi pesisir sesuai dengan perjanjian donor.")), /*#__PURE__*/React.createElement(OfficialSignatures, null)))));
 };
 
 // ==========================================

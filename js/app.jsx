@@ -1673,24 +1673,24 @@ const Journal = ({ state, dispatch, onSyncRequest, showToast, isAdmin, requireAd
 const OfficialSignatures = () => {
     const org = StorageService.getOrgProfile();
     return (
-        <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center text-xs text-slate-800 px-2 sm:px-8 print:flex-row print:justify-between print:px-8">
-            <div className="w-full sm:w-56 print:w-56">
+        <div className="mt-14 pt-8 border-t border-slate-200 flex justify-between items-start text-center text-xs text-slate-800 px-8">
+            <div className="w-56">
                 <p className="text-slate-500 mb-1">Mengetahui,</p>
                 <p className="font-bold text-slate-800">{org.leaderTitle || 'Direktur Eksekutif'}</p>
                 <div className="h-16 flex items-center justify-center">
                     <span className="text-[10px] text-slate-300 italic">[Tanda Tangan & Cap]</span>
                 </div>
-                <p className="font-bold underline text-slate-800">{org.leaderName || 'M. Azis Pattimura, M.Si'}</p>
+                <p className="font-bold underline text-slate-800">{org.leaderName || 'Teria Salhuteru, S.Si.'}</p>
                 <p className="text-[10px] text-slate-400">Yayasan Moluccas Coastal Care</p>
             </div>
 
-            <div className="w-full sm:w-56 print:w-56">
+            <div className="w-56">
                 <p className="text-slate-500 mb-1">Ambon, {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <p className="font-bold text-slate-800">{org.financeTitle || 'Bendahara / Manajer Keuangan'}</p>
+                <p className="font-bold text-slate-800">{org.financeTitle || 'Manajer Keuangan & Akuntansi'}</p>
                 <div className="h-16 flex items-center justify-center">
                     <span className="text-[10px] text-slate-300 italic">[Tanda Tangan]</span>
                 </div>
-                <p className="font-bold underline text-slate-800">{org.financeName || 'Sarah Latuconsina, S.E.'}</p>
+                <p className="font-bold underline text-slate-800">{org.financeName || 'Grace Manuputty, S.E.'}</p>
                 <p className="text-[10px] text-slate-400">Departemen Finansial & Akuntansi</p>
             </div>
         </div>
@@ -1751,9 +1751,9 @@ const Reports = ({ transactions }) => {
 
     return (
         <div className="space-y-4 pb-12">
-            {/* Toolbar Laporan */}
+            {/* Toolbar Pemilihan Tab Laporan */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print">
-                <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 hide-scrollbar">
+                <div className="flex items-center gap-1.5 overflow-x-auto w-full pb-1 md:pb-0 hide-scrollbar">
                     {reportTabs.map(tab => (
                         <button
                             key={tab.id}
@@ -1764,49 +1764,90 @@ const Reports = ({ transactions }) => {
                         </button>
                     ))}
                 </div>
-
-                <div className="flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-                    <button 
-                        onClick={() => ExportService.printReport(activeReport)} 
-                        className="px-2.5 sm:px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition flex items-center justify-center shadow-sm flex-1 sm:flex-initial"
-                    >
-                        <i className="fas fa-print mr-1 sm:mr-1.5"></i> Print
-                    </button>
-                    <button 
-                        onClick={() => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`)} 
-                        className="px-2.5 sm:px-3 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
-                    >
-                        <i className="fas fa-file-pdf mr-1 sm:mr-1.5"></i> PDF
-                    </button>
-                    <button 
-                        onClick={() => ExportService.exportToWord(activeReport, `Laporan_${activeReport}_MCC`)} 
-                        className="px-2.5 sm:px-3 py-1.5 bg-sky-600 text-white hover:bg-sky-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
-                    >
-                        <i className="fas fa-file-word mr-1 sm:mr-1.5"></i> Word
-                    </button>
-                    <button 
-                        onClick={() => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`)} 
-                        className="px-2.5 sm:px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
-                    >
-                        <i className="fas fa-file-excel mr-1 sm:mr-1.5"></i> Excel
-                    </button>
-                </div>
             </div>
 
-            {/* Kertas Lembar Laporan Keuangan (Printable A4 Sheet) */}
-            <div id={activeReport} className="bg-white p-4 sm:p-8 md:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto overflow-x-auto print:p-0 print:border-none print:shadow-none">
-                {/* Kop Surat Entitas Nirlaba Resmi */}
-                <div className="text-center pb-6 border-b-2 border-slate-800 mb-6">
-                    <h2 className="text-xl font-black uppercase tracking-wider text-slate-900">{org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}</h2>
-                    <p className="text-xs text-slate-600 mt-0.5">{org.legal || 'SK Kemenkumham RI: AHU-0014298.AH.01.04.Tahun 2020 • NPWP: 94.882.112.4-941.000'}</p>
-                    <p className="text-xs text-slate-500">{org.address || 'Kawasan Konservasi Teluk Ambon, Maluku, Indonesia'}</p>
-                    <div className="mt-4 pt-3 border-t border-slate-200">
-                        <h3 className="text-sm font-black uppercase tracking-wide text-slate-800">
-                            {reportTabs.find(t => t.id === activeReport)?.title.toUpperCase()}
-                        </h3>
-                        <p className="text-xs text-slate-500 font-medium">Periode s.d. {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} (Dalam Rupiah)</p>
+            {/* Frame PDF Viewer Baku Standar ISAK 35 */}
+            <div className="rounded-2xl border border-slate-300/80 shadow-xl overflow-hidden bg-slate-900">
+                {/* PDF Viewer Header Toolbar */}
+                <div className="bg-slate-800 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/80 no-print">
+                    <div className="flex items-center space-x-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-rose-600 flex items-center justify-center text-white text-xs font-bold shadow-xs">
+                            <i className="fas fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div className="flex items-center space-x-2">
+                                <span className="text-xs font-bold text-white tracking-wide">
+                                    {`Laporan_${activeReport.toUpperCase()}_MCC.pdf`}
+                                </span>
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                    ISAK 35 Baku
+                                </span>
+                            </div>
+                            <span className="text-[10px] text-slate-400">Lembar Kerja Resmi Standar A4 • Yayasan Moluccas Coastal Care</span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center space-x-1.5">
+                        <button 
+                            onClick={() => ExportService.printReport(activeReport)} 
+                            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow-xs"
+                            title="Cetak Laporan Format Baku"
+                        >
+                            <i className="fas fa-print mr-1.5 text-slate-300"></i> Print
+                        </button>
+                        <button 
+                            onClick={() => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`)} 
+                            className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center"
+                            title="Unduh Format Dokumen PDF"
+                        >
+                            <i className="fas fa-download mr-1.5"></i> Unduh PDF
+                        </button>
+                        <button 
+                            onClick={() => ExportService.exportToWord(activeReport, `Laporan_${activeReport}_MCC`)} 
+                            className="px-2.5 py-1.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center"
+                            title="Ekspor Word (DOCX)"
+                        >
+                            <i className="fas fa-file-word mr-1.5 text-sky-300"></i> Word
+                        </button>
+                        <button 
+                            onClick={() => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`)} 
+                            className="px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center"
+                            title="Ekspor Excel (XLSX)"
+                        >
+                            <i className="fas fa-file-excel mr-1.5 text-emerald-300"></i> Excel
+                        </button>
                     </div>
                 </div>
+
+                {/* Canvas Workspace PDF Viewer */}
+                <div className="bg-slate-200/90 p-3 sm:p-8 md:p-10 overflow-x-auto flex justify-center shadow-inner">
+                    {/* Kertas Lembar Laporan Keuangan Baku (A4 Proportions) */}
+                    <div 
+                        id={activeReport} 
+                        className="bg-white p-8 sm:p-12 md:p-14 shadow-2xl border border-slate-300/80 text-slate-900 w-full max-w-[820px] min-w-[700px] mx-auto print:p-0 print:border-none print:shadow-none print:min-w-0 print:max-w-none"
+                    >
+                        {/* Kop Surat Entitas Nirlaba Resmi */}
+                        <div className="text-center pb-2 mb-4">
+                            <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-slate-900">
+                                {org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}
+                            </h2>
+                            <p className="text-xs text-slate-600 mt-0.5">
+                                {org.legal || 'SK Kemenkumham RI No. AHU-0018921.AH.01.04.Tahun 2020'}
+                            </p>
+                            <p className="text-xs text-slate-500">
+                                {org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku – Indonesia'}
+                            </p>
+                            <div className="border-b border-slate-200 mt-4"></div>
+                            <div className="mt-4">
+                                <h3 className="text-sm font-black uppercase tracking-wide text-slate-900">
+                                    {reportTabs.find(t => t.id === activeReport)?.title.toUpperCase()}
+                                </h3>
+                                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                                    Periode s.d. {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} (Dalam Rupiah)
+                                </p>
+                            </div>
+                            <div className="border-b-2 border-slate-900 mt-4"></div>
+                        </div>
 
                 {/* Konten Laporan Sesuai Tab Aktif */}
                 {activeReport === 'posisi_keuangan' && (
@@ -2010,6 +2051,8 @@ const Reports = ({ transactions }) => {
 
                 {/* Tanda Tangan Resmi Pengurus */}
                 <OfficialSignatures />
+                    </div>
+                </div>
             </div>
         </div>
     );
