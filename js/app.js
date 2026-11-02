@@ -2324,32 +2324,69 @@ const SettingsModal = ({
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-times text-xs"
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "flex space-x-2 sm:space-x-3 border-b border-slate-100 mt-4 text-xs font-bold overflow-x-auto whitespace-nowrap hide-scrollbar"
+    className: "sm:hidden grid grid-cols-2 gap-1.5 p-1.5 bg-slate-100/80 border border-slate-200/90 rounded-2xl mt-4 text-xs font-bold"
   }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
     onClick: () => setActiveTab('profile'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'profile' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+    className: `px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'profile' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas fa-building mr-1.5 text-xs ${activeTab === 'profile' ? 'text-white' : 'text-[#00a884]'}`
+  }), " Profil MCC"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setActiveTab('lock'),
+    className: `px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'lock' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas fa-lock mr-1.5 text-xs ${activeTab === 'lock' ? 'text-white' : 'text-amber-500'}`
+  }), " Tutup Buku"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setActiveTab('audit'),
+    className: `px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'audit' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas fa-clock-rotate-left mr-1.5 text-xs ${activeTab === 'audit' ? 'text-white' : 'text-blue-500'}`
+  }), " Riwayat Audit"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setActiveTab('security'),
+    className: `px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'security' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas fa-shield-halved mr-1.5 text-xs ${activeTab === 'security' ? 'text-white' : 'text-rose-500'}`
+  }), " PIN Admin"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setActiveTab('about'),
+    className: `col-span-2 px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'about' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `fas fa-circle-info mr-1.5 text-xs ${activeTab === 'about' ? 'text-white' : 'text-teal-600'}`
+  }), " Tentang Sistem")), /*#__PURE__*/React.createElement("div", {
+    className: "hidden sm:flex items-center gap-1.5 p-1 bg-slate-100/80 border border-slate-200/80 rounded-2xl mt-4 text-xs font-bold"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setActiveTab('profile'),
+    className: `px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'profile' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-building mr-1.5"
   }), " Profil MCC"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
     onClick: () => setActiveTab('lock'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'lock' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+    className: `px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'lock' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-lock mr-1.5 text-amber-500"
+    className: `fas fa-lock mr-1.5 ${activeTab === 'lock' ? 'text-white' : 'text-amber-500'}`
   }), " Tutup Buku"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
     onClick: () => setActiveTab('audit'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'audit' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+    className: `px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'audit' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-clock-rotate-left mr-1.5 text-blue-500"
+    className: `fas fa-clock-rotate-left mr-1.5 ${activeTab === 'audit' ? 'text-white' : 'text-blue-500'}`
   }), " Riwayat Audit"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
     onClick: () => setActiveTab('security'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'security' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+    className: `px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'security' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-shield-halved mr-1.5"
+    className: `fas fa-shield-halved mr-1.5 ${activeTab === 'security' ? 'text-white' : 'text-rose-500'}`
   }), " PIN Admin"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
     onClick: () => setActiveTab('about'),
-    className: `pb-2.5 border-b-2 transition flex items-center ${activeTab === 'about' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`
+    className: `px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'about' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-circle-info mr-1.5 text-teal-600"
+    className: `fas fa-circle-info mr-1.5 ${activeTab === 'about' ? 'text-white' : 'text-teal-600'}`
   }), " Tentang Sistem")), /*#__PURE__*/React.createElement("div", {
     className: "pt-4"
   }, activeTab === 'profile' && /*#__PURE__*/React.createElement("form", {
@@ -2429,7 +2466,7 @@ const SettingsModal = ({
     className: "pt-2 flex justify-end"
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
-    className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
+    className: "w-full sm:w-auto px-5 py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
   }, "Simpan Profil"))), activeTab === 'lock' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2452,7 +2489,7 @@ const SettingsModal = ({
     className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20",
     required: true
   })), /*#__PURE__*/React.createElement("div", {
-    className: "p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between"
+    className: "p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "text-[11px] text-slate-500 block"
   }, "Status Penguncian Saat Ini:"), /*#__PURE__*/React.createElement("span", {
@@ -2473,19 +2510,19 @@ const SettingsModal = ({
     className: "pt-2 flex justify-end"
   }, /*#__PURE__*/React.createElement("button", {
     type: "submit",
-    className: "px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center"
+    className: "w-full sm:w-auto px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-check mr-1.5"
   }), " Simpan Tutup Buku")))), activeTab === 'audit' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-3"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between items-center pb-2 border-b border-slate-100"
+    className: "flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-2 border-b border-slate-100"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "text-xs font-bold text-slate-800 block"
   }, "Log Audit Aktivitas Keuangan"), /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-400"
   }, "Mencatat mutasi, pengubahan, dan penghapusan data")), /*#__PURE__*/React.createElement("div", {
-    className: "flex space-x-1.5"
+    className: "flex space-x-1.5 w-full sm:w-auto justify-end"
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: handleExportAuditLogs,
@@ -2585,7 +2622,7 @@ const SettingsModal = ({
     className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num tracking-widest text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20",
     required: true
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "pt-2 flex justify-between items-center"
+    className: "pt-2 flex flex-col sm:flex-row justify-between items-center gap-2.5"
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: async () => {
@@ -2601,10 +2638,10 @@ const SettingsModal = ({
         type: 'info'
       });
     },
-    className: "text-[11px] text-slate-400 hover:text-slate-600 underline font-medium"
+    className: "text-[11px] text-slate-400 hover:text-slate-600 underline font-medium order-2 sm:order-1"
   }, "Kembalikan ke Default (123456)"), /*#__PURE__*/React.createElement("button", {
     type: "submit",
-    className: "px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition"
+    className: "w-full sm:w-auto px-5 py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition text-center order-1 sm:order-2"
   }, "Simpan PIN Baru")))), activeTab === 'about' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {

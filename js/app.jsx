@@ -2214,37 +2214,82 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                     </button>
                 </div>
 
-                {/* Tab Navigasi */}
-                <div className="flex space-x-2 sm:space-x-3 border-b border-slate-100 mt-4 text-xs font-bold overflow-x-auto whitespace-nowrap hide-scrollbar">
+                {/* Tab Navigasi Pengaturan: Tampil Utuh Tanpa Terpotong */}
+                {/* Mobile View: 2-Column Responsive Segmented Cards (Semua 5 Menu Tampak Penuh & Jelas) */}
+                <div className="sm:hidden grid grid-cols-2 gap-1.5 p-1.5 bg-slate-100/80 border border-slate-200/90 rounded-2xl mt-4 text-xs font-bold">
                     <button
+                        type="button"
                         onClick={() => setActiveTab('profile')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'profile' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'profile' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`}
+                    >
+                        <i className={`fas fa-building mr-1.5 text-xs ${activeTab === 'profile' ? 'text-white' : 'text-[#00a884]'}`}></i> Profil MCC
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('lock')}
+                        className={`px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'lock' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`}
+                    >
+                        <i className={`fas fa-lock mr-1.5 text-xs ${activeTab === 'lock' ? 'text-white' : 'text-amber-500'}`}></i> Tutup Buku
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('audit')}
+                        className={`px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'audit' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`}
+                    >
+                        <i className={`fas fa-clock-rotate-left mr-1.5 text-xs ${activeTab === 'audit' ? 'text-white' : 'text-blue-500'}`}></i> Riwayat Audit
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('security')}
+                        className={`px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'security' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`}
+                    >
+                        <i className={`fas fa-shield-halved mr-1.5 text-xs ${activeTab === 'security' ? 'text-white' : 'text-rose-500'}`}></i> PIN Admin
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('about')}
+                        className={`col-span-2 px-2.5 py-2 rounded-xl transition flex items-center justify-center text-center shadow-2xs ${activeTab === 'about' ? 'bg-[#00a884] text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/60'}`}
+                    >
+                        <i className={`fas fa-circle-info mr-1.5 text-xs ${activeTab === 'about' ? 'text-white' : 'text-teal-600'}`}></i> Tentang Sistem
+                    </button>
+                </div>
+
+                {/* Desktop View: Horizontal Segmented Tab Pills */}
+                <div className="hidden sm:flex items-center gap-1.5 p-1 bg-slate-100/80 border border-slate-200/80 rounded-2xl mt-4 text-xs font-bold">
+                    <button
+                        type="button"
+                        onClick={() => setActiveTab('profile')}
+                        className={`px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'profile' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`}
                     >
                         <i className="fas fa-building mr-1.5"></i> Profil MCC
                     </button>
                     <button
+                        type="button"
                         onClick={() => setActiveTab('lock')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'lock' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'lock' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`}
                     >
-                        <i className="fas fa-lock mr-1.5 text-amber-500"></i> Tutup Buku
+                        <i className={`fas fa-lock mr-1.5 ${activeTab === 'lock' ? 'text-white' : 'text-amber-500'}`}></i> Tutup Buku
                     </button>
                     <button
+                        type="button"
                         onClick={() => setActiveTab('audit')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'audit' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'audit' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`}
                     >
-                        <i className="fas fa-clock-rotate-left mr-1.5 text-blue-500"></i> Riwayat Audit
+                        <i className={`fas fa-clock-rotate-left mr-1.5 ${activeTab === 'audit' ? 'text-white' : 'text-blue-500'}`}></i> Riwayat Audit
                     </button>
                     <button
+                        type="button"
                         onClick={() => setActiveTab('security')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'security' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'security' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`}
                     >
-                        <i className="fas fa-shield-halved mr-1.5"></i> PIN Admin
+                        <i className={`fas fa-shield-halved mr-1.5 ${activeTab === 'security' ? 'text-white' : 'text-rose-500'}`}></i> PIN Admin
                     </button>
                     <button
+                        type="button"
                         onClick={() => setActiveTab('about')}
-                        className={`pb-2.5 border-b-2 transition flex items-center ${activeTab === 'about' ? 'border-[#00a884] text-[#00a884]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
+                        className={`px-3 py-2 rounded-xl transition flex items-center ${activeTab === 'about' ? 'bg-[#00a884] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'}`}
                     >
-                        <i className="fas fa-circle-info mr-1.5 text-teal-600"></i> Tentang Sistem
+                        <i className={`fas fa-circle-info mr-1.5 ${activeTab === 'about' ? 'text-white' : 'text-teal-600'}`}></i> Tentang Sistem
                     </button>
                 </div>
 
@@ -2317,7 +2362,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                 </div>
                             </div>
                             <div className="pt-2 flex justify-end">
-                                <button type="submit" className="px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition">
+                                <button type="submit" className="w-full sm:w-auto px-5 py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition">
                                     Simpan Profil
                                 </button>
                             </div>
@@ -2351,7 +2396,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                     />
                                 </div>
 
-                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between">
+                                <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                                     <div>
                                         <span className="text-[11px] text-slate-500 block">Status Penguncian Saat Ini:</span>
                                         <span className="font-bold text-slate-800">
@@ -2378,7 +2423,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                 <div className="pt-2 flex justify-end">
                                     <button 
                                         type="submit" 
-                                        className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center"
+                                        className="w-full sm:w-auto px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center justify-center"
                                     >
                                         <i className="fas fa-check mr-1.5"></i> Simpan Tutup Buku
                                     </button>
@@ -2390,12 +2435,12 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                     {/* Tab 3: Riwayat Audit (Fitur 3) */}
                     {activeTab === 'audit' && (
                         <div className="space-y-3">
-                            <div className="flex justify-between items-center pb-2 border-b border-slate-100">
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pb-2 border-b border-slate-100">
                                 <div>
                                     <span className="text-xs font-bold text-slate-800 block">Log Audit Aktivitas Keuangan</span>
                                     <span className="text-[10px] text-slate-400">Mencatat mutasi, pengubahan, dan penghapusan data</span>
                                 </div>
-                                <div className="flex space-x-1.5">
+                                <div className="flex space-x-1.5 w-full sm:w-auto justify-end">
                                     <button 
                                         type="button" 
                                         onClick={handleExportAuditLogs} 
@@ -2508,7 +2553,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                         />
                                     </div>
                                 </div>
-                                <div className="pt-2 flex justify-between items-center">
+                                <div className="pt-2 flex flex-col sm:flex-row justify-between items-center gap-2.5">
                                     <button 
                                         type="button" 
                                         onClick={async () => {
@@ -2516,11 +2561,11 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                             setPinForm({ oldPin: '', newPin: '', confirmPin: '' });
                                             showToast({ title: 'Reset PIN', message: 'PIN telah dikembalikan ke standar awal: 123456', type: 'info' });
                                         }}
-                                        className="text-[11px] text-slate-400 hover:text-slate-600 underline font-medium"
+                                        className="text-[11px] text-slate-400 hover:text-slate-600 underline font-medium order-2 sm:order-1"
                                     >
                                         Kembalikan ke Default (123456)
                                     </button>
-                                    <button type="submit" className="px-5 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition">
+                                    <button type="submit" className="w-full sm:w-auto px-5 py-2.5 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition text-center order-1 sm:order-2">
                                         Simpan PIN Baru
                                     </button>
                                 </div>
