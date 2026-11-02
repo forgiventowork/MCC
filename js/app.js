@@ -1762,64 +1762,77 @@ const Reports = ({
   return /*#__PURE__*/React.createElement("div", {
     className: "space-y-4 pb-12"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-1.5 overflow-x-auto w-full pb-1 md:pb-0 hide-scrollbar"
+    className: "sm:hidden w-full relative"
+  }, /*#__PURE__*/React.createElement("select", {
+    value: activeReport,
+    onChange: e => setActiveReport(e.target.value),
+    className: "w-full pl-3.5 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 appearance-none shadow-xs"
+  }, reportTabs.map(tab => /*#__PURE__*/React.createElement("option", {
+    key: tab.id,
+    value: tab.id
+  }, tab.title))), /*#__PURE__*/React.createElement("div", {
+    className: "absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-chevron-down"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "hidden sm:flex items-center gap-1.5 flex-wrap"
   }, reportTabs.map(tab => /*#__PURE__*/React.createElement("button", {
     key: tab.id,
     onClick: () => setActiveReport(tab.id),
-    className: `px-3 py-2 rounded-xl text-xs font-bold transition flex items-center whitespace-nowrap flex-shrink-0 ${activeReport === tab.id ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
+    className: `px-3 py-2 rounded-xl text-xs font-bold transition flex items-center ${activeReport === tab.id ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${tab.icon} mr-1.5`
   }), " ", tab.title)))), /*#__PURE__*/React.createElement("div", {
-    className: "rounded-2xl border border-slate-300/80 shadow-xl overflow-hidden bg-slate-900"
+    className: "rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden bg-white"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-slate-800 text-white px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/80 no-print"
+    className: "p-3.5 sm:p-4 border-b border-slate-200/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-50/90 no-print"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2.5"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-7 h-7 rounded-lg bg-rose-600 flex items-center justify-center text-white text-xs font-bold shadow-xs"
+    className: "w-8 h-8 rounded-xl bg-teal-50 text-[#00a884] flex items-center justify-center text-sm font-bold border border-teal-200/60 shadow-xs flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-pdf"
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-2"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-bold text-white tracking-wide"
-  }, `Laporan_${activeReport.toUpperCase()}_MCC.pdf`), /*#__PURE__*/React.createElement("span", {
-    className: "px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-  }, "ISAK 35 Baku")), /*#__PURE__*/React.createElement("span", {
+    className: "fas fa-file-invoice"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    className: "font-extrabold text-xs sm:text-sm text-slate-900 flex items-center gap-2"
+  }, "Preview Dokumen ISAK 35", /*#__PURE__*/React.createElement("span", {
+    className: "px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-200"
+  }, "Baku A4")), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
-  }, "Lembar Kerja Resmi Standar A4 • Yayasan Moluccas Coastal Care"))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-1.5"
+  }, "Yayasan Moluccas Coastal Care • Laporan Keuangan Resmi"))), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center space-x-1.5 w-full sm:w-auto justify-between sm:justify-start"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.printReport(activeReport),
-    className: "px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold transition flex items-center shadow-xs",
+    className: "px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
     title: "Cetak Laporan Format Baku"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-print mr-1.5 text-slate-300"
-  }), " Print"), /*#__PURE__*/React.createElement("button", {
+  }), " Cetak"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
+    className: "px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
     title: "Unduh Format Dokumen PDF"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-download mr-1.5"
-  }), " Unduh PDF"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => ExportService.exportToWord(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-2.5 py-1.5 bg-sky-700 hover:bg-sky-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
-    title: "Ekspor Word (DOCX)"
-  }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-word mr-1.5 text-sky-300"
-  }), " Word"), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-file-pdf mr-1.5"
+  }), " Simpan PDF"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center",
+    className: "px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
     title: "Ekspor Excel (XLSX)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-excel mr-1.5 text-emerald-300"
+    className: "fas fa-file-excel mr-1.5"
   }), " Excel"))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-slate-200/90 p-3 sm:p-8 md:p-10 overflow-x-auto flex justify-center shadow-inner"
+    className: "bg-slate-100/90 p-2 sm:p-6 md:p-8 overflow-x-auto block border-t border-slate-200/60"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "sm:hidden px-3 py-1.5 mb-2.5 bg-white rounded-xl border border-slate-200/80 text-[11px] text-slate-500 font-medium flex items-center justify-between shadow-2xs"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-arrows-left-right mr-1.5 text-[#00a884]"
+  }), " Geser dokumen ke samping untuk rincian"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] text-slate-400 font-mono-num font-bold"
+  }, "A4 Baku")), /*#__PURE__*/React.createElement("div", {
     id: activeReport,
-    className: "bg-white p-8 sm:p-12 md:p-14 shadow-2xl border border-slate-300/80 text-slate-900 w-full max-w-[820px] min-w-[700px] mx-auto print:p-0 print:border-none print:shadow-none print:min-w-0 print:max-w-none"
+    className: "bg-white p-6 sm:p-10 md:p-12 rounded-xl shadow-xl border border-slate-200 text-slate-900 w-[680px] sm:w-[760px] mx-auto print:w-full print:p-0 print:border-none print:shadow-none print:m-0"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-center pb-2 mb-4"
   }, /*#__PURE__*/React.createElement("h2", {
