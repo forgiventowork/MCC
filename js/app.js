@@ -1648,15 +1648,15 @@ const Journal = ({
 const OfficialSignatures = () => {
   const org = StorageService.getOrgProfile();
   return /*#__PURE__*/React.createElement("div", {
-    className: "mt-14 pt-8 border-t border-slate-200 flex justify-between items-start text-center text-xs text-slate-800 px-8"
+    className: "mt-8 pt-4 border-t border-slate-200 flex justify-between items-start text-center text-xs text-slate-800 px-6 sm:px-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "w-56"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-slate-500 mb-1"
+    className: "text-slate-500 mb-0.5"
   }, "Mengetahui,"), /*#__PURE__*/React.createElement("p", {
     className: "font-bold text-slate-800"
   }, org.leaderTitle || 'Direktur Eksekutif'), /*#__PURE__*/React.createElement("div", {
-    className: "h-16 flex items-center justify-center"
+    className: "h-14 flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan & Cap]")), /*#__PURE__*/React.createElement("p", {
@@ -1666,7 +1666,7 @@ const OfficialSignatures = () => {
   }, "Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "w-56"
   }, /*#__PURE__*/React.createElement("p", {
-    className: "text-slate-500 mb-1"
+    className: "text-slate-500 mb-0.5"
   }, "Ambon, ", new Date().toLocaleDateString('id-ID', {
     day: 'numeric',
     month: 'long',
@@ -1674,7 +1674,7 @@ const OfficialSignatures = () => {
   })), /*#__PURE__*/React.createElement("p", {
     className: "font-bold text-slate-800"
   }, org.financeTitle || 'Manajer Keuangan & Akuntansi'), /*#__PURE__*/React.createElement("div", {
-    className: "h-16 flex items-center justify-center"
+    className: "h-14 flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan]")), /*#__PURE__*/React.createElement("p", {
@@ -1804,22 +1804,22 @@ const Reports = ({
     className: "flex items-center space-x-1.5 w-full sm:w-auto justify-between sm:justify-start"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.printReport(activeReport),
-    className: "px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
+    className: "px-2.5 sm:px-3 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100 transition flex items-center justify-center shadow-xs flex-1 sm:flex-initial",
     title: "Cetak Laporan Format Baku"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-print mr-1.5 text-slate-300"
-  }), " Cetak"), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-print mr-1 sm:mr-1.5 text-slate-500"
+  }), " Print"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
-    title: "Unduh Format Dokumen PDF"
+    className: "px-2.5 sm:px-3 py-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-100 transition flex items-center justify-center shadow-xs flex-1 sm:flex-initial",
+    title: "Unduh Laporan Format PDF Eksekutif"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-pdf mr-1.5"
-  }), " Simpan PDF"), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-file-pdf mr-1 sm:mr-1.5 text-rose-600"
+  }), " PDF"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center active:scale-95 flex-1 sm:flex-initial justify-center",
+    className: "px-2.5 sm:px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-100 transition flex items-center justify-center flex-1 sm:flex-initial border border-emerald-200 shadow-xs",
     title: "Ekspor Excel (XLSX)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-excel mr-1.5"
+    className: "fas fa-file-excel mr-1 sm:mr-1.5 text-emerald-600"
   }), " Excel"))), /*#__PURE__*/React.createElement("div", {
     className: "bg-slate-100/90 p-2 sm:p-6 md:p-8 overflow-x-auto block border-t border-slate-200/60"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1832,7 +1832,7 @@ const Reports = ({
     className: "text-[10px] text-slate-400 font-mono-num font-bold"
   }, "A4 Baku")), /*#__PURE__*/React.createElement("div", {
     id: activeReport,
-    className: "bg-white p-6 sm:p-10 md:p-12 rounded-xl shadow-xl border border-slate-200 text-slate-900 w-[680px] sm:w-[760px] mx-auto print:w-full print:p-0 print:border-none print:shadow-none print:m-0"
+    className: "bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-xl border border-slate-200 text-slate-900 w-[680px] sm:w-[760px] mx-auto print:w-full print:p-0 print:border-none print:shadow-none print:m-0"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-center pb-2 mb-4"
   }, /*#__PURE__*/React.createElement("h2", {

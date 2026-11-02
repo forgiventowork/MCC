@@ -548,21 +548,40 @@ const ExportService = {
                 const pageWidth = 210;
                 const pageHeight = 297;
                 const margin = 10;
-                const contentWidth = pageWidth - (margin * 2);
-                const contentHeight = (canvas.height * contentWidth) / canvas.width;
+                const maxAvailableWidth = pageWidth - (margin * 2);
+                const maxAvailableHeight = pageHeight - (margin * 2);
 
-                // Dukungan multi-halaman jika laporan melebihi 1 lembar A4
-                let heightLeft = contentHeight;
-                let position = margin;
+                let renderWidth = maxAvailableWidth;
+                let renderHeight = (canvas.height * renderWidth) / canvas.width;
 
-                pdf.addImage(imgData, 'PNG', margin, position, contentWidth, contentHeight, undefined, 'FAST');
-                heightLeft -= (pageHeight - (margin * 2));
+                // Fit 1 Halaman A4 untuk laporan keuangan resmi (Posisi Keuangan, Komprehensif, Arus Kas, Perubahan Aset Neto)
+                // Jika tinggi melebihi area printable A4, skala proporsional agar PAS 100% dalam 1 lembar tanpa tumpah ke halaman 2
+                const isSinglePageReport = (typeof elementId === 'string' && elementId !== 'calk') || (renderHeight <= maxAvailableHeight * 1.35);
 
-                while (heightLeft > 0) {
-                    position = heightLeft - contentHeight + margin;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', margin, position, contentWidth, contentHeight, undefined, 'FAST');
-                    heightLeft -= (pageHeight - (margin * 2));
+                if (isSinglePageReport && renderHeight > maxAvailableHeight) {
+                    renderHeight = maxAvailableHeight;
+                    renderWidth = (canvas.width * renderHeight) / canvas.height;
+                }
+
+                if (renderHeight <= maxAvailableHeight) {
+                    // Tepat 1 Halaman (Fit Single Page)
+                    const xPos = margin + (maxAvailableWidth - renderWidth) / 2;
+                    const yPos = margin + Math.max(0, (maxAvailableHeight - renderHeight) / 2);
+                    pdf.addImage(imgData, 'PNG', xPos, yPos, renderWidth, renderHeight, undefined, 'FAST');
+                } else {
+                    // Dokumen multi-halaman jika memang laporan catatan (CALK) yang sangat panjang
+                    let heightLeft = renderHeight;
+                    let position = margin;
+
+                    pdf.addImage(imgData, 'PNG', margin, position, maxAvailableWidth, renderHeight, undefined, 'FAST');
+                    heightLeft -= maxAvailableHeight;
+
+                    while (heightLeft > 0) {
+                        position = heightLeft - renderHeight + margin;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', margin, position, maxAvailableWidth, renderHeight, undefined, 'FAST');
+                        heightLeft -= maxAvailableHeight;
+                    }
                 }
 
                 pdf.save(`${filename}.pdf`);
