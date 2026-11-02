@@ -1097,17 +1097,19 @@ const Journal = ({
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-gear mr-1.5"
   }), " Kelola Tutup Buku")), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm no-print"
+    className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
   }, /*#__PURE__*/React.createElement("span", {
     className: "px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200"
   }, "GENERAL LEDGER"), /*#__PURE__*/React.createElement("h2", {
-    className: "text-xl font-black text-slate-800 tracking-tight"
+    className: "text-lg sm:text-xl font-black text-slate-800 tracking-tight"
   }, "Buku Jurnal Umum")), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500 mt-1"
   }, "Pencatatan mutasi kas harian dengan klasifikasi akun standar ISAK 35")), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-wrap items-center gap-2"
+    className: "flex flex-wrap sm:flex-nowrap items-center gap-2 w-full md:w-auto"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1.5 flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       let periodLabel = 'Semua Periode Transaksi';
@@ -1136,10 +1138,10 @@ const Journal = ({
         org: StorageService.getOrgProfile()
       });
     },
-    className: "px-3 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100 transition flex items-center shadow-xs",
+    className: "px-2.5 sm:px-3 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100 transition flex items-center justify-center shadow-xs flex-1 sm:flex-initial",
     title: "Cetak Buku Jurnal Format Eksekutif (A4 Landscape Tanpa Terpotong)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-print mr-1.5 text-slate-500"
+    className: "fas fa-print mr-1 sm:mr-1.5 text-slate-500"
   }), " Print"), /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       let periodLabel = 'Semua Periode Transaksi';
@@ -1168,15 +1170,15 @@ const Journal = ({
         org: StorageService.getOrgProfile()
       });
     },
-    className: "px-3 py-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-100 transition flex items-center shadow-xs",
+    className: "px-2.5 sm:px-3 py-2 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold hover:bg-rose-100 transition flex items-center justify-center shadow-xs flex-1 sm:flex-initial",
     title: "Unduh Buku Jurnal Format PDF Eksekutif (Presentasi & Audit)"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-pdf mr-1.5 text-rose-600"
+    className: "fas fa-file-pdf mr-1 sm:mr-1.5 text-rose-600"
   }), " PDF"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.transactionsToExcel(filteredTransactions, 'Buku_Jurnal_MCC'),
-    className: "px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-100 transition flex items-center"
+    className: "px-2.5 sm:px-3 py-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-xs font-bold hover:bg-emerald-100 transition flex items-center justify-center flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-excel mr-1.5 text-emerald-600"
+    className: "fas fa-file-excel mr-1 sm:mr-1.5 text-emerald-600"
   }), " Excel"), /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       const doUndo = () => {
@@ -1192,10 +1194,10 @@ const Journal = ({
       requireAdmin ? requireAdmin(doUndo) : doUndo();
     },
     disabled: past.length === 0,
-    className: "px-3 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-100 disabled:opacity-30 transition flex items-center",
+    className: "px-2.5 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-100 disabled:opacity-30 transition flex items-center justify-center",
     title: "Batalkan aksi terakhir"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-undo mr-1 text-slate-400"
+    className: "fas fa-undo text-slate-400"
   })), /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       const doRedo = () => {
@@ -1211,49 +1213,49 @@ const Journal = ({
       requireAdmin ? requireAdmin(doRedo) : doRedo();
     },
     disabled: future.length === 0,
-    className: "px-3 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-100 disabled:opacity-30 transition flex items-center",
+    className: "px-2.5 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-100 disabled:opacity-30 transition flex items-center justify-center",
     title: "Ulangi aksi"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-redo mr-1 text-slate-400"
-  })), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-redo text-slate-400"
+  }))), /*#__PURE__*/React.createElement("button", {
     onClick: () => requireAdmin ? requireAdmin(openCreateModal) : openCreateModal(),
-    className: "px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center"
+    className: "w-full sm:w-auto px-4 py-2 bg-[#00a884] hover:bg-[#008f70] text-white font-bold rounded-xl text-xs shadow-sm transition flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-plus mr-1.5"
   }), " Catat Transaksi"))), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-1 sm:grid-cols-3 gap-3 no-print"
+    className: "grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-emerald-500 flex items-center justify-between"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-emerald-500 flex items-center justify-between"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] font-bold uppercase tracking-wider text-slate-400"
   }, "Penerimaan Terfilter"), /*#__PURE__*/React.createElement("p", {
-    className: "text-lg font-black text-emerald-600 font-mono-num mt-0.5"
+    className: "text-base sm:text-lg font-black text-emerald-600 font-mono-num mt-0.5 whitespace-nowrap"
   }, "+", formatRupiah(sumIn))), /*#__PURE__*/React.createElement("div", {
-    className: "w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600"
+    className: "w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-down text-lg"
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-rose-500 flex items-center justify-between"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-rose-500 flex items-center justify-between"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] font-bold uppercase tracking-wider text-slate-400"
   }, "Pengeluaran Terfilter"), /*#__PURE__*/React.createElement("p", {
-    className: "text-lg font-black text-rose-600 font-mono-num mt-0.5"
+    className: "text-base sm:text-lg font-black text-rose-600 font-mono-num mt-0.5 whitespace-nowrap"
   }, "-", formatRupiah(sumOut))), /*#__PURE__*/React.createElement("div", {
-    className: "w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600"
+    className: "w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600 flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-arrow-up text-lg"
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-[#00a884] flex items-center justify-between"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm border-l-4 border-l-[#00a884] flex items-center justify-between"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] font-bold uppercase tracking-wider text-slate-400"
   }, "Saldo Bersih Terfilter"), /*#__PURE__*/React.createElement("p", {
-    className: `text-lg font-black font-mono-num mt-0.5 ${netFiltered >= 0 ? 'text-[#00a884]' : 'text-amber-600'}`
+    className: `text-base sm:text-lg font-black font-mono-num mt-0.5 whitespace-nowrap ${netFiltered >= 0 ? 'text-[#00a884]' : 'text-amber-600'}`
   }, formatRupiah(netFiltered))), /*#__PURE__*/React.createElement("div", {
-    className: "w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-[#00a884]"
+    className: "w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-[#00a884] flex-shrink-0"
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-wallet text-lg"
   })))), /*#__PURE__*/React.createElement("div", {
-    className: "bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between no-print"
+    className: "bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between no-print"
   }, /*#__PURE__*/React.createElement("div", {
     className: "w-full md:w-72 relative"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1265,7 +1267,7 @@ const Journal = ({
     placeholder: "Cari voucher, keterangan, akun...",
     className: "w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20 transition"
   })), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-wrap items-center gap-2 w-full md:w-auto"
+    className: "flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 w-full md:w-auto"
   }, /*#__PURE__*/React.createElement("select", {
     value: filterType,
     onChange: e => setFilterType(e.target.value),
@@ -1301,20 +1303,20 @@ const Journal = ({
   }, "Tahun Ini"), /*#__PURE__*/React.createElement("option", {
     value: "CUSTOM"
   }, "Rentang Tanggal Kustom...")), filterPeriod === 'CUSTOM' && /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-1.5 bg-teal-50/60 p-1 rounded-xl border border-teal-200/80"
+    className: "flex items-center space-x-1.5 bg-teal-50/60 p-1.5 rounded-xl border border-teal-200/80 justify-between sm:justify-start"
   }, /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: customStartDate,
     onChange: e => setCustomStartDate(e.target.value),
-    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none",
+    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none flex-1 sm:flex-none",
     title: "Dari Tanggal"
   }), /*#__PURE__*/React.createElement("span", {
-    className: "text-xs text-slate-400 font-bold"
+    className: "text-xs text-slate-400 font-bold px-1"
   }, "s/d"), /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: customEndDate,
     onChange: e => setCustomEndDate(e.target.value),
-    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none",
+    className: "px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono-num text-slate-700 focus:outline-none flex-1 sm:flex-none",
     title: "Sampai Tanggal"
   }), (customStartDate || customEndDate) && /*#__PURE__*/React.createElement("button", {
     onClick: () => {
@@ -1329,6 +1331,14 @@ const Journal = ({
     id: "journalTableContainer",
     className: "bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden"
   }, /*#__PURE__*/React.createElement("div", {
+    className: "sm:hidden px-3.5 py-2 bg-slate-50 border-b border-slate-200 text-[11px] text-slate-500 font-medium flex items-center justify-between"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "flex items-center"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fas fa-arrows-left-right mr-1.5 text-[#00a884]"
+  }), " Geser tabel ke samping untuk rincian"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] text-slate-400 font-mono-num"
+  }, filteredTransactions.length, " Transaksi")), /*#__PURE__*/React.createElement("div", {
     className: "overflow-x-auto"
   }, /*#__PURE__*/React.createElement("table", {
     className: "w-full text-left border-collapse"
@@ -1430,9 +1440,9 @@ const Journal = ({
   }, /*#__PURE__*/React.createElement("span", null, "Menampilkan ", /*#__PURE__*/React.createElement("strong", null, filteredTransactions.length), " dari ", /*#__PURE__*/React.createElement("strong", null, present.length), " total mutasi kas"), /*#__PURE__*/React.createElement("span", {
     className: "font-mono-num text-[11px]"
   }, "Sistem Keuangan ISAK 35"))), showFormModal && /*#__PURE__*/React.createElement("div", {
-    className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
+    className: "fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto"
+    className: "bg-white rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between items-center pb-4 border-b border-slate-100"
   }, /*#__PURE__*/React.createElement("div", {
@@ -1458,17 +1468,17 @@ const Journal = ({
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: () => handleTypeChange('Penerimaan'),
-    className: `py-2 rounded-lg text-xs font-bold transition flex items-center justify-center ${formData.type === 'Penerimaan' ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`
+    className: `py-2 px-1 rounded-lg text-xs font-bold transition flex items-center justify-center text-center ${formData.type === 'Penerimaan' ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-arrow-down mr-1.5"
-  }), " Penerimaan (Kas Masuk)"), /*#__PURE__*/React.createElement("button", {
+    className: "fas fa-arrow-down mr-1 sm:mr-1.5"
+  }), " Penerimaan"), /*#__PURE__*/React.createElement("button", {
     type: "button",
     onClick: () => handleTypeChange('Pengeluaran'),
-    className: `py-2 rounded-lg text-xs font-bold transition flex items-center justify-center ${formData.type === 'Pengeluaran' ? 'bg-rose-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`
+    className: `py-2 px-1 rounded-lg text-xs font-bold transition flex items-center justify-center text-center ${formData.type === 'Pengeluaran' ? 'bg-rose-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-arrow-up mr-1.5"
-  }), " Pengeluaran (Beban Program)")), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3"
+    className: "fas fa-arrow-up mr-1 sm:mr-1.5"
+  }), " Pengeluaran")), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
   }, "Nomor Bukti Kas"), /*#__PURE__*/React.createElement("input", {
@@ -1516,7 +1526,7 @@ const Journal = ({
     placeholder: "Contoh: Honor enumerator pemetaan mangrove Teluk Ambon",
     required: true
   })), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3"
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
   }, "Pembatasan Sumber Dana *"), /*#__PURE__*/React.createElement("select", {
@@ -1638,9 +1648,9 @@ const Journal = ({
 const OfficialSignatures = () => {
   const org = StorageService.getOrgProfile();
   return /*#__PURE__*/React.createElement("div", {
-    className: "mt-12 pt-8 border-t border-slate-200 flex justify-between items-center text-center text-xs text-slate-800 px-8"
+    className: "mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-0 text-center text-xs text-slate-800 px-2 sm:px-8 print:flex-row print:justify-between print:px-8"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "w-56"
+    className: "w-full sm:w-56 print:w-56"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 mb-1"
   }, "Mengetahui,"), /*#__PURE__*/React.createElement("p", {
@@ -1654,7 +1664,7 @@ const OfficialSignatures = () => {
   }, org.leaderName || 'M. Azis Pattimura, M.Si'), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
   }, "Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
-    className: "w-56"
+    className: "w-full sm:w-56 print:w-56"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 mb-1"
   }, "Ambon, ", new Date().toLocaleDateString('id-ID', {
@@ -1752,37 +1762,37 @@ const Reports = ({
   return /*#__PURE__*/React.createElement("div", {
     className: "space-y-4 pb-12"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
+    className: "flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-wrap items-center gap-1.5"
+    className: "flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 hide-scrollbar"
   }, reportTabs.map(tab => /*#__PURE__*/React.createElement("button", {
     key: tab.id,
     onClick: () => setActiveReport(tab.id),
-    className: `px-3 py-2 rounded-xl text-xs font-bold transition flex items-center ${activeReport === tab.id ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
+    className: `px-3 py-2 rounded-xl text-xs font-bold transition flex items-center whitespace-nowrap flex-shrink-0 ${activeReport === tab.id ? 'bg-[#00a884] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'}`
   }, /*#__PURE__*/React.createElement("i", {
     className: `fas ${tab.icon} mr-1.5`
   }), " ", tab.title))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center space-x-1.5"
+    className: "flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.printReport(activeReport),
-    className: "px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition flex items-center shadow-sm"
+    className: "px-2.5 sm:px-3 py-1.5 bg-slate-800 text-white hover:bg-slate-900 rounded-xl text-xs font-bold transition flex items-center justify-center shadow-sm flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-print mr-1.5"
+    className: "fas fa-print mr-1 sm:mr-1.5"
   }), " Print"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToPdf(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center"
+    className: "px-2.5 sm:px-3 py-1.5 bg-rose-600 text-white hover:bg-rose-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-pdf mr-1.5"
+    className: "fas fa-file-pdf mr-1 sm:mr-1.5"
   }), " PDF"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToWord(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3 py-1.5 bg-sky-600 text-white hover:bg-sky-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center"
+    className: "px-2.5 sm:px-3 py-1.5 bg-sky-600 text-white hover:bg-sky-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-word mr-1.5"
+    className: "fas fa-file-word mr-1 sm:mr-1.5"
   }), " Word"), /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.exportToExcel(activeReport, `Laporan_${activeReport}_MCC`),
-    className: "px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center"
+    className: "px-2.5 sm:px-3 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center flex-1 sm:flex-initial"
   }, /*#__PURE__*/React.createElement("i", {
-    className: "fas fa-file-excel mr-1.5"
+    className: "fas fa-file-excel mr-1 sm:mr-1.5"
   }), " Excel"))), /*#__PURE__*/React.createElement("div", {
     id: activeReport,
     className: "bg-white p-4 sm:p-8 md:p-12 rounded-2xl border border-slate-200/80 shadow-sm text-slate-900 max-w-4xl mx-auto overflow-x-auto print:p-0 print:border-none print:shadow-none"
@@ -2252,9 +2262,9 @@ const SettingsModal = ({
     });
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
+    className: "fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200"
+    className: "bg-white rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between items-center pb-4 border-b border-slate-100"
   }, /*#__PURE__*/React.createElement("div", {
@@ -2327,7 +2337,7 @@ const SettingsModal = ({
     className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800",
     required: true
   })), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3"
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
   }, "Nama Pimpinan / Direktur"), /*#__PURE__*/React.createElement("input", {
@@ -2351,7 +2361,7 @@ const SettingsModal = ({
     className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800",
     required: true
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3"
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
   }, "Nama Bendahara / Keuangan"), /*#__PURE__*/React.createElement("input", {
@@ -2506,7 +2516,7 @@ const SettingsModal = ({
     className: "w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono-num tracking-widest text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00a884]/20",
     required: true
   })), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-2 gap-3"
+    className: "grid grid-cols-1 sm:grid-cols-2 gap-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
   }, "PIN Baru (6 Digit Angka)"), /*#__PURE__*/React.createElement("input", {
@@ -2731,9 +2741,9 @@ const LoginModal = ({
     }
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: "fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in no-print"
+    className: "fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in no-print"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bg-white w-full max-w-sm rounded-[28px] p-6 sm:p-8 shadow-2xl border border-slate-100 relative"
+    className: "bg-white w-full max-w-sm rounded-[24px] sm:rounded-[28px] p-5 sm:p-8 shadow-2xl border border-slate-100 relative"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     className: "absolute top-4 right-4 text-slate-400 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 p-2 rounded-full transition"
@@ -2751,11 +2761,11 @@ const LoginModal = ({
     className: "text-xs text-slate-500 mb-6 font-medium px-2 leading-relaxed"
   }, "Silakan masukkan 6 digit PIN keamanan untuk memverifikasi identitas Anda dan mengakses kelola kas."), /*#__PURE__*/React.createElement("div", {
     onClick: () => inputRef.current && inputRef.current.focus(),
-    className: `w-full relative mb-6 flex justify-center gap-2 sm:gap-2.5 cursor-pointer ${isError ? 'animate-shake' : ''}`
+    className: `w-full relative mb-6 flex justify-center gap-1.5 sm:gap-2.5 cursor-pointer ${isError ? 'animate-shake' : ''}`
   }, [0, 1, 2, 3, 4, 5].map(idx => {
     const isFilled = idx < pin.length;
     const isCurrent = idx === pin.length && isFocused;
-    let boxStyle = "w-11 h-14 sm:w-12 sm:h-16 rounded-2xl border-2 flex items-center justify-center transition-all ";
+    let boxStyle = "w-10 h-13 sm:w-12 sm:h-16 rounded-xl sm:rounded-2xl border-2 flex items-center justify-center transition-all ";
     if (isError) {
       boxStyle += "border-rose-400 bg-rose-50/70 shadow-xs";
     } else if (isFilled) {
@@ -2987,7 +2997,7 @@ const App = () => {
   }, /*#__PURE__*/React.createElement("i", {
     className: "fas fa-cog mr-1.5 text-slate-500"
   }), /*#__PURE__*/React.createElement("span", null, "Pengaturan")))), /*#__PURE__*/React.createElement("div", {
-    className: "flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 pb-14 md:pb-6"
+    className: "flex-1 overflow-y-auto px-3 sm:px-6 py-3 sm:py-4 pb-24 md:pb-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto"
   }, view === 'dashboard' && /*#__PURE__*/React.createElement(Dashboard, {
