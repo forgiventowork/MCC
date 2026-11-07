@@ -281,7 +281,7 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
     const upcomingAgendas = [
         { day: "05", month: "NOV", title: "Pelaporan Hibah Triwulan IV", target: "Donor Internasional", remaining: "5 hari lagi" },
         { day: "15", month: "NOV", title: "Rekonsiliasi Bank Bulanan", target: "Bank Mandiri & BSI", remaining: "15 hari lagi" },
-        { day: "31", month: "DES", title: "Tutup Buku Akhir Tahun (ISAK 35)", target: "Yayasan MCC", remaining: "61 hari lagi" }
+        { day: "31", month: "DES", title: "Tutup Buku Akhir Tahun (ISAK 35)", target: "LSM MCC", remaining: "61 hari lagi" }
     ];
 
     return (
@@ -290,7 +290,7 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm no-print">
                 <div>
                     <h1 className="text-2xl font-black text-slate-800 tracking-tight">Dashboard</h1>
-                    <p className="text-xs text-slate-500 font-medium mt-0.5">Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care</p>
+                    <p className="text-xs text-slate-500 font-medium mt-0.5">Ikhtisar keuangan & akuntabilitas standar ISAK 35 LSM Moluccas Coastal Care</p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
@@ -493,7 +493,7 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                                         </span>
                                         <span className="font-bold text-[#00a884] font-mono-num">{formatRupiah(netUnrestricted)}</span>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana bebas operasional yayasan</p>
+                                    <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana bebas operasional LSM</p>
                                 </div>
 
                                 <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
@@ -1454,7 +1454,7 @@ const Journal = ({ state, dispatch, onSyncRequest, showToast, isAdmin, requireAd
                                     <h3 className="text-sm font-black text-slate-800">
                                         {isEditing ? 'Edit Mutasi Kas' : 'Catat Kas Baru (ISAK 35)'}
                                     </h3>
-                                    <p className="text-[11px] text-slate-400">Pencatatan dana masuk & beban program yayasan</p>
+                                    <p className="text-[11px] text-slate-400">Pencatatan dana masuk & beban program LSM</p>
                                 </div>
                             </div>
                             <button 
@@ -1676,22 +1676,22 @@ const OfficialSignatures = () => {
         <div className="mt-8 pt-4 border-t border-slate-200 flex justify-between items-start text-center text-xs text-slate-800 px-6 sm:px-8">
             <div className="w-56">
                 <p className="text-slate-500 mb-0.5">Mengetahui,</p>
-                <p className="font-bold text-slate-800">{org.leaderTitle || 'Direktur Eksekutif'}</p>
+                <p className="font-bold text-slate-800">{org.leaderTitle || 'Direktur'}</p>
                 <div className="h-14 flex items-center justify-center">
                     <span className="text-[10px] text-slate-300 italic">[Tanda Tangan & Cap]</span>
                 </div>
-                <p className="font-bold underline text-slate-800">{org.leaderName || 'Teria Salhuteru, S.Si.'}</p>
-                <p className="text-[10px] text-slate-400">Yayasan Moluccas Coastal Care</p>
+                <p className="font-bold underline text-slate-800">{org.leaderName || 'Stefani Teria Salhuteru, S.Pi., M.Si'}</p>
+                <p className="text-[10px] text-slate-400">LSM Moluccas Coastal Care</p>
             </div>
 
             <div className="w-56">
                 <p className="text-slate-500 mb-0.5">Ambon, {new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                <p className="font-bold text-slate-800">{org.financeTitle || 'Manajer Keuangan & Akuntansi'}</p>
+                <p className="font-bold text-slate-800">{org.financeTitle || 'Bendahara'}</p>
                 <div className="h-14 flex items-center justify-center">
                     <span className="text-[10px] text-slate-300 italic">[Tanda Tangan]</span>
                 </div>
-                <p className="font-bold underline text-slate-800">{org.financeName || 'Grace Manuputty, S.E.'}</p>
-                <p className="text-[10px] text-slate-400">Departemen Finansial & Akuntansi</p>
+                <p className="font-bold underline text-slate-800">{org.financeName || 'Anna Valensia C de Fretes, S.E., M.M'}</p>
+                <p className="text-[10px] text-slate-400">Departemen Finansial</p>
             </div>
         </div>
     );
@@ -1801,7 +1801,7 @@ const Reports = ({ transactions }) => {
                                 </span>
                             </h3>
                             <p className="text-[10px] text-slate-400">
-                                Yayasan Moluccas Coastal Care • Laporan Keuangan Resmi
+                                LSM Moluccas Coastal Care • Laporan Keuangan Resmi
                             </p>
                         </div>
                     </div>
@@ -1847,13 +1847,13 @@ const Reports = ({ transactions }) => {
                         {/* Kop Surat Entitas Nirlaba Resmi */}
                         <div className="text-center pb-2 mb-4">
                             <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-slate-900">
-                                {org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}
+                                {org.name || 'LSM MOLUCCAS COASTAL CARE (MCC)'}
                             </h2>
                             <p className="text-xs text-slate-600 mt-0.5">
                                 {org.legal || 'SK Kemenkumham RI No. AHU-0018921.AH.01.04.Tahun 2020'}
                             </p>
                             <p className="text-xs text-slate-500">
-                                {org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku – Indonesia'}
+                                {org.address || 'Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia'}
                             </p>
                             <div className="border-b border-slate-200 mt-4"></div>
                             <div className="mt-4">
@@ -2052,7 +2052,7 @@ const Reports = ({ transactions }) => {
                 {activeReport === 'calk' && (
                     <div className="space-y-4 text-xs text-slate-700 leading-relaxed">
                         <h4 className="font-black text-sm text-slate-900 border-b border-slate-200 pb-1">1. UMUM DAN PROFIL ENTITAS</h4>
-                        <p>Yayasan Moluccas Coastal Care (MCC) adalah organisasi nirlaba yang berkedudukan di Ambon, Maluku, yang bergerak di bidang konservasi ekosistem laut, pesisir, rehabilitasi mangrove, perlindungan terumbu karang, dan pemberdayaan masyarakat pesisir kepulauan.</p>
+                        <p>LSM Moluccas Coastal Care (MCC) adalah organisasi nirlaba yang berkedudukan di Ambon, Maluku, yang bergerak di bidang konservasi ekosistem laut, pesisir, rehabilitasi mangrove, perlindungan terumbu karang, dan pemberdayaan masyarakat pesisir kepulauan.</p>
                         
                         <h4 className="font-black text-sm text-slate-900 border-b border-slate-200 pb-1 mt-4">2. KEBIJAKAN AKUNTANSI SIGNIFIKAN (ISAK 35)</h4>
                         <p>Laporan keuangan disusun berdasarkan Interpretasi Standar Akuntansi Keuangan 35 (ISAK 35) yang diterbitkan oleh Ikatan Akuntan Indonesia (IAI) mengenai Penyajian Laporan Keuangan Entitas Nirlaba.</p>
@@ -2206,7 +2206,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                         </div>
                         <div>
                             <h3 className="text-sm font-black text-slate-800">Tata Kelola & Pengaturan</h3>
-                            <p className="text-[11px] text-slate-400">Profil Yayasan, Tutup Buku, Audit Log & Keamanan PIN</p>
+                            <p className="text-[11px] text-slate-400">Profil Lembaga, Tutup Buku, Audit Log & Keamanan PIN</p>
                         </div>
                     </div>
                     <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition">
@@ -2298,7 +2298,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                     {activeTab === 'profile' && (
                         <form onSubmit={handleSaveProfile} className="space-y-3">
                             <div>
-                                <label className="block text-[11px] font-bold text-slate-600 mb-1">Nama Lembaga / Yayasan</label>
+                                <label className="block text-[11px] font-bold text-slate-600 mb-1">Nama Lembaga / LSM</label>
                                 <input 
                                     type="text" 
                                     value={orgProfile.name} 
@@ -2602,7 +2602,7 @@ const SettingsModal = ({ isOpen, onClose, transactions, onDataReplaced, showToas
                                 </div>
                                 <div className="flex justify-between items-center pb-2 border-b border-slate-200">
                                     <span className="font-bold text-slate-600">Organization</span>
-                                    <span className="font-medium text-slate-700">Yayasan Moluccas Coastal Care (MCC)</span>
+                                    <span className="font-medium text-slate-700">LSM Moluccas Coastal Care (MCC)</span>
                                 </div>
                                 <div className="flex justify-between items-center pb-2 border-b border-slate-200">
                                     <span className="font-bold text-slate-600">Accounting Standard</span>
@@ -3009,7 +3009,7 @@ const App = () => {
                                 <i className="fas fa-bars text-sm"></i>
                             </button>
                             <h2 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                {view === 'dashboard' ? 'Yayasan Moluccas Coastal Care' : 
+                                {view === 'dashboard' ? 'LSM Moluccas Coastal Care' : 
                                  view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'}
                             </h2>
                         </div>
@@ -3078,7 +3078,7 @@ const App = () => {
                     
                     {/* Footer Halaman */}
                     <footer className="mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2">
-                        <p>&copy; {new Date().getFullYear()} Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard</p>
+                        <p>&copy; {new Date().getFullYear()} LSM Moluccas Coastal Care (MCC) • ISAK 35 Standard</p>
                         <p className="font-semibold text-slate-500">
                             OlivaFinance System • Created by <span className="font-bold text-[#00a884]">Forgivento</span>
                         </p>

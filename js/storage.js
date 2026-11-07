@@ -396,7 +396,39 @@ const StorageService = {
     getOrgProfile: () => {
         try {
             const raw = localStorage.getItem(STORAGE_KEYS.ORGANIZATION);
-            if (raw) return JSON.parse(raw);
+            if (raw) {
+                const profile = JSON.parse(raw);
+                let updated = false;
+                // Migrasi otomatis ke identitas LSM MCC terbaru
+                if (profile.name && profile.name.includes("Yayasan")) {
+                    profile.name = profile.name.replace(/Yayasan/gi, "LSM");
+                    updated = true;
+                }
+                if (!profile.address || profile.address.includes("Christina") || profile.address.includes("Tiahahu")) {
+                    profile.address = "Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia";
+                    updated = true;
+                }
+                if (!profile.leaderName || profile.leaderName === "Teria Salhuteru, S.Si." || profile.leaderName.includes("Teria Salhuteru, S.Si.")) {
+                    profile.leaderName = "Stefani Teria Salhuteru, S.Pi., M.Si";
+                    updated = true;
+                }
+                if (profile.leaderTitle === "Direktur Eksekutif") {
+                    profile.leaderTitle = "Direktur";
+                    updated = true;
+                }
+                if (!profile.financeName || profile.financeName === "Grace Manuputty, S.E.") {
+                    profile.financeName = "Anna Valensia C de Fretes, S.E., M.M";
+                    updated = true;
+                }
+                if (profile.financeTitle === "Manajer Keuangan & Akuntansi") {
+                    profile.financeTitle = "Bendahara";
+                    updated = true;
+                }
+                if (updated) {
+                    localStorage.setItem(STORAGE_KEYS.ORGANIZATION, JSON.stringify(profile));
+                }
+                return profile;
+            }
         } catch (e) {
             console.error("Gagal membaca profil organisasi:", e);
         }

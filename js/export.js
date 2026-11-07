@@ -207,7 +207,7 @@ const ExportService = {
                                 </div>
                                 <div>
                                     <h1 style="font-size: 16px; font-weight: 900; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2;">
-                                        ${org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}
+                                        ${org.name || 'LSM MOLUCCAS COASTAL CARE (MCC)'}
                                     </h1>
                                     <p style="font-size: 9.5px; font-weight: 800; color: #00a884; margin: 2px 0 0 0; text-transform: uppercase; letter-spacing: 0.8px;">
                                         Pusat Konservasi Pesisir dan Laut Maluku • Sistem Informasi Keuangan ISAK 35
@@ -216,7 +216,7 @@ const ExportService = {
                                         ${org.legal || 'SK Kemenkumham RI: AHU-0018921.AH.01.04.Tahun 2020 • NPWP: 94.882.112.4-941.000'}
                                     </p>
                                     <p style="font-size: 8.5px; color: #64748b; margin: 1px 0 0 0;">
-                                        ${org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku'} • Telp: ${org.phone || '+62 812-4000-8899'}
+                                        ${org.address || 'Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia'} • Telp: ${org.phone || '+62 812-4000-8899'}
                                     </p>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@ const ExportService = {
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div style="width: 20px; height: 20px;">${MCC_SVG_LOGO}</div>
                                 <span style="font-size: 11px; font-weight: 900; color: #0f172a; text-transform: uppercase;">
-                                    ${org.name || 'YAYASAN MOLUCCAS COASTAL CARE'} • BUKU JURNAL UMUM (LANJUTAN)
+                                    ${org.name || 'LSM MOLUCCAS COASTAL CARE'} • BUKU JURNAL UMUM (LANJUTAN)
                                 </span>
                             </div>
                             <div style="font-size: 9px; color: #64748b; font-weight: 700;">
@@ -372,14 +372,14 @@ const ExportService = {
                             <!-- Bagian Kiri: Pembuat Laporan -->
                             <div style="text-align: center; width: 240px;">
                                 <p style="font-size: 8.5px; color: #64748b; margin: 0 0 2px 0;">Dibuat Oleh:</p>
-                                <p style="font-size: 9.5px; font-weight: 800; color: #0f172a; margin: 0;">${org.financeTitle || 'Manajer Keuangan & Akuntansi'}</p>
+                                <p style="font-size: 9.5px; font-weight: 800; color: #0f172a; margin: 0;">${org.financeTitle || 'Bendahara'}</p>
                                 <div style="height: 48px; display: flex; align-items: center; justify-content: center;">
                                     <div style="border: 1.5px dashed #00a884; border-radius: 8px; padding: 3px 10px; color: #00a884; font-size: 7.5px; font-weight: 900; letter-spacing: 0.5px; transform: rotate(-3deg);">
                                         VERIFIED • ISAK 35
                                     </div>
                                 </div>
-                                <p style="font-size: 9.5px; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.financeName || 'Grace Manuputty, S.E.'}</p>
-                                <p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">Yayasan Moluccas Coastal Care</p>
+                                <p style="font-size: 9.5px; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.financeName || 'Anna Valensia C de Fretes, S.E., M.M'}</p>
+                                <p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">Departemen Finansial</p>
                             </div>
 
                             <!-- Bagian Tengah: Stempel Akuntabilitas & Verifikasi -->
@@ -395,14 +395,14 @@ const ExportService = {
                             <div style="text-align: center; width: 240px;">
                                 <p style="font-size: 8.5px; color: #64748b; margin: 0 0 2px 0;">Ambon, ${todayFormatted}</p>
                                 <p style="font-size: 9.5px; font-weight: 800; color: #0f172a; margin: 0;">Mengetahui & Menyetujui,</p>
-                                <p style="font-size: 8.5px; font-weight: 700; color: #475569; margin: 0;">${org.leaderTitle || 'Direktur Eksekutif'}</p>
+                                <p style="font-size: 8.5px; font-weight: 700; color: #475569; margin: 0;">${org.leaderTitle || 'Direktur'}</p>
                                 <div style="height: 48px; display: flex; align-items: center; justify-content: center;">
                                     <div style="border: 1.5px dashed #0284c7; border-radius: 8px; padding: 3px 10px; color: #0284c7; font-size: 7.5px; font-weight: 900; letter-spacing: 0.5px; transform: rotate(3deg);">
                                         APPROVED & SIGNED
                                     </div>
                                 </div>
-                                <p style="font-size: 9.5px; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.leaderName || 'Teria Salhuteru, S.Si.'}</p>
-                                <p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">Yayasan Moluccas Coastal Care</p>
+                                <p style="font-size: 9.5px; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.leaderName || 'Stefani Teria Salhuteru, S.Pi., M.Si'}</p>
+                                <p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">LSM Moluccas Coastal Care</p>
                             </div>
                         </div>
                     `;
@@ -414,7 +414,7 @@ const ExportService = {
                 pageHtml += `
                     <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 6px; border-top: 1px solid #cbd5e1; font-size: 8px; color: #64748b; margin-top: auto;">
                         <div style="display: flex; align-items: center; gap: 4px;">
-                            <span>Dokumen Resmi Sistem Informasi Keuangan <strong>OlivaFinance</strong> • Yayasan Moluccas Coastal Care (MCC)</span>
+                            <span>Dokumen Resmi Sistem Informasi Keuangan <strong>OlivaFinance</strong> • LSM Moluccas Coastal Care (MCC)</span>
                         </div>
                         <div style="font-style: italic;">
                             Sah tanpa tanda tangan basah bila terverifikasi dalam database sistem keuangan
@@ -794,7 +794,7 @@ const ExportService = {
                         </div>
                         <div>
                             <h1 style="font-size: 15px; font-weight: 900; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2;">
-                                ${org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'}
+                                ${org.name || 'LSM MOLUCCAS COASTAL CARE (MCC)'}
                             </h1>
                             <p style="font-size: 9px; font-weight: 800; color: #00a884; margin: 2px 0 0 0; text-transform: uppercase; letter-spacing: 0.8px;">
                                 Pusat Konservasi Pesisir dan Laut Maluku • Sistem Informasi Keuangan ISAK 35
@@ -803,7 +803,7 @@ const ExportService = {
                                 ${org.legal || 'SK Kemenkumham RI: AHU-0018921.AH.01.04.Tahun 2020 • NPWP: 94.882.112.4-941.000'}
                             </p>
                             <p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">
-                                ${org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku'} • Telp: ${org.phone || '+62 812-4000-8899'}
+                                ${org.address || 'Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia'} • Telp: ${org.phone || '+62 812-4000-8899'}
                             </p>
                         </div>
                     </div>
@@ -877,14 +877,14 @@ const ExportService = {
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0;">
                     <div style="text-align: center; width: 220px;">
                         <p style="font-size: 8px; color: #64748b; margin: 0 0 2px 0;">Dibuat Oleh:</p>
-                        <p style="font-size: 9pt; font-weight: 800; color: #0f172a; margin: 0;">${org.financeTitle || 'Manajer Keuangan & Akuntansi'}</p>
+                        <p style="font-size: 9pt; font-weight: 800; color: #0f172a; margin: 0;">${org.financeTitle || 'Bendahara'}</p>
                         <div style="height: 44px; display: flex; align-items: center; justify-content: center;">
                             <div style="border: 1.5px dashed #00a884; border-radius: 8px; padding: 2px 8px; color: #00a884; font-size: 7pt; font-weight: 900; letter-spacing: 0.5px; transform: rotate(-3deg);">
                                 VERIFIED • ISAK 35
                             </div>
                         </div>
-                        <p style="font-size: 9pt; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.financeName || 'Grace Manuputty, S.E.'}</p>
-                        <p style="font-size: 7.5px; color: #64748b; margin: 1px 0 0 0;">Yayasan Moluccas Coastal Care</p>
+                        <p style="font-size: 9pt; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.financeName || 'Anna Valensia C de Fretes, S.E., M.M'}</p>
+                        <p style="font-size: 7.5px; color: #64748b; margin: 1px 0 0 0;">Departemen Finansial</p>
                     </div>
 
                     <div style="text-align: center; width: 200px;">
@@ -898,14 +898,14 @@ const ExportService = {
                     <div style="text-align: center; width: 220px;">
                         <p style="font-size: 8px; color: #64748b; margin: 0 0 2px 0;">Ambon, ${todayFormatted}</p>
                         <p style="font-size: 9pt; font-weight: 800; color: #0f172a; margin: 0;">Mengetahui & Menyetujui,</p>
-                        <p style="font-size: 8pt; font-weight: 700; color: #475569; margin: 0;">${org.leaderTitle || 'Direktur Eksekutif'}</p>
+                        <p style="font-size: 8pt; font-weight: 700; color: #475569; margin: 0;">${org.leaderTitle || 'Direktur'}</p>
                         <div style="height: 44px; display: flex; align-items: center; justify-content: center;">
                             <div style="border: 1.5px dashed #0284c7; border-radius: 8px; padding: 2px 8px; color: #0284c7; font-size: 7pt; font-weight: 900; letter-spacing: 0.5px; transform: rotate(3deg);">
                                 APPROVED & SIGNED
                             </div>
                         </div>
-                        <p style="font-size: 9pt; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.leaderName || 'Teria Salhuteru, S.Si.'}</p>
-                        <p style="font-size: 7.5px; color: #64748b; margin: 1px 0 0 0;">Yayasan Moluccas Coastal Care</p>
+                        <p style="font-size: 9pt; font-weight: 900; color: #0f172a; text-decoration: underline; margin: 0;">${org.leaderName || 'Stefani Teria Salhuteru, S.Pi., M.Si'}</p>
+                        <p style="font-size: 7.5px; color: #64748b; margin: 1px 0 0 0;">LSM Moluccas Coastal Care</p>
                     </div>
                 </div>
 

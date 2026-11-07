@@ -325,7 +325,7 @@ const Dashboard = ({
     day: "31",
     month: "DES",
     title: "Tutup Buku Akhir Tahun (ISAK 35)",
-    target: "Yayasan MCC",
+    target: "LSM MCC",
     remaining: "61 hari lagi"
   }];
   return /*#__PURE__*/React.createElement("div", {
@@ -336,7 +336,7 @@ const Dashboard = ({
     className: "text-2xl font-black text-slate-800 tracking-tight"
   }, "Dashboard"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500 font-medium mt-0.5"
-  }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
+  }, "Ikhtisar keuangan & akuntabilitas standar ISAK 35 LSM Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto"
   }, /*#__PURE__*/React.createElement("div", {
     className: "relative w-full sm:w-56"
@@ -495,7 +495,7 @@ const Dashboard = ({
     className: "font-bold text-[#00a884] font-mono-num"
   }, formatRupiah(netUnrestricted))), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400 mt-0.5 pl-4.5"
-  }, "Dana bebas operasional yayasan")), /*#__PURE__*/React.createElement("div", {
+  }, "Dana bebas operasional LSM")), /*#__PURE__*/React.createElement("div", {
     className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100"
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center justify-between text-xs"
@@ -1455,7 +1455,7 @@ const Journal = ({
     className: "text-sm font-black text-slate-800"
   }, isEditing ? 'Edit Mutasi Kas' : 'Catat Kas Baru (ISAK 35)'), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-slate-400"
-  }, "Pencatatan dana masuk & beban program yayasan"))), /*#__PURE__*/React.createElement("button", {
+  }, "Pencatatan dana masuk & beban program LSM"))), /*#__PURE__*/React.createElement("button", {
     onClick: () => setShowFormModal(false),
     className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -1655,15 +1655,15 @@ const OfficialSignatures = () => {
     className: "text-slate-500 mb-0.5"
   }, "Mengetahui,"), /*#__PURE__*/React.createElement("p", {
     className: "font-bold text-slate-800"
-  }, org.leaderTitle || 'Direktur Eksekutif'), /*#__PURE__*/React.createElement("div", {
+  }, org.leaderTitle || 'Direktur'), /*#__PURE__*/React.createElement("div", {
     className: "h-14 flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan & Cap]")), /*#__PURE__*/React.createElement("p", {
     className: "font-bold underline text-slate-800"
-  }, org.leaderName || 'Teria Salhuteru, S.Si.'), /*#__PURE__*/React.createElement("p", {
+  }, org.leaderName || 'Stefani Teria Salhuteru, S.Pi., M.Si'), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
-  }, "Yayasan Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
+  }, "LSM Moluccas Coastal Care")), /*#__PURE__*/React.createElement("div", {
     className: "w-56"
   }, /*#__PURE__*/React.createElement("p", {
     className: "text-slate-500 mb-0.5"
@@ -1673,15 +1673,15 @@ const OfficialSignatures = () => {
     year: 'numeric'
   })), /*#__PURE__*/React.createElement("p", {
     className: "font-bold text-slate-800"
-  }, org.financeTitle || 'Manajer Keuangan & Akuntansi'), /*#__PURE__*/React.createElement("div", {
+  }, org.financeTitle || 'Bendahara'), /*#__PURE__*/React.createElement("div", {
     className: "h-14 flex items-center justify-center"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[10px] text-slate-300 italic"
   }, "[Tanda Tangan]")), /*#__PURE__*/React.createElement("p", {
     className: "font-bold underline text-slate-800"
-  }, org.financeName || 'Grace Manuputty, S.E.'), /*#__PURE__*/React.createElement("p", {
+  }, org.financeName || 'Anna Valensia C de Fretes, S.E., M.M'), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
-  }, "Departemen Finansial & Akuntansi")));
+  }, "Departemen Finansial")));
 };
 const Reports = ({
   transactions
@@ -1800,7 +1800,7 @@ const Reports = ({
     className: "px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-200"
   }, "Baku A4")), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400"
-  }, "Yayasan Moluccas Coastal Care • Laporan Keuangan Resmi"))), /*#__PURE__*/React.createElement("div", {
+  }, "LSM Moluccas Coastal Care • Laporan Keuangan Resmi"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-1.5 w-full sm:w-auto justify-between sm:justify-start"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => ExportService.printReport(activeReport),
@@ -1837,11 +1837,11 @@ const Reports = ({
     className: "text-center pb-2 mb-4"
   }, /*#__PURE__*/React.createElement("h2", {
     className: "text-lg sm:text-xl font-black uppercase tracking-wider text-slate-900"
-  }, org.name || 'YAYASAN MOLUCCAS COASTAL CARE (MCC)'), /*#__PURE__*/React.createElement("p", {
+  }, org.name || 'LSM MOLUCCAS COASTAL CARE (MCC)'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-600 mt-0.5"
   }, org.legal || 'SK Kemenkumham RI No. AHU-0018921.AH.01.04.Tahun 2020'), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-500"
-  }, org.address || 'Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku – Indonesia'), /*#__PURE__*/React.createElement("div", {
+  }, org.address || 'Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia'), /*#__PURE__*/React.createElement("div", {
     className: "border-b border-slate-200 mt-4"
   }), /*#__PURE__*/React.createElement("div", {
     className: "mt-4"
@@ -2122,7 +2122,7 @@ const Reports = ({
     className: "space-y-4 text-xs text-slate-700 leading-relaxed"
   }, /*#__PURE__*/React.createElement("h4", {
     className: "font-black text-sm text-slate-900 border-b border-slate-200 pb-1"
-  }, "1. UMUM DAN PROFIL ENTITAS"), /*#__PURE__*/React.createElement("p", null, "Yayasan Moluccas Coastal Care (MCC) adalah organisasi nirlaba yang berkedudukan di Ambon, Maluku, yang bergerak di bidang konservasi ekosistem laut, pesisir, rehabilitasi mangrove, perlindungan terumbu karang, dan pemberdayaan masyarakat pesisir kepulauan."), /*#__PURE__*/React.createElement("h4", {
+  }, "1. UMUM DAN PROFIL ENTITAS"), /*#__PURE__*/React.createElement("p", null, "LSM Moluccas Coastal Care (MCC) adalah organisasi nirlaba yang berkedudukan di Ambon, Maluku, yang bergerak di bidang konservasi ekosistem laut, pesisir, rehabilitasi mangrove, perlindungan terumbu karang, dan pemberdayaan masyarakat pesisir kepulauan."), /*#__PURE__*/React.createElement("h4", {
     className: "font-black text-sm text-slate-900 border-b border-slate-200 pb-1 mt-4"
   }, "2. KEBIJAKAN AKUNTANSI SIGNIFIKAN (ISAK 35)"), /*#__PURE__*/React.createElement("p", null, "Laporan keuangan disusun berdasarkan Interpretasi Standar Akuntansi Keuangan 35 (ISAK 35) yang diterbitkan oleh Ikatan Akuntan Indonesia (IAI) mengenai Penyajian Laporan Keuangan Entitas Nirlaba."), /*#__PURE__*/React.createElement("ul", {
     className: "list-disc pl-5 space-y-1"
@@ -2318,7 +2318,7 @@ const SettingsModal = ({
     className: "text-sm font-black text-slate-800"
   }, "Tata Kelola & Pengaturan"), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-slate-400"
-  }, "Profil Yayasan, Tutup Buku, Audit Log & Keamanan PIN"))), /*#__PURE__*/React.createElement("button", {
+  }, "Profil Lembaga, Tutup Buku, Audit Log & Keamanan PIN"))), /*#__PURE__*/React.createElement("button", {
     onClick: onClose,
     className: "w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition"
   }, /*#__PURE__*/React.createElement("i", {
@@ -2394,7 +2394,7 @@ const SettingsModal = ({
     className: "space-y-3"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-[11px] font-bold text-slate-600 mb-1"
-  }, "Nama Lembaga / Yayasan"), /*#__PURE__*/React.createElement("input", {
+  }, "Nama Lembaga / LSM"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: orgProfile.name,
     onChange: e => setOrgProfile({
@@ -2674,7 +2674,7 @@ const SettingsModal = ({
     className: "font-bold text-slate-600"
   }, "Organization"), /*#__PURE__*/React.createElement("span", {
     className: "font-medium text-slate-700"
-  }, "Yayasan Moluccas Coastal Care (MCC)")), /*#__PURE__*/React.createElement("div", {
+  }, "LSM Moluccas Coastal Care (MCC)")), /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between items-center pb-2 border-b border-slate-200"
   }, /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-slate-600"
@@ -3054,7 +3054,7 @@ const App = () => {
     className: "fas fa-bars text-sm"
   })), /*#__PURE__*/React.createElement("h2", {
     className: "text-xs font-bold text-slate-700 uppercase tracking-wider"
-  }, view === 'dashboard' ? 'Yayasan Moluccas Coastal Care' : view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'))), /*#__PURE__*/React.createElement("div", {
+  }, view === 'dashboard' ? 'LSM Moluccas Coastal Care' : view === 'journal' ? 'Buku Kas & Jurnal Mutasi Harian' : 'Pelaporan Akuntansi Entitas Nirlaba'))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center space-x-2"
   }, isAdmin ? /*#__PURE__*/React.createElement("button", {
     onClick: handleLogoutAdmin,
@@ -3097,7 +3097,7 @@ const App = () => {
     transactions: state.present
   })), /*#__PURE__*/React.createElement("footer", {
     className: "mt-8 py-4 border-t border-slate-200/80 text-center text-slate-400 text-[11px] no-print flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto gap-2"
-  }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " Yayasan Moluccas Coastal Care (MCC) • ISAK 35 Standard"), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("p", null, "© ", new Date().getFullYear(), " LSM Moluccas Coastal Care (MCC) • ISAK 35 Standard"), /*#__PURE__*/React.createElement("p", {
     className: "font-semibold text-slate-500"
   }, "OlivaFinance System • Created by ", /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-[#00a884]"

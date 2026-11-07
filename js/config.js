@@ -39,15 +39,15 @@ const TRANSACTIONS_TYPES = [
 
 // Profil Organisasi Default
 const DEFAULT_ORG_PROFILE = {
-    name: "Yayasan Moluccas Coastal Care (MCC)",
+    name: "LSM Moluccas Coastal Care (MCC)",
     legal: "SK Kemenkumham RI No. AHU-0018921.AH.01.04.Tahun 2020",
-    address: "Jl. Christina Martha Tiahahu No. 14, Kota Ambon, Maluku - Indonesia",
+    address: "Jl. Cendrawasih No. 21, Kota Ambon, Maluku - Indonesia",
     phone: "+62 812-4000-8899",
     email: "finance@moluccascoastalcare.org",
-    leaderName: "Teria Salhuteru, S.Si.",
-    leaderTitle: "Direktur Eksekutif",
-    financeName: "Grace Manuputty, S.E.",
-    financeTitle: "Manajer Keuangan & Akuntansi"
+    leaderName: "Stefani Teria Salhuteru, S.Pi., M.Si",
+    leaderTitle: "Direktur",
+    financeName: "Anna Valensia C de Fretes, S.E., M.M",
+    financeTitle: "Bendahara"
 };
 
 // URL Default Web App Google Apps Script MCC
