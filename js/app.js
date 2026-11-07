@@ -275,13 +275,32 @@ const Dashboard = ({
     }]
   };
 
-  // Donut chart alokasi dana
+  // Donut chart alokasi dana (Dengan Minimum Visual Slice agar porsi kecil seperti 0.65% tetap tampak jelas di diagram)
+  const rawUnrestricted = Math.max(0, netUnrestricted);
+  const rawRestricted = Math.max(0, netRestricted);
+  const totalAllocated = rawUnrestricted + rawRestricted;
+  let visualUnrestricted = rawUnrestricted;
+  let visualRestricted = rawRestricted;
+
+  // Jika kedua kategori ada saldo, berikan porsi visual minimal ~6% agar irisan hijau selalu tampak jelas di lingkaran
+  if (totalAllocated > 0 && rawUnrestricted > 0 && rawRestricted > 0) {
+    const minVisualPct = 0.06; // 6% dari lingkaran (~21.6 derajat)
+    const ratioUnrestricted = rawUnrestricted / totalAllocated;
+    const ratioRestricted = rawRestricted / totalAllocated;
+    if (ratioUnrestricted < minVisualPct) {
+      visualUnrestricted = totalAllocated * minVisualPct;
+      visualRestricted = totalAllocated * (1 - minVisualPct);
+    } else if (ratioRestricted < minVisualPct) {
+      visualRestricted = totalAllocated * minVisualPct;
+      visualUnrestricted = totalAllocated * (1 - minVisualPct);
+    }
+  }
   const donutData = {
     labels: ['Tanpa Pembatasan', 'Dengan Pembatasan'],
     datasets: [{
-      data: [Math.max(0, netUnrestricted), Math.max(0, netRestricted)],
+      data: [visualUnrestricted, visualRestricted],
       backgroundColor: ['#00a884', '#0284c7'],
-      borderWidth: 3,
+      borderWidth: 2,
       borderColor: '#ffffff',
       hoverOffset: 4
     }]
@@ -472,6 +491,16 @@ const Dashboard = ({
       plugins: {
         legend: {
           display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: context => {
+              const isUnrestricted = context.dataIndex === 0;
+              const actualVal = isUnrestricted ? rawUnrestricted : rawRestricted;
+              const pct = totalAllocated > 0 ? (actualVal / totalAllocated * 100).toFixed(1) : '0';
+              return ` ${context.label}: ${formatRupiah(actualVal)} (${pct}%)`;
+            }
+          }
         }
       }
     }
@@ -484,28 +513,40 @@ const Dashboard = ({
   }, formatRupiah(totalCash).replace('Rp ', '')))), /*#__PURE__*/React.createElement("div", {
     className: "sm:col-span-7 space-y-2.5"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100"
+    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between text-xs"
+    className: "flex items-center justify-between gap-2 text-xs"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "flex items-center font-bold text-slate-700"
+    className: "flex items-center font-bold text-slate-700 min-w-0 truncate"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2"
-  }), "Tanpa Pembatasan"), /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2 flex-shrink-0"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "truncate"
+  }, "Tanpa Pembatasan")), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1.5 flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded"
+  }, totalAllocated > 0 ? (rawUnrestricted / totalAllocated * 100).toFixed(1) : '0', "%"), /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-[#00a884] font-mono-num"
-  }, formatRupiah(netUnrestricted))), /*#__PURE__*/React.createElement("p", {
+  }, formatRupiah(netUnrestricted)))), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400 mt-0.5 pl-4.5"
   }, "Dana bebas operasional LSM")), /*#__PURE__*/React.createElement("div", {
-    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100"
+    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between text-xs"
+    className: "flex items-center justify-between gap-2 text-xs"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "flex items-center font-bold text-slate-700"
+    className: "flex items-center font-bold text-slate-700 min-w-0 truncate"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2"
-  }), "Dengan Pembatasan"), /*#__PURE__*/React.createElement("span", {
+    className: "w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2 flex-shrink-0"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "truncate"
+  }, "Dengan Pembatasan")), /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center gap-1.5 flex-shrink-0"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-sky-700 bg-sky-100/70 px-1.5 py-0.5 rounded"
+  }, totalAllocated > 0 ? (rawRestricted / totalAllocated * 100).toFixed(1) : '0', "%"), /*#__PURE__*/React.createElement("span", {
     className: "font-bold text-[#0284c7] font-mono-num"
-  }, formatRupiah(netRestricted))), /*#__PURE__*/React.createElement("p", {
+  }, formatRupiah(netRestricted)))), /*#__PURE__*/React.createElement("p", {
     className: "text-[10px] text-slate-400 mt-0.5 pl-4.5"
   }, "Dana terikat program donor")))), /*#__PURE__*/React.createElement("div", {
     className: "pt-3"

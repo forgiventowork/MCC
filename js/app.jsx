@@ -258,13 +258,35 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
         ]
     };
 
-    // Donut chart alokasi dana
+    // Donut chart alokasi dana (Dengan Minimum Visual Slice agar porsi kecil seperti 0.65% tetap tampak jelas di diagram)
+    const rawUnrestricted = Math.max(0, netUnrestricted);
+    const rawRestricted = Math.max(0, netRestricted);
+    const totalAllocated = rawUnrestricted + rawRestricted;
+
+    let visualUnrestricted = rawUnrestricted;
+    let visualRestricted = rawRestricted;
+
+    // Jika kedua kategori ada saldo, berikan porsi visual minimal ~6% agar irisan hijau selalu tampak jelas di lingkaran
+    if (totalAllocated > 0 && rawUnrestricted > 0 && rawRestricted > 0) {
+        const minVisualPct = 0.06; // 6% dari lingkaran (~21.6 derajat)
+        const ratioUnrestricted = rawUnrestricted / totalAllocated;
+        const ratioRestricted = rawRestricted / totalAllocated;
+
+        if (ratioUnrestricted < minVisualPct) {
+            visualUnrestricted = totalAllocated * minVisualPct;
+            visualRestricted = totalAllocated * (1 - minVisualPct);
+        } else if (ratioRestricted < minVisualPct) {
+            visualRestricted = totalAllocated * minVisualPct;
+            visualUnrestricted = totalAllocated * (1 - minVisualPct);
+        }
+    }
+
     const donutData = {
         labels: ['Tanpa Pembatasan', 'Dengan Pembatasan'],
         datasets: [{
-            data: [Math.max(0, netUnrestricted), Math.max(0, netRestricted)],
+            data: [visualUnrestricted, visualRestricted],
             backgroundColor: ['#00a884', '#0284c7'],
-            borderWidth: 3,
+            borderWidth: 2,
             borderColor: '#ffffff',
             hoverOffset: 4
         }]
@@ -475,7 +497,19 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                                     data={donutData} 
                                     options={{ 
                                         cutout: '72%', 
-                                        plugins: { legend: { display: false } } 
+                                        plugins: { 
+                                            legend: { display: false },
+                                            tooltip: {
+                                                callbacks: {
+                                                    label: (context) => {
+                                                        const isUnrestricted = context.dataIndex === 0;
+                                                        const actualVal = isUnrestricted ? rawUnrestricted : rawRestricted;
+                                                        const pct = totalAllocated > 0 ? ((actualVal / totalAllocated) * 100).toFixed(1) : '0';
+                                                        return ` ${context.label}: ${formatRupiah(actualVal)} (${pct}%)`;
+                                                    }
+                                                }
+                                            }
+                                        } 
                                     }} 
                                 />
                                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -485,24 +519,34 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                             </div>
 
                             <div className="sm:col-span-7 space-y-2.5">
-                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                                    <div className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center font-bold text-slate-700">
-                                            <span className="w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2"></span>
-                                            Tanpa Pembatasan
+                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition">
+                                    <div className="flex items-center justify-between gap-2 text-xs">
+                                        <span className="flex items-center font-bold text-slate-700 min-w-0 truncate">
+                                            <span className="w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2 flex-shrink-0"></span>
+                                            <span className="truncate">Tanpa Pembatasan</span>
                                         </span>
-                                        <span className="font-bold text-[#00a884] font-mono-num">{formatRupiah(netUnrestricted)}</span>
+                                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded">
+                                                {totalAllocated > 0 ? ((rawUnrestricted / totalAllocated) * 100).toFixed(1) : '0'}%
+                                            </span>
+                                            <span className="font-bold text-[#00a884] font-mono-num">{formatRupiah(netUnrestricted)}</span>
+                                        </div>
                                     </div>
                                     <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana bebas operasional LSM</p>
                                 </div>
 
-                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                                    <div className="flex items-center justify-between text-xs">
-                                        <span className="flex items-center font-bold text-slate-700">
-                                            <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2"></span>
-                                            Dengan Pembatasan
+                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition">
+                                    <div className="flex items-center justify-between gap-2 text-xs">
+                                        <span className="flex items-center font-bold text-slate-700 min-w-0 truncate">
+                                            <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2 flex-shrink-0"></span>
+                                            <span className="truncate">Dengan Pembatasan</span>
                                         </span>
-                                        <span className="font-bold text-[#0284c7] font-mono-num">{formatRupiah(netRestricted)}</span>
+                                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                                            <span className="text-[10px] font-bold text-sky-700 bg-sky-100/70 px-1.5 py-0.5 rounded">
+                                                {totalAllocated > 0 ? ((rawRestricted / totalAllocated) * 100).toFixed(1) : '0'}%
+                                            </span>
+                                            <span className="font-bold text-[#0284c7] font-mono-num">{formatRupiah(netRestricted)}</span>
+                                        </div>
                                     </div>
                                     <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana terikat program donor</p>
                                 </div>
