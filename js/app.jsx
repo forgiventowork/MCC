@@ -519,36 +519,40 @@ const Dashboard = ({ transactions, onNavigateToJournal, onOpenNewTx, requireAdmi
                             </div>
 
                             <div className="sm:col-span-7 space-y-2.5">
-                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition">
-                                    <div className="flex items-center justify-between gap-2 text-xs">
-                                        <span className="flex items-center font-bold text-slate-700 min-w-0 truncate">
+                                <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition">
+                                    <div className="flex items-center justify-between gap-2 text-xs mb-1">
+                                        <span className="flex items-center font-bold text-slate-800">
                                             <span className="w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2 flex-shrink-0"></span>
-                                            <span className="truncate">Tanpa Pembatasan</span>
+                                            Tanpa Pembatasan
                                         </span>
-                                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded">
-                                                {totalAllocated > 0 ? ((rawUnrestricted / totalAllocated) * 100).toFixed(1) : '0'}%
-                                            </span>
-                                            <span className="font-bold text-[#00a884] font-mono-num">{formatRupiah(netUnrestricted)}</span>
-                                        </div>
+                                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md flex-shrink-0 font-mono-num">
+                                            {totalAllocated > 0 ? ((rawUnrestricted / totalAllocated) * 100).toFixed(1) : '0'}%
+                                        </span>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana bebas operasional LSM</p>
+                                    <div className="flex flex-wrap items-baseline justify-between gap-1 pl-4.5">
+                                        <p className="text-[10px] text-slate-400">Dana bebas operasional LSM</p>
+                                        <span className="font-extrabold text-[#00a884] font-mono-num text-xs sm:text-sm">
+                                            {formatRupiah(netUnrestricted)}
+                                        </span>
+                                    </div>
                                 </div>
 
-                                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition">
-                                    <div className="flex items-center justify-between gap-2 text-xs">
-                                        <span className="flex items-center font-bold text-slate-700 min-w-0 truncate">
+                                <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition">
+                                    <div className="flex items-center justify-between gap-2 text-xs mb-1">
+                                        <span className="flex items-center font-bold text-slate-800">
                                             <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2 flex-shrink-0"></span>
-                                            <span className="truncate">Dengan Pembatasan</span>
+                                            Dengan Pembatasan
                                         </span>
-                                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                                            <span className="text-[10px] font-bold text-sky-700 bg-sky-100/70 px-1.5 py-0.5 rounded">
-                                                {totalAllocated > 0 ? ((rawRestricted / totalAllocated) * 100).toFixed(1) : '0'}%
-                                            </span>
-                                            <span className="font-bold text-[#0284c7] font-mono-num">{formatRupiah(netRestricted)}</span>
-                                        </div>
+                                        <span className="text-[10px] font-bold text-sky-700 bg-sky-100/70 px-2 py-0.5 rounded-md flex-shrink-0 font-mono-num">
+                                            {totalAllocated > 0 ? ((rawRestricted / totalAllocated) * 100).toFixed(1) : '0'}%
+                                        </span>
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-0.5 pl-4.5">Dana terikat program donor</p>
+                                    <div className="flex flex-wrap items-baseline justify-between gap-1 pl-4.5">
+                                        <p className="text-[10px] text-slate-400">Dana terikat program donor</p>
+                                        <span className="font-extrabold text-[#0284c7] font-mono-num text-xs sm:text-sm">
+                                            {formatRupiah(netRestricted)}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

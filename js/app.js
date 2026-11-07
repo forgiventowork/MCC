@@ -513,42 +513,38 @@ const Dashboard = ({
   }, formatRupiah(totalCash).replace('Rp ', '')))), /*#__PURE__*/React.createElement("div", {
     className: "sm:col-span-7 space-y-2.5"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition"
+    className: "p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between gap-2 text-xs"
+    className: "flex items-center justify-between gap-2 text-xs mb-1"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "flex items-center font-bold text-slate-700 min-w-0 truncate"
+    className: "flex items-center font-bold text-slate-800"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-[#00a884] mr-2 flex-shrink-0"
-  }), /*#__PURE__*/React.createElement("span", {
-    className: "truncate"
-  }, "Tanpa Pembatasan")), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-1.5 flex-shrink-0"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.5 rounded"
-  }, totalAllocated > 0 ? (rawUnrestricted / totalAllocated * 100).toFixed(1) : '0', "%"), /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-[#00a884] font-mono-num"
-  }, formatRupiah(netUnrestricted)))), /*#__PURE__*/React.createElement("p", {
-    className: "text-[10px] text-slate-400 mt-0.5 pl-4.5"
-  }, "Dana bebas operasional LSM")), /*#__PURE__*/React.createElement("div", {
-    className: "p-2.5 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition"
+  }), "Tanpa Pembatasan"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-md flex-shrink-0 font-mono-num"
+  }, totalAllocated > 0 ? (rawUnrestricted / totalAllocated * 100).toFixed(1) : '0', "%")), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-wrap items-baseline justify-between gap-1 pl-4.5"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400"
+  }, "Dana bebas operasional LSM"), /*#__PURE__*/React.createElement("span", {
+    className: "font-extrabold text-[#00a884] font-mono-num text-xs sm:text-sm"
+  }, formatRupiah(netUnrestricted)))), /*#__PURE__*/React.createElement("div", {
+    className: "p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-between gap-2 text-xs"
+    className: "flex items-center justify-between gap-2 text-xs mb-1"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "flex items-center font-bold text-slate-700 min-w-0 truncate"
+    className: "flex items-center font-bold text-slate-800"
   }, /*#__PURE__*/React.createElement("span", {
     className: "w-2.5 h-2.5 rounded-full bg-[#0284c7] mr-2 flex-shrink-0"
-  }), /*#__PURE__*/React.createElement("span", {
-    className: "truncate"
-  }, "Dengan Pembatasan")), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center gap-1.5 flex-shrink-0"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "text-[10px] font-bold text-sky-700 bg-sky-100/70 px-1.5 py-0.5 rounded"
-  }, totalAllocated > 0 ? (rawRestricted / totalAllocated * 100).toFixed(1) : '0', "%"), /*#__PURE__*/React.createElement("span", {
-    className: "font-bold text-[#0284c7] font-mono-num"
-  }, formatRupiah(netRestricted)))), /*#__PURE__*/React.createElement("p", {
-    className: "text-[10px] text-slate-400 mt-0.5 pl-4.5"
-  }, "Dana terikat program donor")))), /*#__PURE__*/React.createElement("div", {
+  }), "Dengan Pembatasan"), /*#__PURE__*/React.createElement("span", {
+    className: "text-[10px] font-bold text-sky-700 bg-sky-100/70 px-2 py-0.5 rounded-md flex-shrink-0 font-mono-num"
+  }, totalAllocated > 0 ? (rawRestricted / totalAllocated * 100).toFixed(1) : '0', "%")), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-wrap items-baseline justify-between gap-1 pl-4.5"
+  }, /*#__PURE__*/React.createElement("p", {
+    className: "text-[10px] text-slate-400"
+  }, "Dana terikat program donor"), /*#__PURE__*/React.createElement("span", {
+    className: "font-extrabold text-[#0284c7] font-mono-num text-xs sm:text-sm"
+  }, formatRupiah(netRestricted)))))), /*#__PURE__*/React.createElement("div", {
     className: "pt-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2"
